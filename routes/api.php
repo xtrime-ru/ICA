@@ -14,29 +14,17 @@
 use Symfony\Component\HttpFoundation;
 
 Route::any(
-    '/{class}/{method}',
-    static function(Illuminate\Http\Request $request, $class, $method) {
+    '{class}/{method}',
+    static function($class, $method) {
         $className = '\\App\\Http\\Controllers\\Api\\';
-        $className .= ucfirst(mb_strtolower($class)) . 'Controller';
+        $className .= ucfirst($class) . 'Controller';
 
         try {
-            if (class_exists($className)) {
-                $class = new $className;
-                if (method_exists($class, $method) && is_callable([$class, $method])) {
-                    $result = $class->{$method}($request);
-                    if (!$result) {
-                        throw new UnexpectedValueException('Empty result');
-                    }
-                } else {
-                    throw new UnexpectedValueException('Unknown class');
-                }
-            } else {
-                throw new UnexpectedValueException('Unknown method');
-            }
+            $result = app()->call("$className@$method");
         } catch (\Exception $exception) {
             $result = response()
                 ->json(['error' => $exception->getMessage()])
-                ->setStatusCode(404)
+                ->setStatusCode(400)
             ;
         }
 
@@ -49,17 +37,14 @@ Route::any(
         }
 
         return $result;
-
     }
 );
 
-Route::any(
-    '{any?}',
+Route::fallback(
     static function() {
         return response()->json(['error' => 'Wrong api path'])
             ->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
             ->setStatusCode(404)
-            ;
+        ;
     }
-)->where('any', '.*')
-;
+);
