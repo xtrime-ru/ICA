@@ -7,15 +7,18 @@
         "rss",
         "telegram",
         "vk",
-        "fb",
+        "instagram",
+        "twitter",
         "aggregator"
     ],
     "license": "MIT",
     "require": {
         "php": "^7.3.0",
         "ext-json": "*",
+        "ext-posix": "*",
         "fideloper/proxy": "^4.0",
-        "laravel/framework": "5.8.*",
+        "jaeger/querylist": "^4.1",
+        "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0"
     },
     "require-dev": {

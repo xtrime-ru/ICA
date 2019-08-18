@@ -50,7 +50,7 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
-            'days' => 14,
+            'days' => 7,
         ],
 
         'slack' => [
@@ -77,6 +77,16 @@ return [
             'formatter' => env('LOG_STDERR_FORMATTER'),
             'with' => [
                 'stream' => 'php://stderr',
+            ],
+        ],
+
+        'stdout' => [
+            'driver' => 'monolog',
+            'level' => 'debug',
+            'handler' => StreamHandler::class,
+            'formatter' => \App\Log\StdOutFormatter::class,
+            'with' => [
+                'stream' => 'php://stdout',
             ],
         ],
 

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePostsTable extends Migration
 {
@@ -21,17 +21,15 @@ class CreatePostsTable extends Migration
                   ->unique()
             ;
             $table->string('title', 100)->nullable();
-            $table->string('description', 1024)->nullable();
+            $table->string('description', 750)->nullable();
+            $table->string('image', 2048)->nullable();
 
             $table->unsignedInteger('views')->default(0);
             $table->unsignedInteger('likes')->default(0);
             $table->unsignedInteger('bookmarks')->default(0);
 
-            $table->foreign('id')
-                  ->references('post_id')
-                  ->on('source_post')
-                  ->onDelete('cascade')
-            ;
+            $table->timestamp('created_at', 0)->nullable();
+
         });
 
         Schema::table('source_post', function(Blueprint $table) {
@@ -50,10 +48,10 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
-
         Schema::table('source_post', function(Blueprint $table) {
-            $table->dropForeign('post_id');
+            $table->dropForeign('source_post_post_id_foreign');
         });
+
+        Schema::dropIfExists('posts');
     }
 }

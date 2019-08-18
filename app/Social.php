@@ -15,6 +15,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|\App\Social newQuery()
  * @method static Builder|\App\Social query()
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Social whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Social whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Social whereSlug($value)
  */
 class Social extends Model
 {

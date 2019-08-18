@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSourcesTable extends Migration
 {
@@ -18,8 +18,9 @@ class CreateSourcesTable extends Migration
             $table->unsignedBigInteger('category_id')->nullable()->index();
             $table->unsignedBigInteger('social_id')->nullable()->index();
 
+            $table->string('url', 2048);
             $table->string('name', 255);
-            $table->enum('type', ['public', 'personal'])->default('personal');
+            $table->enum('access', ['public', 'personal'])->default('personal');
             $table->boolean('active')->default(true);
             $table->enum('age_limit', [0,16,18])->default(0);
             $table->unsignedBigInteger('user_id')->nullable()->index();
@@ -28,9 +29,21 @@ class CreateSourcesTable extends Migration
             $table->unsignedInteger('subscribers')->default(0);
             $table->unsignedInteger('views')->default(0);
 
-            $table->longText('parser_rules')->nullable();
+            $table->string('parser_url', 2048);
+            $table
+                ->enum(
+                'parser_type',
+                    ['rss', 'html', 'vk', 'fb', 'tg', 'instagram', 'youtube', 'twitter', 'web']
+                )
+                ->index()
+            ;
+            $table->json('parser_rules')->nullable();
             $table->timestamp('next_parse_at')->nullable();
-            $table->string('parse_interval', 20)->default('+6 hours')->nullable();
+            $table->unsignedInteger('parse_interval')
+                ->default(360)
+                ->nullable()
+                ->comment('minutes')
+            ;
             $table->timestamp('parsed_at')->nullable();
             $table->timestamps();
 

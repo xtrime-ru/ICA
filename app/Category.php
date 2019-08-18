@@ -16,6 +16,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|\App\Category newQuery()
  * @method static Builder|\App\Category query()
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereStyle($value)
  */
 class Category extends Model
 {

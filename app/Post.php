@@ -12,28 +12,54 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|\App\Post newQuery()
  * @method static Builder|\App\Post query()
  * @mixin \Eloquent
+ * @property int $id
+ * @property string $url
+ * @property string|null $title
+ * @property string|null $description
+ * @property int $views
+ * @property int $likes
+ * @property int $bookmarks
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereBookmarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereLikes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereViews($value)
+ * @property string|null $image
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereImage($value)
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Source[] $sources
+ * @property-read int|null $sources_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Post whereCreatedAt($value)
  */
 class Post extends Model
 {
+    protected static $unguarded = true;
+    public const UPDATED_AT = null;
 
-    protected static function boot()
+    private const TITLE_LENGTH = 100;
+    private const DESCRIPTION_LENGTH = 750;
+    private const TRIM_PLACEHOLDER = ' [...]';
+
+    public function setTitleAttribute($text)
     {
-        parent::boot();
-        /**
-         * Event before save row to Db.
-         *
-         * @param Post $post
-         */
-        self::saving(
-            static function (self $post) {
-                //TODO trim url
-            }
-        );
+        $text = Helpers\Text::htmlToText($text);
+        $text = Helpers\Text::cropText($text, self::TITLE_LENGTH, static::TRIM_PLACEHOLDER);
 
-        self::saved(
-            static function (self $post) {
+        return $this->attributes['title'] = ($text ?: null);
+    }
 
-            }
-        );
+    public function setDescriptionAttribute($text)
+    {
+        $text = Helpers\Text::htmlToText($text);
+        $text = Helpers\Text::cropText($text, self::DESCRIPTION_LENGTH, static::TRIM_PLACEHOLDER);
+
+        return $this->attributes['description'] = ($text ?: null);
+    }
+
+    public function sources()
+    {
+        return $this->belongsToMany(Source::class, 'source_post');
     }
 }

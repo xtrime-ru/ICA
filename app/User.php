@@ -37,6 +37,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|\App\User whereRememberToken($value)
  * @method static Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $role
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRole($value)
+ * @property-read int|null $notifications_count
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
