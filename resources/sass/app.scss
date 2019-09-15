@@ -1,8 +1,16 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900");
+@import '~@mdi/font/scss/materialdesignicons';
 
 // Variables
 @import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+//Material
+@import '~vuetify/src/styles/main';
+
+.v-content {
+    h1, h2 {
+        text-align: right;
+        font-weight: 300;
+    }
+}

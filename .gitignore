@@ -4,6 +4,7 @@
 /storage/*.key
 /vendor
 .*
+composer.lock
 _ide_helper.php
 Homestead.json
 Homestead.yaml
