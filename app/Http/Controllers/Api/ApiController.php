@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\User;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ class ApiController extends Controller
     /**
      * @return Guard|StatefulGuard
      */
-    public function guard()
+    protected function guard()
     {
         return Auth::guard('api');
     }
@@ -32,7 +33,7 @@ class ApiController extends Controller
         $user = $this->guard()->user();
 
         if ($user && !$user->hasVerifiedEmail()) {
-            throw new Exception('Need activate email');
+            throw new AuthenticationException(trans('auth.email'));
         }
 
         return $user;

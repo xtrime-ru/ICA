@@ -4,7 +4,7 @@
 namespace App\Helpers;
 
 
-class Text
+class TextHelper
 {
     public static function htmlToText($text){
         $text = htmlspecialchars_decode(htmlspecialchars_decode($text));

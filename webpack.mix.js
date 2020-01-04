@@ -20,6 +20,7 @@ mix
             extensions: ['.js', '.json', '.vue'],
             alias: {
                 '~': path.join(__dirname, './resources/js'),
+                'js': path.join(__dirname, './resources/js/'),
             },
         },
         plugins: [

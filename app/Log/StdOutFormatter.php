@@ -54,7 +54,7 @@ class StdOutFormatter extends LineFormatter
     }
 
 
-    protected function toJson($data, bool $ignoreErrors = true)
+    protected function toJson($data, bool $ignoreErrors = true): string
     {
         $options = JSON_PRETTY_PRINT;
         if ($ignoreErrors) {

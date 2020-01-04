@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Helpers\TextHelper;
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|\App\Post newModelQuery()
  * @method static Builder|\App\Post newQuery()
  * @method static Builder|\App\Post query()
- * @mixin \Eloquent
+ * @mixin Eloquent
  * @property int $id
  * @property string $url
  * @property string|null $title
@@ -44,16 +46,16 @@ class Post extends Model
 
     public function setTitleAttribute($text)
     {
-        $text = Helpers\Text::htmlToText($text);
-        $text = Helpers\Text::cropText($text, self::TITLE_LENGTH, static::TRIM_PLACEHOLDER);
+        $text = TextHelper::htmlToText($text);
+        $text = TextHelper::cropText($text, self::TITLE_LENGTH, static::TRIM_PLACEHOLDER);
 
         return $this->attributes['title'] = ($text ?: null);
     }
 
     public function setDescriptionAttribute($text)
     {
-        $text = Helpers\Text::htmlToText($text);
-        $text = Helpers\Text::cropText($text, self::DESCRIPTION_LENGTH, static::TRIM_PLACEHOLDER);
+        $text = TextHelper::htmlToText($text);
+        $text = TextHelper::cropText($text, self::DESCRIPTION_LENGTH, static::TRIM_PLACEHOLDER);
 
         return $this->attributes['description'] = ($text ?: null);
     }

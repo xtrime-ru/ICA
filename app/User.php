@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -36,7 +37,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|\App\User wherePassword($value)
  * @method static Builder|\App\User whereRememberToken($value)
  * @method static Builder|\App\User whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  * @property string $role
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRole($value)
  * @property-read int|null $notifications_count

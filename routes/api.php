@@ -11,21 +11,29 @@
 |
 */
 
+use App\Helpers\RouterHelper;
+use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation;
 
 Route::any(
-    '{class}/{method}',
-    static function($class, $method) {
-        $className = '\\App\\Http\\Controllers\\Api\\';
-        $className .= ucfirst($class) . 'Controller';
+    '{path}',
+    static function(string $path) {
+        $pathElements = RouterHelper::parsePath($path);
+        $controllers[] = RouterHelper::getController($pathElements, RouterHelper::API_NAMESPACE);
+        $controllers[] = RouterHelper::getControllerFallback($pathElements, RouterHelper::API_NAMESPACE);
+        $controller = RouterHelper::getFirstExistingController($controllers);
 
-        try {
-            $result = app()->call("$className@$method");
-        } catch (\Exception $exception) {
-            $result = response()
-                ->json(['error' => $exception->getMessage()])
-                ->setStatusCode(400)
-            ;
+        if (!$controller) {
+            $result = RouterHelper::response404();
+        } else {
+            try {
+                $result = app()->call($controller);
+            } catch (\Throwable $exception) {
+                $result = RouterHelper::response400(
+                    $exception->errors() ?? [$exception->getMessage()],
+                    $exception->getCode()
+                );
+            }
         }
 
         if (!$result instanceof HttpFoundation\Response) {
@@ -38,13 +46,4 @@ Route::any(
 
         return $result;
     }
-);
-
-Route::fallback(
-    static function() {
-        return response()->json(['error' => 'Wrong api path'])
-            ->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
-            ->setStatusCode(404)
-        ;
-    }
-);
+)->where('path', '.*');

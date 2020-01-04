@@ -18,12 +18,14 @@
  */
 
 import Vue from 'vue'
-import router from './plugins/router'
-import vuetify from './plugins/vuetify'
-import './plugins/http'
+import 'js/plugins/http'
+import store from 'js/plugins/store'
+import router from 'js/plugins/router'
+import vuetify from 'js/plugins/vuetify'
 
 export const app = new Vue({
     el:'#app',
     router,
     vuetify,
+    store,
 }).$mount('#app')

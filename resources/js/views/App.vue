@@ -27,6 +27,7 @@
                     v-for="item in items"
                     :key="item.title"
                     :to="item.path"
+                    v-show="hasAccess(item.access)"
                     active-class="primary--text"
                 >
                     <v-list-item-icon>
@@ -77,16 +78,22 @@
 </template>
 
 <script>
-    import Vuetify from 'vuetify'
+    import { mapGetters } from 'vuex'
+    import roles from 'js/plugins/store/roles'
 
     export default {
         data: () => ({
             drawer: null,
             items: [
-                { title: 'Лента', icon: 'mdi-view-headline', path: '/' },
-                { title: 'Вход', icon: 'mdi-login', path: '/login'  },
-                { title: 'Регистрация', icon: 'mdi-account', path: '/register' },
-            ],
+                { title: 'Лента', icon: 'mdi-view-headline', path: '/', access: roles.any},
+                { title: 'Вход', icon: 'mdi-login', path: '/login', access: roles.guest},
+                { title: 'Регистрация', icon: 'mdi-account', path: '/register', access: roles.guest},
+                { title: 'Настройки', icon: 'mdi-settings', path: '/settings', access: roles.user},
+                { title: 'Выход', icon: 'mdi-logout', path: '/logout', access: roles.user},
+            ]
+        }),
+        computed: mapGetters({
+            hasAccess: 'user/hasAccess'
         }),
     }
 </script>

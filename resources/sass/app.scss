@@ -1,16 +1,21 @@
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900");
-@import '~@mdi/font/scss/materialdesignicons';
+@import '~@mdi/font/css/materialdesignicons.min.css';
 
 // Variables
 @import 'variables';
 
 //Material
-@import '~vuetify/src/styles/main';
+@import '~vuetify/dist/vuetify.min.css';
 
 .v-content {
     h1, h2 {
         text-align: right;
         font-weight: 300;
+    }
+    .container .form-wrapper {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
     }
 }
