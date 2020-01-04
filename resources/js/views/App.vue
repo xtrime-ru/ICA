@@ -3,43 +3,43 @@
         <v-navigation-drawer
             v-model="drawer"
             app
-            style="overflow: visible;"
-            width="200px;"
+            :mini-variant="miniSidebar"
+            :mobile-break-point="1024"
         >
-            <v-list-item>
-                <v-list-item-content>
-                    <v-list-item-title class="title primary--text">
-                        ICA
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                        internet content aggregator
-                    </v-list-item-subtitle>
-                </v-list-item-content>
-            </v-list-item>
-
-            <v-divider></v-divider>
-
-
-            <v-list
-                flat
-            >
-                <v-list-item
-                    v-for="item in items"
-                    :key="item.title"
-                    :to="item.path"
-                    v-show="hasAccess(item.access)"
-                    active-class="primary--text"
-                >
-                    <v-list-item-icon>
-                        <v-icon>{{ item.icon }}</v-icon>
-                    </v-list-item-icon>
-
+            <div v-on:mouseenter="miniSidebar=false" v-on:mouseleave="miniSidebar=true">
+                <v-list-item>
                     <v-list-item-content>
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        <v-list-item-title class="title primary--text">
+                            ICA
+                        </v-list-item-title>
+                        <v-list-item-subtitle>
+                            internet content aggregator
+                        </v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
 
-            </v-list>
+                <v-divider></v-divider>
+
+
+                <v-list>
+                    <v-list-item
+                        v-for="item in items"
+                        :key="item.title"
+                        :to="item.path"
+                        v-show="hasAccess(item.access)"
+                        active-class="primary--text"
+                    >
+                        <v-list-item-icon>
+                            <v-icon>{{ item.icon }}</v-icon>
+                        </v-list-item-icon>
+
+                        <v-list-item-content>
+                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+
+                </v-list>
+            </div>
 
 
             <template v-slot:append>
@@ -49,16 +49,14 @@
             </template>
             <template v-slot:prepend>
                 <v-btn
+                    class="sidebar-controll-button"
                     fab
                     color="primary"
                     top
                     right
                     absolute
-                    style="top:0; right: -6em; margin: 12px;"
                     @click.stop="drawer = !drawer"
                 >
-
-
                     <v-icon color="black" v-show="drawer" transition="fade-out-in">mdi-close</v-icon>
                     <v-icon color="black" v-show="!drawer" transition="fade-out-in">mdi-menu</v-icon>
                 </v-btn>
@@ -84,6 +82,7 @@
     export default {
         data: () => ({
             drawer: null,
+            miniSidebar: true,
             items: [
                 { title: 'Лента', icon: 'mdi-view-headline', path: '/', access: roles.any},
                 { title: 'Вход', icon: 'mdi-login', path: '/login', access: roles.guest},
@@ -94,6 +93,6 @@
         }),
         computed: mapGetters({
             hasAccess: 'user/hasAccess'
-        }),
+        })
     }
 </script>

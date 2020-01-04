@@ -8,14 +8,29 @@
 //Material
 @import '~vuetify/dist/vuetify.min.css';
 
-.v-content {
-    h1, h2 {
-        text-align: right;
-        font-weight: 300;
+#app {
+    .v-navigation-drawer {
+        overflow: visible;
+
+        .sidebar-controll-button {
+            top: 0;
+            right: -6em;
+            margin: 12px;
+        }
     }
-    .container .form-wrapper {
-        width: 100%;
-        max-width: 320px;
-        margin: 0 auto;
+
+    .v-content {
+        padding: initial;
+
+        h1, h2 {
+            text-align: right;
+            font-weight: 300;
+        }
+
+        .container .form-wrapper {
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+        }
     }
 }
