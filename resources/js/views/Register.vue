@@ -12,6 +12,8 @@
                 autocomplete="username"
                 label="Name"
                 required
+                :error-messages="getErrors('name')"
+                v-on:input="resetErrors"
             />
             <v-text-field
                 v-model="user.email"
@@ -19,29 +21,37 @@
                 :rules="[rules.required, rules.textLength, rules.email]"
                 autocomplete="email"
                 label="Email"
+                hint="На него будет отправлено письмо для активации аккаунта"
+                :hide-details=false
                 required
+                :error-messages="getErrors('email')"
+                v-on:input="resetErrors"
             />
             <v-text-field
                 v-model="user.password"
                 :counter="fieldLimit"
                 :rules="[rules.required, rules.passwordLength]"
                 :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="show1 = !show1"
                 :type="show1 ? 'text' : 'password'"
                 autocomplete="new-password"
                 label="Пароль"
                 required
-                @click:append="show1 = !show1"
+                :error-messages="getErrors('password')"
+                v-on:input="resetErrors"
             />
             <v-text-field
                 v-model="user.password_confirmation"
                 :counter="fieldLimit"
                 :rules="[rules.required, rules.passwordLength, passwordConfirmationRule]"
                 :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="show1 = !show1"
                 :type="show1 ? 'text' : 'password'"
                 autocomplete="new-password"
                 label="Повторите пароль"
                 required
-                @click:append="show1 = !show1"
+                :error-messages="getErrors('password_confirmation')"
+                v-on:input="resetErrors"
             />
             <v-btn class="mr-4" :disabled="!valid" @click="submit">Зарегестрироваться</v-btn>
         </v-form>
@@ -58,6 +68,7 @@
             show1: false,
             fieldLimit: maxFieldLimit,
             valid: true,
+            errors:[],
             user: {
                 name: '',
                 email: '',
@@ -80,9 +91,22 @@
         methods: {
             submit() {
                 if (this.$refs.form.validate()) {
-                    this.$store.dispatch('user/register', this.user)
+                    this.$store.dispatch('user/register', this.user).then(
+                        (response) => {
+
+                        },
+                        (errors) => {
+                            this.errors = errors
+                        }
+                    )
                 }
             },
+            getErrors(name) {
+                return this.errors[name] || [];
+            },
+            resetErrors() {
+                this.errors = [];
+            }
         }
     }
 </script>

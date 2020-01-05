@@ -25,7 +25,7 @@ import vuetify from 'js/plugins/vuetify'
 
 export const app = new Vue({
     el:'#app',
+    store,
     router,
     vuetify,
-    store,
 }).$mount('#app')

@@ -3,44 +3,44 @@
         <v-navigation-drawer
             v-model="drawer"
             app
-            :mini-variant="miniSidebar"
+            :mini-variant="!sideBarHover"
             :mobile-break-point="1024"
         >
-            <div v-on:mouseenter="miniSidebar=false" v-on:mouseleave="miniSidebar=true">
-                <v-list-item>
-                    <v-list-item-content>
-                        <v-list-item-title class="title primary--text">
-                            ICA
-                        </v-list-item-title>
-                        <v-list-item-subtitle>
-                            internet content aggregator
-                        </v-list-item-subtitle>
-                    </v-list-item-content>
-                </v-list-item>
-
-                <v-divider></v-divider>
-
-
-                <v-list>
-                    <v-list-item
-                        v-for="item in items"
-                        :key="item.title"
-                        :to="item.path"
-                        v-show="hasAccess(item.access)"
-                        active-class="primary--text"
-                    >
-                        <v-list-item-icon>
-                            <v-icon>{{ item.icon }}</v-icon>
-                        </v-list-item-icon>
-
+            <v-hover
+                :close-delay="300"
+                v-model="sideBarHover"
+                >
+                <div>
+                    <v-list-item>
                         <v-list-item-content>
-                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                            <v-list-item-title class="title primary--text">
+                                ICA
+                            </v-list-item-title>
+                            <v-list-item-subtitle>
+                                internet content aggregator
+                            </v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
+                    <v-divider></v-divider>
+                    <v-list>
+                        <v-list-item
+                            v-for="item in items"
+                            :key="item.title"
+                            :to="item.path"
+                            v-show="hasAccess(item.access)"
+                            active-class="primary--text"
+                        >
+                            <v-list-item-icon>
+                                <v-icon>{{ item.icon }}</v-icon>
+                            </v-list-item-icon>
 
-                </v-list>
-            </div>
-
+                            <v-list-item-content>
+                                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
+                </div>
+            </v-hover>
 
             <template v-slot:append>
                 <v-footer color="transparent" elevation="0">
@@ -72,6 +72,28 @@
                 <router-view></router-view>
             </v-container>
         </v-content>
+
+
+        <v-snackbar
+            v-model="snackbar.show"
+            top
+            right
+            :color="snackbar.color"
+            multi-line
+            vertical
+            :timeout="snackbar.timeout"
+            dark
+        >
+            {{snackbar.text}}
+            <v-btn
+                dark
+                text
+                @click="snackbar.show = false"
+            >
+                <v-icon dark>mdi-close</v-icon> Close
+            </v-btn>
+        </v-snackbar>
+
     </v-app>
 </template>
 
@@ -81,8 +103,14 @@
 
     export default {
         data: () => ({
+            snackbar:{
+                show:true,
+                text:'Hello!',
+                timeout:0,
+                color:'success'
+            },
             drawer: null,
-            miniSidebar: true,
+            sideBarHover:null,
             items: [
                 { title: 'Лента', icon: 'mdi-view-headline', path: '/', access: roles.any},
                 { title: 'Вход', icon: 'mdi-login', path: '/login', access: roles.guest},
@@ -92,7 +120,7 @@
             ]
         }),
         computed: mapGetters({
-            hasAccess: 'user/hasAccess'
-        })
+            hasAccess: 'user/hasAccess',
+        }),
     }
 </script>

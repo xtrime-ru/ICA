@@ -12,6 +12,8 @@
                 autocomplete="email"
                 label="Email"
                 required
+                :error-messages="getErrors('email')"
+                v-on:input="resetErrors"
             />
             <v-text-field
                 v-model="user.password"
@@ -23,6 +25,8 @@
                 label="Пароль"
                 required
                 @click:append="show1 = !show1"
+                :error-messages="getErrors('password')"
+                v-on:input="resetErrors"
             />
 
             <v-layout row wrap justify-end mt-2>
@@ -49,6 +53,7 @@
                 email: '',
                 password: '',
             },
+            errors:[],
             rules: {
                 'required': v => !!v || 'Обязательно поле',
                 'textLength': v => (v && v.length <= maxFieldLimit && v.length >= minFieldLimit) || `Длина должна быть ${minFieldLimit} до ${maxFieldLimit} символов`,
@@ -64,12 +69,18 @@
                             let path = this.$route.query.redirect || '/'
                             this.$router.push({ path: path })
                         },
-                        (error) => {
-                            console.error(error)
+                        (errors) => {
+                            this.errors = errors
                         }
                     )
                 }
             },
+            getErrors(name) {
+                return this.errors[name] || [];
+            },
+            resetErrors() {
+                this.errors = [];
+            }
         }
     }
 </script>

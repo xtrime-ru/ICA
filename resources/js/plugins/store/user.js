@@ -5,7 +5,7 @@ const guest = {
     role: roles.guest,
     api_token: null,
     email: null,
-    name: null
+    name: null,
 }
 
 let state = JSON.parse(localStorage.getItem('user')) || guest
@@ -27,7 +27,7 @@ const mutations = {
         } else {
             localStorage.removeItem('user')
         }
-    }
+    },
 }
 
 const getters = {
@@ -49,15 +49,6 @@ const getters = {
             default:
                 return false
         }
-    },
-    guest(state) {
-        return !state.api_token
-    },
-    user(state) {
-        return state.api_token
-    },
-    admin(state) {
-        return state.api_token && state.role === 'admin'
     },
 }
 
@@ -103,8 +94,7 @@ const actions = {
                 }
             )
         })
-    }
-
+    },
 }
 
 export default {
@@ -112,6 +102,6 @@ export default {
     state,
     getters,
     actions,
-    mutations
+    mutations,
 }
 
