@@ -17,24 +17,31 @@ mix
     .sass('resources/sass/app.scss', 'public/css')
     .webpackConfig({
         resolve: {
-            extensions: ['.js', '.json', '.vue'],
+            extensions: ['.js', '.json', '.vue', '.ts'],
             alias: {
                 '~': path.join(__dirname, './resources/js'),
-                'js': path.join(__dirname, './resources/js/'),
             },
         },
         plugins: [
             new VuetifyLoaderPlugin()
         ],
         module: {
-            rules: [{
-                test: /\.js?$/,
-                exclude: /(bower_components)/,
-                use: [{
-                    loader: 'babel-loader',
-                    options: mix.config.babel()
-                }]
-            }]
+            rules: [
+                {
+                    test: /\.js?$/,
+                    exclude: /(bower_components)/,
+                    use: [{
+                        loader: "babel-loader",
+                        options: mix.config.babel()
+                    }]
+                },
+                {
+                    test: /\.ts?$/,
+                    use: [{
+                        loader: "ts-loader",
+                    }]
+                },
+            ]
         }
     },)
     .browserSync({

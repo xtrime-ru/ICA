@@ -1,7 +1,7 @@
 import Vue from "vue"
 import Vuex from "vuex"
-import user from "js/plugins/store/user"
-import notifications from "js/plugins/store/notifications";
+import user from "~/plugins/store/user"
+import notifications from "~/plugins/store/notifications";
 
 Vue.use(Vuex)
 

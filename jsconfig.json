@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "module": "esnext",
+        "checkJs": true,
+        "baseUrl": ".",
+        "paths": {
+            "~/*": ["resources/js/*"]
+        }
+    }
+}

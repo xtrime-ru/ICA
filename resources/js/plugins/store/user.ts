@@ -1,11 +1,17 @@
-import roles from "js/plugins/store/roles"
-const localStorageKey = 'user'
+import _ from "lodash";
+import roles from "~/plugins/store/roles"
 
-/**
- * @typedef {{role: string, api_token: null|string, name: null|string, version: string, email: null|string}} User
- * @type User
- */
-const guest = {
+const localStorageKey: string = 'user'
+
+interface User {
+    version?: string,
+    role: string
+    api_token: string | null,
+    email: string | null,
+    name: string | null,
+}
+
+const guest: User = {
     version: '1.0.0',
     role: roles.guest,
     api_token: null,
@@ -20,18 +26,13 @@ if (state.version !== guest.version) {
 }
 
 const mutations = {
-    /**
-     *
-     * @param state
-     * @param {User} input
-     */
-    set(state, input) {
+    set(state: User, input: User): void {
         if (input) {
             state.version = guest.version
-            state.api_token = input.api_token || null
+            state.api_token = input.api_token
             state.role = input.role || roles.guest
-            state.email = input.email || null
-            state.name = input.name || null
+            state.email = input.email
+            state.name = input.name
         }
 
         if (state.api_token) {
@@ -43,10 +44,10 @@ const mutations = {
 }
 
 const getters = {
-    get(state) {
+    get(state: User): User {
         return state
     },
-    hasAccess: (state) => (role) => {
+    hasAccess: (state: User) => (role?: string): boolean => {
         if (!role) {
             role = roles.any
         }

@@ -18,10 +18,10 @@
  */
 
 import Vue from 'vue'
-import 'js/plugins/http'
-import store from 'js/plugins/store'
-import router from 'js/plugins/router'
-import vuetify from 'js/plugins/vuetify'
+import '~/plugins/http'
+import store from '~/plugins/store'
+import router from '~/plugins/router'
+import vuetify from '~/plugins/vuetify'
 
 export const app = new Vue({
     el:'#app',

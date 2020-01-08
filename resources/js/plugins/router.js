@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from "vue-router"
-import store from "js/plugins/store/"
-import roles from "js/plugins/store/roles"
+import store from "~/plugins/store/"
+import roles from "~/plugins/store/roles"
 
 Vue.use(VueRouter);
 
@@ -9,13 +9,13 @@ let routes = [
     {
         name: 'index',
         path: '/',
-        component: () => import('js/views/Index'),
+        component: () => import('~/views/Index'),
         props: true
     },
     {
         name: 'login',
         path: '/login',
-        component: () => import('js/views/Login'),
+        component: () => import('~/views/Login'),
         props: true,
         meta: {
             access: roles.guest
@@ -24,12 +24,12 @@ let routes = [
     {
         name: 'logout',
         path: '/logout',
-        component: () => import('js/views/Logout'),
+        component: () => import('~/views/Logout'),
     },
     {
         name: 'register',
         path: '/register',
-        component: () => import('js/views/Register'),
+        component: () => import('~/views/Register'),
         props: true,
         meta: {
             access: roles.guest
@@ -38,7 +38,7 @@ let routes = [
     {
         name: 'settings',
         path: '/settings',
-        component: () => import('js/views/Settings'),
+        component: () => import('~/views/Settings'),
         props: true,
         meta: {
             access: roles.user
@@ -47,17 +47,17 @@ let routes = [
     {
         name: '403',
         path: '/403',
-        component: () => import('js/views/Error403'),
+        component: () => import('~/views/Error403'),
     },
     {
         name: '404',
         path: '/404',
-        component: () => import('js/views/Error404'),
+        component: () => import('~/views/Error404'),
     },
     {
         name: 'catch-all',
         path: '*',
-        component: () => import('js/views/Error404'),
+        component: () => import('~/views/Error404'),
     },
 ]
 let router = new VueRouter({
