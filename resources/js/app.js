@@ -28,4 +28,4 @@ export const app = new Vue({
     store,
     router,
     vuetify,
-}).$mount('#app')
+})

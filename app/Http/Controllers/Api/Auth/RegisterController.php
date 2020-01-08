@@ -15,12 +15,17 @@ use Illuminate\Support\Str;
 class RegisterController extends ApiController
 {
 
-    public function index(Request $request) {
-        Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ])->validate();
+    public function index(Request $request)
+    {
+        Validator::make(
+            $request->all(),
+            [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]
+        )->validate()
+        ;
 
         event(new Registered($user = $this->create($request->all())));
 
@@ -28,17 +33,19 @@ class RegisterController extends ApiController
             'name' => $user->name,
             'email' => $user->email,
             'role' => $user->role,
-            'api_token' => $user->api_token
+            'api_token' => $user->api_token,
         ];
     }
 
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'api_token' => Str::random(80)
-        ]);
+        return User::create(
+            [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'api_token' => Str::random(80),
+            ]
+        );
     }
 }

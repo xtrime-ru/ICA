@@ -46,4 +46,5 @@ Route::any(
 
         return $result;
     }
-)->where('path', '.*');
+)->where('path', '.*')
+;

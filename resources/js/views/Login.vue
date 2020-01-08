@@ -4,6 +4,7 @@
         <v-form
             ref="form"
             v-model="valid"
+            @keydown.enter.native="submit"
         >
             <v-text-field
                 v-model="user.email"

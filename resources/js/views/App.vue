@@ -9,7 +9,7 @@
             <v-hover
                 :close-delay="300"
                 v-model="sideBarHover"
-                >
+            >
                 <div>
                     <v-list-item>
                         <v-list-item-content>
@@ -64,6 +64,8 @@
 
         </v-navigation-drawer>
 
+        <notifications/>
+
         <v-content>
             <v-container
                 class="fill-height"
@@ -73,54 +75,38 @@
             </v-container>
         </v-content>
 
-
-        <v-snackbar
-            v-model="snackbar.show"
-            top
-            right
-            :color="snackbar.color"
-            multi-line
-            vertical
-            :timeout="snackbar.timeout"
-            dark
-        >
-            {{snackbar.text}}
-            <v-btn
-                dark
-                text
-                @click="snackbar.show = false"
-            >
-                <v-icon dark>mdi-close</v-icon> Close
-            </v-btn>
-        </v-snackbar>
-
     </v-app>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import roles from 'js/plugins/store/roles'
+    import {mapActions, mapGetters, mapMutations} from "vuex"
+    import roles from "js/plugins/store/roles"
+    import Notifications from "../components/Notifications";
 
     export default {
+        components: {Notifications},
         data: () => ({
-            snackbar:{
-                show:true,
-                text:'Hello!',
-                timeout:0,
-                color:'success'
-            },
             drawer: null,
-            sideBarHover:null,
+            sideBarHover: null,
             items: [
-                { title: 'Лента', icon: 'mdi-view-headline', path: '/', access: roles.any},
-                { title: 'Вход', icon: 'mdi-login', path: '/login', access: roles.guest},
-                { title: 'Регистрация', icon: 'mdi-account', path: '/register', access: roles.guest},
-                { title: 'Настройки', icon: 'mdi-settings', path: '/settings', access: roles.user},
-                { title: 'Выход', icon: 'mdi-logout', path: '/logout', access: roles.user},
+                {title: "Лента", icon: "mdi-view-headline", path: "/", access: roles.any},
+                {title: "Вход", icon: "mdi-login", path: "/login", access: roles.guest},
+                {title: "Регистрация", icon: "mdi-account", path: "/register", access: roles.guest},
+                {title: "Настройки", icon: "mdi-settings", path: "/settings", access: roles.user},
+                {title: "Выход", icon: "mdi-logout", path: "/logout", access: roles.user},
             ]
         }),
+        methods: {
+            ...mapMutations({
+                removeNotification: "notifications/remove",
+                removeAllNotifications: "notifications/removeAll"
+            }),
+            ...mapActions({
+                addNotifications: "notifications/add",
+            }),
+        },
         computed: mapGetters({
-            hasAccess: 'user/hasAccess',
+            hasAccess: "user/hasAccess",
         }),
     }
 </script>

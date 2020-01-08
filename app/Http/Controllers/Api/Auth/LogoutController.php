@@ -5,14 +5,17 @@ namespace App\Http\Controllers\Api\Auth;
 
 
 use App\Http\Controllers\Api\ApiController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class LogoutController extends ApiController
 {
-    public function index()
+    public function index(Request $request)
     {
-        if ($this->authenticate()) {
-            return ['message'=> 'ok'];
+        if (Auth::guard('web')->user()) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
         }
-        return ['message'=> 'Was not authenticated'];
+        return ['message'=> 'ok'];
     }
 }

@@ -1,5 +1,10 @@
 import roles from "js/plugins/store/roles"
+const localStorageKey = 'user'
 
+/**
+ * @typedef {{role: string, api_token: null|string, name: null|string, version: string, email: null|string}} User
+ * @type User
+ */
 const guest = {
     version: '1.0.0',
     role: roles.guest,
@@ -8,14 +13,21 @@ const guest = {
     name: null,
 }
 
-let state = JSON.parse(localStorage.getItem('user')) || guest
+let state = JSON.parse(localStorage.getItem(localStorageKey)) || guest
 if (state.version !== guest.version) {
-    state = guest
+    localStorage.removeItem(localStorageKey)
+    state = _.clone(guest)
 }
 
 const mutations = {
+    /**
+     *
+     * @param state
+     * @param {User} input
+     */
     set(state, input) {
         if (input) {
+            state.version = guest.version
             state.api_token = input.api_token || null
             state.role = input.role || roles.guest
             state.email = input.email || null
@@ -23,15 +35,15 @@ const mutations = {
         }
 
         if (state.api_token) {
-            localStorage.setItem('user', JSON.stringify(state))
+            localStorage.setItem(localStorageKey, JSON.stringify(state))
         } else {
-            localStorage.removeItem('user')
+            localStorage.removeItem(localStorageKey)
         }
     },
 }
 
 const getters = {
-    state(state) {
+    get(state) {
         return state
     },
     hasAccess: (state) => (role) => {
@@ -61,7 +73,6 @@ const actions = {
                     resolve(getters.state)
                 },
                 error => {
-                    console.error(error.body.errors)
                     reject(error.body.errors)
                 }
             )
@@ -75,7 +86,6 @@ const actions = {
                     resolve(getters.state)
                 },
                 error => {
-                    console.error(error.body.errors)
                     reject(error.body.errors)
                 }
             )
@@ -89,7 +99,6 @@ const actions = {
                     resolve(getters.state)
                 },
                 error => {
-                    console.error(error.body.errors)
                     reject(error.body.errors)
                 }
             )

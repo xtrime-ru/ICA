@@ -4,6 +4,7 @@
         <v-form
             ref="form"
             v-model="valid"
+            @keydown.enter.native="submit"
         >
             <v-text-field
                 v-model="user.name"
@@ -93,7 +94,12 @@
                 if (this.$refs.form.validate()) {
                     this.$store.dispatch('user/register', this.user).then(
                         (response) => {
-
+                            this.$router.push('/login')
+                            this.$store.commit('notifications/add', {
+                                text: 'Регистрация завершена. На email отправлена ссылка для активации аккаунта.',
+                                timeout: 0,
+                                color:'info'
+                            })
                         },
                         (errors) => {
                             this.errors = errors
