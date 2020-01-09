@@ -19,21 +19,19 @@ const guest: User = {
     name: null,
 }
 
-let state = JSON.parse(localStorage.getItem(localStorageKey)) || guest
-if (state.version !== guest.version) {
-    localStorage.removeItem(localStorageKey)
-    state = _.clone(guest)
-}
+let state = _.clone(guest)
 
 const mutations = {
     set(state: User, input: User): void {
-        if (input) {
-            state.version = guest.version
-            state.api_token = input.api_token
-            state.role = input.role || roles.guest
-            state.email = input.email
-            state.name = input.name
+        if (input.version && input.version !== guest.version) {
+            input = _.clone(guest)
         }
+
+        state.version = input.version || guest.version
+        state.api_token = input.api_token
+        state.role = input.role
+        state.email = input.email
+        state.name = input.name
 
         if (state.api_token) {
             localStorage.setItem(localStorageKey, JSON.stringify(state))
@@ -44,9 +42,7 @@ const mutations = {
 }
 
 const getters = {
-    get(state: User): User {
-        return state
-    },
+    apiToken: (state: User) => state.api_token,
     hasAccess: (state: User) => (role?: string): boolean => {
         if (!role) {
             role = roles.any
@@ -66,12 +62,15 @@ const getters = {
 }
 
 const actions = {
-    register({dispatch, commit, getters, rootGetters}, data) {
+    init({commit}) {
+        commit('set', JSON.parse(localStorage.getItem(localStorageKey)) || guest)
+    },
+    register({commit, state}, data) {
         return new Promise((resolve, reject) => {
             this._vm.$http.post("auth/register", JSON.parse(JSON.stringify(data))).then(
                 response => {
                     commit('set', response.body.user)
-                    resolve(getters.state)
+                    resolve(state)
                 },
                 error => {
                     reject(error.body.errors)
@@ -79,12 +78,12 @@ const actions = {
             )
         })
     },
-    login({dispatch, commit, getters, rootGetters}, data) {
+    login({commit, state}, data) {
         return new Promise((resolve, reject) => {
             this._vm.$http.post("auth/login", JSON.parse(JSON.stringify(data))).then(
                 response => {
                     commit('set', response.body.user)
-                    resolve(getters.state)
+                    resolve(state)
                 },
                 error => {
                     reject(error.body.errors)
@@ -92,12 +91,12 @@ const actions = {
             )
         })
     },
-    logout({dispatch, commit, getters, rootGetters}) {
+    logout({commit, state}) {
         return new Promise((resolve, reject) => {
             this._vm.$http.post("auth/logout").then(
                 response => {
                     commit('set', guest)
-                    resolve(getters.state)
+                    resolve(state)
                 },
                 error => {
                     reject(error.body.errors)

@@ -80,8 +80,8 @@
 
 <script>
     import {mapActions, mapGetters, mapMutations} from "vuex"
-    import roles from "~/plugins/store/roles"
-    import Notifications from "~/components/Notifications";
+    import roles from "js/plugins/store/roles"
+    import Notifications from "js/components/Notifications";
 
     export default {
         components: {Notifications},

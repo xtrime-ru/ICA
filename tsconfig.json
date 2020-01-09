@@ -5,7 +5,8 @@
         "moduleResolution": "node",
         "baseUrl": ".",
         "paths": {
-            "~/*": ["resources/js/*"]
+            "~/*": ["resources/js/*"],
+            "js/*": ["resources/js/*"]
         }
     }
 }

@@ -23,6 +23,8 @@ import store from '~/plugins/store'
 import router from '~/plugins/router'
 import vuetify from '~/plugins/vuetify'
 
+store.dispatch('user/init')
+
 export const app = new Vue({
     el:'#app',
     store,
