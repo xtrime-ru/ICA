@@ -66,7 +66,7 @@
 
 <script>
     import {mapGetters} from "vuex"
-    import roles from "js/plugins/store/roles"
+    import roles from "resources/js/plugins/store/roles"
 
     export default {
         name: "Sidebar",

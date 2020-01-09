@@ -16,8 +16,8 @@
 </template>
 
 <script>
-    import Notifications from "js/components/Notifications"
-    import Sidebar from "js/components/Sidebar"
+    import Notifications from "resources/js/components/Notifications"
+    import Sidebar from "resources/js/components/Sidebar"
 
     export default {
         components: {
