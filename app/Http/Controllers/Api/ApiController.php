@@ -20,19 +20,23 @@ class ApiController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard('api');
+        return Auth::guard('sanctum');
     }
 
     /**
-     * @return User|null
-     * @throws Exception
+     * @return User
+     * @throws AuthenticationException
      */
-    protected function authenticate(): ?User
+    protected function authenticate(): User
     {
-        /** @var User|null $user */
+        /** @var User $user */
         $user = $this->guard()->user();
 
-        if ($user && !$user->hasVerifiedEmail()) {
+        if (!$user) {
+            throw new AuthenticationException(trans('auth.failed'));
+        }
+
+        if (!$user->hasVerifiedEmail()) {
             throw new AuthenticationException(trans('auth.email'));
         }
 

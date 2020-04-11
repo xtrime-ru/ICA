@@ -12,6 +12,7 @@
 */
 
 use App\Helpers\RouterHelper;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation;
 
@@ -29,10 +30,18 @@ Route::any(
             try {
                 $result = app()->call($controller);
             } catch (\Throwable $exception) {
-                $result = RouterHelper::response400(
-                    $exception->errors() ?? [$exception->getMessage()],
-                    $exception->getCode()
-                );
+                if (method_exists($exception, 'errors')) {
+                    $errors = $exception->errors();
+                } else {
+                    $errors = [$exception->getMessage()];
+                }
+
+                $code = $exception->getCode();
+                if ($exception instanceof AuthenticationException) {
+                    $code = 401;
+                }
+
+                $result = RouterHelper::response400($errors,$code);
             }
         }
 

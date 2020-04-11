@@ -6,6 +6,7 @@ Vue.use(VueResource)
 Vue.http.options.root = '/api'
 Vue.http.responseType = 'json'
 Vue.http.timeout = 5000
+Vue.http.credentials = true
 
 store.watch((state, getters) => getters['user/apiToken'], (apiToken) => {
     if (apiToken) {

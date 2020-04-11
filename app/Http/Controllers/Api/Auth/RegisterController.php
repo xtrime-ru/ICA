@@ -33,18 +33,17 @@ class RegisterController extends ApiController
             'name' => $user->name,
             'email' => $user->email,
             'role' => $user->role,
-            'api_token' => $user->api_token,
+            'api_token' => $user->createToken(User::getTokenName($request)),
         ];
     }
 
-    protected function create(array $data)
+    protected function create(array $data): User
     {
         return User::create(
             [
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
-                'api_token' => Str::random(80),
             ]
         );
     }

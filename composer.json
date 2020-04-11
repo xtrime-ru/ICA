@@ -13,13 +13,15 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3.0",
+        "php": ">=7.4",
         "ext-json": "*",
         "ext-posix": "*",
         "fideloper/proxy": "^4.0",
+        "fruitcake/laravel-cors": "^1.0",
         "jaeger/querylist": "^4.1",
-        "laravel/framework": "^6.0",
-        "laravel/tinker": "^1.0"
+        "laravel/framework": "^7.0",
+        "laravel/sanctum": "^2.1",
+        "laravel/ui": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
@@ -27,10 +29,7 @@
         "doctrine/dbal": "^2.9",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
-        "laravel/ui": "^1.0",
-        "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^7.5"
+        "nunomaduro/collision": "^4.1"
     },
     "config": {
         "optimize-autoloader": true,

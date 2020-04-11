@@ -11,6 +11,10 @@ interface User {
     name: string | null,
 }
 
+interface UserResponse extends Omit<Response, 'body'> {
+    body: {user:User, errors:object},
+}
+
 const guest: User = {
     version: '1.0.0',
     role: roles.guest,
@@ -62,30 +66,42 @@ const getters = {
 }
 
 const actions = {
-    init({commit}) {
-        commit('set', JSON.parse(localStorage.getItem(localStorageKey)) || guest)
+    async init({commit}) {
+        await commit('set', JSON.parse(localStorage.getItem(localStorageKey)) || guest)
+        await this._vm.$http.get('/sanctum/csrf-cookie')
+        if (getters.apiToken) {
+            this._vm.$http.post("auth/check").then(
+                (response: UserResponse) => {
+                },
+                (error: UserResponse) => {
+                    if (error.status === 401) {
+                        commit('set', guest)
+                    }
+                }
+            )
+        }
     },
     register({commit, state}, data) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             this._vm.$http.post("auth/register", JSON.parse(JSON.stringify(data))).then(
-                response => {
+                (response: UserResponse) => {
                     commit('set', response.body.user)
                     resolve(state)
                 },
-                error => {
+                (error: UserResponse) => {
                     reject(error.body.errors)
                 }
             )
         })
     },
     login({commit, state}, data) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             this._vm.$http.post("auth/login", JSON.parse(JSON.stringify(data))).then(
-                response => {
+                (response: UserResponse) => {
                     commit('set', response.body.user)
                     resolve(state)
                 },
-                error => {
+                (error: UserResponse) => {
                     reject(error.body.errors)
                 }
             )
@@ -94,11 +110,11 @@ const actions = {
     logout({commit, state}) {
         return new Promise((resolve, reject) => {
             this._vm.$http.post("auth/logout").then(
-                response => {
+                (response: UserResponse) => {
                     commit('set', guest)
                     resolve(state)
                 },
-                error => {
+                (error: UserResponse) => {
                     reject(error.body.errors)
                 }
             )

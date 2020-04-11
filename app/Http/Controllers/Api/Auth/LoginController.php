@@ -24,7 +24,7 @@ class LoginController extends ApiController
                 'name' => $user->name,
                 'email' => $user->email,
                 'role' => $user->role,
-                'api_token' => $user->api_token
+                'api_token' => $user->createToken(User::getTokenName($request))->plainTextToken,
             ]
         ];
     }

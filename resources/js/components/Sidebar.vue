@@ -77,7 +77,7 @@
                 {title: "Лента", icon: "mdi-view-headline", path: "/", access: roles.any},
                 {title: "Вход", icon: "mdi-login", path: "/login", access: roles.guest},
                 {title: "Регистрация", icon: "mdi-account", path: "/register", access: roles.guest},
-                {title: "Настройки", icon: "mdi-settings", path: "/settings", access: roles.user},
+                {title: "Настройки", icon: "mdi-cog-outline", path: "/settings", access: roles.user},
                 {title: "Выход", icon: "mdi-logout", path: "/logout", access: roles.user},
             ]
         }),
@@ -93,8 +93,9 @@
     }
 
     .v-navigation-drawer .sidebar-controll-button {
-        top: 4px;
-        right: -6em;
+        top: 4px!important;
+        right: -6em!important;
+        visibility: visible;
         margin: 12px;
     }
 </style>

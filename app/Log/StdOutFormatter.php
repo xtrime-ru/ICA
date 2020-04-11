@@ -5,7 +5,7 @@ namespace App\Log;
 
 
 use Monolog\Formatter\LineFormatter;
-use Psy\Util\Json;
+use Monolog\Utils;
 
 class StdOutFormatter extends LineFormatter
 {
@@ -61,6 +61,6 @@ class StdOutFormatter extends LineFormatter
             $options |= JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_INVALID_UTF8_IGNORE;
         }
 
-        return Json::encode($data, $options);
+        return Utils::jsonEncode($data, $options);
     }
 }
