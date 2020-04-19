@@ -7,8 +7,6 @@ interface User {
     version?: string,
     role: string
     api_token: string | null,
-    email: string | null,
-    name: string | null,
 }
 
 interface UserResponse extends Omit<Response, 'body'> {
@@ -18,9 +16,7 @@ interface UserResponse extends Omit<Response, 'body'> {
 const guest: User = {
     version: '1.0.0',
     role: roles.guest,
-    api_token: null,
-    email: null,
-    name: null,
+    api_token: null
 }
 
 let state = _.clone(guest)
@@ -34,8 +30,6 @@ const mutations = {
         state.version = input.version || guest.version
         state.api_token = input.api_token
         state.role = input.role
-        state.email = input.email
-        state.name = input.name
 
         if (state.api_token) {
             localStorage.setItem(localStorageKey, JSON.stringify(state))
@@ -66,16 +60,19 @@ const getters = {
 }
 
 const actions = {
-    async init({commit}) {
+    async init({commit, getters}) {
         await commit('set', JSON.parse(localStorage.getItem(localStorageKey)) || guest)
-        await this._vm.$http.get('/sanctum/csrf-cookie')
         if (getters.apiToken) {
             this._vm.$http.post("auth/check").then(
-                (response: UserResponse) => {
-                },
+                (response: UserResponse) => {},
                 (error: UserResponse) => {
                     if (error.status === 401) {
                         commit('set', guest)
+                        commit('notifications/add', {
+                            text: 'Ошибка авторизации. Нужно войти заново.',
+                            timeout: 5,
+                            color:'error'
+                        }, {root:true})
                     }
                 }
             )

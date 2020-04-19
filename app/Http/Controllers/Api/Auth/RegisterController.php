@@ -30,8 +30,6 @@ class RegisterController extends ApiController
         event(new Registered($user = $this->create($request->all())));
 
         return [
-            'name' => $user->name,
-            'email' => $user->email,
             'role' => $user->role,
             'api_token' => $user->createToken(User::getTokenName($request)),
         ];
