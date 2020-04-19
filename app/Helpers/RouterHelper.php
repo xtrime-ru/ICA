@@ -4,6 +4,10 @@
 namespace App\Helpers;
 
 
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+
 class RouterHelper
 {
 
@@ -61,22 +65,55 @@ class RouterHelper
         return null;
     }
 
-    public static function response404() {
-        return response()->json(['error' => 'Wrong api path'])
-            ->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
-            ->setStatusCode(404)
-        ;
-    }
-
-    public static function response400(array $errors, int $code = 0) {
-        if ($code < 300 || $code >= 500 ) {
-            $code = 400;
-        }
-
+    public static function getErrorResponse(array $errors, int $code = 0): JsonResponse
+    {
         return response()
             ->json(['errors' => $errors])
             ->setStatusCode($code)
         ;
+    }
+
+    public static function getExceptionErros(\Throwable $throwable): array
+    {
+        if (method_exists($throwable, 'errors')) {
+            $errors = $throwable->errors();
+        } else {
+            $errors = [$throwable->getMessage()];
+        }
+
+        return $errors;
+    }
+
+    public static function getExceptionCode(\Throwable $throwable): int
+    {
+        $code = $throwable->getCode();
+        if ($throwable instanceof AuthenticationException) {
+            $code = 401;
+        }
+
+        if ($code < 300 || $code >= 600 ) {
+            $code = 400;
+        }
+
+        return $code;
+    }
+
+    /**
+     * @param Response|array $response
+     *
+     * @return JsonResponse
+     */
+    public static function formatResponse($response): JsonResponse
+    {
+        if (!$response instanceof Response) {
+            $response = response()->json($response);
+        }
+
+        if ($response instanceof JsonResponse) {
+            $response->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+
+        return $response;
     }
 
 

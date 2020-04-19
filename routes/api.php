@@ -12,7 +12,6 @@
 */
 
 use App\Helpers\RouterHelper;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation;
 
@@ -25,33 +24,19 @@ Route::any(
         $controller = RouterHelper::getFirstExistingController($controllers);
 
         if (!$controller) {
-            $result = RouterHelper::response404();
+            $result = RouterHelper::getErrorResponse(['Method not found'], 404);
         } else {
             try {
                 $result = app()->call($controller);
             } catch (\Throwable $exception) {
-                if (method_exists($exception, 'errors')) {
-                    $errors = $exception->errors();
-                } else {
-                    $errors = [$exception->getMessage()];
-                }
+                $errors = RouterHelper::getExceptionErros($exception);
+                $code =RouterHelper::getExceptionCode($exception);
 
-                $code = $exception->getCode();
-                if ($exception instanceof AuthenticationException) {
-                    $code = 401;
-                }
-
-                $result = RouterHelper::response400($errors,$code);
+                $result = RouterHelper::getErrorResponse($errors, $code);
             }
         }
 
-        if (!$result instanceof HttpFoundation\Response) {
-            $result = response()->json($result);
-        }
-
-        if ($result instanceof HttpFoundation\JsonResponse) {
-            $result->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        }
+        $result = RouterHelper::formatResponse($result);
 
         return $result;
     }

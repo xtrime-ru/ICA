@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Parsers\ParserRules;
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|\App\Source newModelQuery()
  * @method static Builder|\App\Source newQuery()
  * @method static Builder|\App\Source query()
- * @mixin \Eloquent
+ * @mixin Eloquent
  * @property int $id
  * @property int|null $category_id
  * @property int|null $social_id

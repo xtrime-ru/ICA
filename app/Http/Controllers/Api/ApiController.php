@@ -12,8 +12,9 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
 
-class ApiController extends Controller
+abstract class ApiController extends Controller
 {
+
 
     /**
      * @return Guard|StatefulGuard
@@ -41,5 +42,14 @@ class ApiController extends Controller
         }
 
         return $user;
+    }
+
+    protected function getUser(): ?User
+    {
+        try {
+            return $this->authenticate();
+        } catch (AuthenticationException $e) {
+            return null;
+        }
     }
 }
