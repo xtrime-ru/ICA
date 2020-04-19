@@ -3,9 +3,9 @@
 
 namespace App\Parsers;
 
-
 use App\Post;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use QL\Dom\Elements;
 use QL\QueryList;
 
@@ -18,7 +18,7 @@ class HtmlParser extends BaseParser
 
     public function run()
     {
-        \Log::info('Start parsing url: ' . $this->url);
+        Log::info('Start parsing url: ' . $this->url);
 
         $this->rules = $this->source->parser_rules;
 
@@ -29,7 +29,7 @@ class HtmlParser extends BaseParser
 
     }
 
-    private function loadSource()
+    private function loadSource(): string
     {
         $client = new Client(['timeout'=>3.0]);
         $response = $client->get($this->url);
@@ -42,7 +42,7 @@ class HtmlParser extends BaseParser
         return $body;
     }
 
-    private function prepareDom($body)
+    private function prepareDom($body): QueryList
     {
         $body = $this->convertEncoding($body);
         $body = $this->deleteScripts($body);
@@ -52,13 +52,13 @@ class HtmlParser extends BaseParser
 
     }
 
-    private function convertEncoding($body)
+    private function convertEncoding(string $body): string
     {
         $body = mb_convert_encoding($body, 'UTF-8', $this->getCharset($body));
         return $body;
     }
 
-    private function getCharset($body)
+    private function getCharset(string $body)
     {
         preg_match('/charset=(["\']?)([-\w]+)\1/', $this->headers['Content-Type'][0] ?? '', $matches);
         if (empty($matches[2])) {
@@ -67,7 +67,7 @@ class HtmlParser extends BaseParser
         return $matches[2] ?? null;
     }
 
-    private function deleteScripts($body)
+    private function deleteScripts(string $body): string
     {
         $body = preg_replace('~<script[\s\S]*?</script>~ui', '', $body);
 
@@ -77,7 +77,7 @@ class HtmlParser extends BaseParser
         return $body;
     }
 
-    private function fixSrc($body)
+    private function fixSrc(string $body): string
     {
         $parsedUrl = parse_url($this->url);
         $scheme = ($parsedUrl['scheme'] ?: 'http') . '://';
@@ -126,7 +126,7 @@ class HtmlParser extends BaseParser
      *
      * @return Post[]
      */
-    private function findPosts(QueryList $dom)
+    private function findPosts(QueryList $dom): array
     {
         $posts = $dom->find($this->rules->posts);
         $result = [];
@@ -141,11 +141,11 @@ class HtmlParser extends BaseParser
         return $result;
     }
 
-    private function parsePost(Elements $element)
+    private function parsePost(Elements $element): ?Post
     {
         $url = $element->find($this->rules->urlPath)->eq(0)->attr('href');
         if (!$url) {
-            return;
+            return null;
         }
         $post = Post::firstOrNew(['url' => $url]);
 
@@ -186,12 +186,16 @@ class HtmlParser extends BaseParser
     /**
      * @param Post[] $posts
      */
-    protected function savePosts($posts): void
+    protected function savePosts(array $posts): void
     {
         $created = 0;
         $updated = 0;
         foreach ($posts as $post) {
-            \Log::debug('post', ['post' => $post->toArray()]);
+            if (!$post instanceof Post) {
+                Log::error('post', ['post' => $post]);
+                throw new \UnexpectedValueException('Wrong type of post');
+            }
+            Log::debug('post', ['post' => $post->toArray()]);
             if (!$post->exists) {
                 $created++;
             } else {
@@ -201,7 +205,7 @@ class HtmlParser extends BaseParser
             $post->sources()->syncWithoutDetaching([$this->source->id]);
         }
 
-        \Log::info('Saved: ', [
+        Log::info('Saved: ', [
             'source_id'=>$this->source->id,
             'source_url' => $this->source->parser_url,
             'created'=>$created,

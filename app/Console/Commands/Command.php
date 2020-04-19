@@ -4,6 +4,8 @@
 namespace App\Console\Commands;
 
 
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class Command extends \Illuminate\Console\Command
@@ -16,8 +18,8 @@ abstract class Command extends \Illuminate\Console\Command
         //Везде вместо $output используем \Log
         if (posix_isatty(STDOUT)) {
             $this->setLogLevel();
-            \Log::setDefaultDriver('stdout');
-            \Log::debug('Логи перенаправлены в консоль');
+            Log::setDefaultDriver('stdout');
+            Log::debug('Логи перенаправлены в консоль');
         } else {
             //Non interactive mode
         }
@@ -41,6 +43,6 @@ abstract class Command extends \Illuminate\Console\Command
                 $level = 'debug';
                 break;
         }
-        \Config::set('logging.channels.stdout.level', $level);
+        Config::set('logging.channels.stdout.level', $level);
     }
 }
