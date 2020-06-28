@@ -3,14 +3,14 @@
         <sidebar/>
         <notifications/>
 
-        <v-content>
+        <v-main>
             <v-container
                     class="fill-height"
                     fluid
             >
                 <router-view></router-view>
             </v-container>
-        </v-content>
+        </v-main>
 
     </v-app>
 </template>

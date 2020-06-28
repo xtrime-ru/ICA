@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class LogoutController extends ApiController
 {
@@ -19,10 +20,12 @@ class LogoutController extends ApiController
         }
 
         /** @var User $user */
-        if ($user = $this->authenticate()) {
-            $token = hash('sha256', $request->bearerToken());
-
-            $user->tokens()->where('token', '=', $token)->first()->delete();
+        /** @var $token PersonalAccessToken */
+        if (
+            ($user = $this->authenticate())
+            && ($token = $user->currentAccessToken())
+        ) {
+            $token->delete();
         }
         return ['message'=> 'ok'];
     }

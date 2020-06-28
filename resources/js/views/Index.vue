@@ -1,3 +1,4 @@
 <template>
-    <h1>Index page</h1>
+    <h1 class="float-right">Index page</h1>
+
 </template>

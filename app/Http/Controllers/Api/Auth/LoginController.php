@@ -19,10 +19,11 @@ class LoginController extends ApiController
     }
 
     protected function authenticated(Request $request, User $user) {
+        $token = $user->createToken(User::getTokenName($request));
         return [
             'user' => [
                 'role' => $user->role,
-                'api_token' => $user->createToken(User::getTokenName($request))->plainTextToken,
+                'api_token' => $token->plainTextToken,
             ]
         ];
     }

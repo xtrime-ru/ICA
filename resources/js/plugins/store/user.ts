@@ -104,18 +104,14 @@ const actions = {
             )
         })
     },
-    logout({commit, state}) {
-        return new Promise((resolve, reject) => {
-            this._vm.$http.post("auth/logout").then(
-                (response: UserResponse) => {
-                    commit('set', guest)
-                    resolve(state)
-                },
-                (error: UserResponse) => {
-                    reject(error.body.errors)
-                }
-            )
-        })
+    async logout({commit}) {
+            try {
+                await this._vm.$http.post("auth/logout")
+            } catch (e) {
+                console.log(e)
+            }
+
+            commit('set', guest)
     },
 }
 

@@ -68,7 +68,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
-        'api_token',
     ];
 
     /**
@@ -86,6 +85,6 @@ class User extends Authenticatable implements MustVerifyEmail
             return 'web';
         }
 
-        return '';
+        return 'other';
     }
 }

@@ -8,7 +8,7 @@
 <script>
     export default {
         async created() {
-            await this.$store.dispatch('user/logout', this.user)
+            await this.$store.dispatch('user/logout')
             this.$router.back()
         }
     }

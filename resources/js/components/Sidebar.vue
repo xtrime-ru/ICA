@@ -3,7 +3,7 @@
             v-model="drawer"
             app
             :mini-variant="!sideBarHover"
-            :mobile-break-point="1024"
+            :mobile-breakpoint="1024"
     >
         <v-hover
                 :close-delay="300"
