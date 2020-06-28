@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.1.6
+  * vue-router v3.3.4
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -16,6 +16,12 @@
  * Released under the MIT License.
  */
 
+/*!
+ * vuex v3.4.0
+ * (c) 2020 Evan You
+ * @license MIT
+ */
+
 /**
  * @license
  * Lodash <https://lodash.com/>
@@ -23,10 +29,4 @@
  * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/**
- * vuex v3.2.0
- * (c) 2020 Evan You
- * @license MIT
  */
