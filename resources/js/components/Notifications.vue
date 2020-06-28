@@ -13,7 +13,7 @@
             :color="snackbar.color"
             multi-line
             vertical
-            :timeout="0"
+            :timeout="-1"
             dark
         >
             {{snackbar.text}}

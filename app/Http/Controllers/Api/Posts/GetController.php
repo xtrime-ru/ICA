@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Api\Post;
+namespace App\Http\Controllers\Api\Posts;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Post;
@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-class getController extends ApiController
+class GetController extends ApiController
 {
     private const VALIDATION_RULES = [
         'id' => 'integer',
@@ -31,7 +31,7 @@ class getController extends ApiController
 
         if ($user = $this->getUser()) {
             $query->whereHas('sources', static function (Builder $query) use($user) {
-                $query->orWhere('userId', '=', $user->id);
+                $query->orWhere('user_id', '=', $user->id);
                 $query->orWhere('access', '=','public');
             });
         } else {
