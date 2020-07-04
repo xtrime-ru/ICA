@@ -60,7 +60,7 @@ const getters = {
 }
 
 const actions = {
-    async init({commit, getters}) {
+    async init({commit, dispatch, getters}) {
         await commit('set', JSON.parse(localStorage.getItem(localStorageKey)) || guest)
         if (getters.apiToken) {
             this._vm.$http.post("auth/check").then(
@@ -68,9 +68,9 @@ const actions = {
                 (error: UserResponse) => {
                     if (error.status === 401) {
                         commit('set', guest)
-                        commit('notifications/add', {
+                        dispatch('notifications/add', {
                             text: 'Ошибка авторизации. Нужно войти заново.',
-                            timeout: 5,
+                            timeout: 5000,
                             color:'error'
                         }, {root:true})
                     }

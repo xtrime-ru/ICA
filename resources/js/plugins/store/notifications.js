@@ -19,26 +19,26 @@ const mutations = {
     /**
      *
      * @param state
-     * @param {Notification[]} notifications
+     * @param {Notification} notification
      * @returns {*}
      */
-    add(state, notifications) {
-        if (!Array.isArray(notifications)) {
-            notifications = [notifications];
-        }
-        notifications.forEach((notification) => {
-            notification.id = state.nextId
-            state.nextId++
-            state.notifications.push(notification)
-        })
+    add(state, notification) {
+        notification.id = state.nextId
+        state.nextId++
+        state.notifications.unshift(notification)
     },
     /**
      *
      * @param state
-     * @param {number} key
+     * @param {number} id
      */
-    remove(state, key) {
-        state.notifications.splice(key, 1)
+    remove(state, id) {
+        state.notifications.forEach((notification, index) => {
+            if (notification.id === id) {
+                state.notifications.splice(index, 1)
+                return true
+            }
+        })
         if (state.notifications.length === 0) {
             state.nextId = 0
         }
@@ -60,12 +60,16 @@ const actions = {
      * @param {Notification} notification
      */
     add({dispatch, commit, getters, rootGetters}, notification) {
-        let index = commit('add', notification)
+        let id = state.nextId;
+        console.log(notification);
+        commit('add', notification)
+
         if (typeof notification.timeout !== "number") {
             notification.timeout = defaultTimeout
         }
+
         if (notification.timeout) {
-            setTimeout(() => commit('remove', index), notification.timeout)
+            setTimeout(() => commit('remove', id), notification.timeout)
         }
     },
 }

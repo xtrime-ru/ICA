@@ -12,15 +12,27 @@
     .v-main {
         padding: initial;
 
-        h1, h2 {
+        h1 {
             text-align: right;
             font-weight: 300;
+            padding-top: 12px;
+            padding-bottom: 12px;
         }
 
-        .container .form-wrapper {
-            width: 100%;
-            max-width: 320px;
-            margin: 0 auto;
+        .container {
+            position: relative;
+            padding-top: 12px;
+            padding-bottom: 80px;
+
+            .full-width {
+                width: 100%;
+            }
+
+            .form-wrapper {
+                width: 100%;
+                max-width: 320px;
+                margin: 0 auto;
+            }
         }
     }
 }

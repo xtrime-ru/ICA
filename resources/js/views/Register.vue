@@ -97,7 +97,7 @@
                             this.$router.push('/login')
                             this.$store.commit('notifications/add', {
                                 text: 'Регистрация завершена. На email отправлена ссылка для активации аккаунта.',
-                                timeout: 0,
+                                timeout: -1,
                                 color:'info'
                             })
                         },

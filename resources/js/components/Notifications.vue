@@ -7,24 +7,27 @@
     >
         <v-snackbar
             class="list-fade-item"
-            v-for="( snackbar, index ) in getNotifications" v-bind:key="snackbar.id"
+            v-for="( snackbar, index ) in getNotifications.slice()" v-bind:key="snackbar.id"
             :value="true"
             top right
             :color="snackbar.color"
             multi-line
             vertical
-            :timeout="-1"
+            :timeout=-1
             dark
         >
             {{snackbar.text}}
-            <v-btn
-                dark
-                text
-                @click="removeNotification(index)"
-            >
-                <v-icon dark>mdi-close</v-icon>
-                Close
-            </v-btn>
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                    dark
+                    text
+                    v-bind="attrs"
+                    @click="removeNotification(index)"
+                >
+                    <v-icon dark>mdi-close</v-icon>
+                    Close
+                </v-btn>
+            </template>
         </v-snackbar>
     </transition-group>
 
@@ -45,13 +48,7 @@
             }),
             beforeAnimation() {
                 let $el = this.$refs.notifications.$el;
-                if (this.getNotifications.length > 1) {
-                    $el.style["overflow-x"] = "visible";
-                    $el.style["height"] = "100vh";
-                } else {
-                    $el.style["overflow"] = "visible";
-                }
-
+                $el.style["overflow"] = "visible";
             },
             afterAnimation() {
                 let $el = this.$refs.notifications.$el;
@@ -88,21 +85,22 @@
         z-index: inherit;
         top: 0;
         left: 0;
+        height: auto;
     }
 
     .list-fade-item {
-        transition-property: transform, opacity;
+        transition-property: all;
         transition-duration: 0.5s;
     }
 
     .list-fade-enter,
     .list-fade-leave-to {
         opacity: 0;
-        transform: translateX(50%);
+        transform: translateX(100%);
     }
 
     .list-fade-leave-active {
-        position: absolute !important;
-        top: unset !important;
+        max-height: 0;
+        margin-bottom: 0 !important;
     }
 </style>

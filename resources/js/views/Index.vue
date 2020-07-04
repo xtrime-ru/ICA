@@ -1,20 +1,47 @@
 <template>
-    <div>
-    <h1 class="float-right">Index page</h1>
-    <ul>
-        <li
-                v-for="post in posts"
-                :key="post.id">
-            {{ post.title }} - {{ post.views}}
-            <br>
-        </li>
-    </ul>
-        <button
-                :disabled="!hasMorePosts"
-                @click="get">
+    <v-container>
+        <h1 class="primary--text">Лента</h1>
+
+        <v-alert
+                v-if="posts.length === 0"
+                outlined
+                type="warning"
+                color="primary"
+        >
+            <div>Нет постов :(</div>
+        </v-alert>
+
+        <v-row dense>
+            <v-col
+                    v-for="post in posts"
+                    :key="post.id"
+                    :cols="12"
+            >
+                <v-card>
+                    <v-card-title v-text="post.title"></v-card-title>
+                    <v-card-actions class="flex-fill d-flex justify-space-around justify-sm-end">
+                        <v-btn icon >
+                            <v-icon>mdi-heart</v-icon>
+                        </v-btn>
+
+                        <v-btn icon>
+                            <v-icon>mdi-bookmark</v-icon>
+                        </v-btn>
+
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+        </v-row>
+        <v-btn
+                v-if="hasMorePosts"
+                @click="load"
+                block
+                dark
+                class="mt-10"
+                >
             Load more
-        </button>
-    </div>
+        </v-btn>
+    </v-container>
 </template>
 
 <script>

@@ -38,11 +38,11 @@ const getters = {
 }
 
 const actions = {
-    async load({commit}) {
+    async load({commit, dispatch}) {
         if (!state.hasMorePosts) {
-            commit('notifications/add', {
+            dispatch('notifications/add', {
                 text: 'Больше нет постов',
-                timeout: 5,
+                timeout: 5000,
                 color:'info'
             }, {root:true})
             return;
@@ -55,9 +55,9 @@ const actions = {
             },
             (error: PostsResponse) => {
                 console.log(error.body.errors);
-                commit('notifications/add', {
+                dispatch('notifications/add', {
                     text: 'Ошибка при загрузке постов',
-                    timeout: 5,
+                    timeout: 5000,
                     color:'error'
                 }, {root:true})
             }
