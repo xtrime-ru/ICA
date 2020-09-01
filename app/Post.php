@@ -62,6 +62,11 @@ class Post extends Model
 
     public function sources()
     {
-        return $this->belongsToMany(Source::class, 'source_post');
+        return $this->hasManyThrough(Source::class, 'source_post');
+    }
+
+    public function users()
+    {
+        return $this->hasManyThrough(User::class, 'user_post');
     }
 }

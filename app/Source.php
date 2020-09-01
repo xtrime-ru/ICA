@@ -67,6 +67,23 @@ class Source extends Model
     ];
 
     /**
+     * The attributes that should be visible in serialization.
+     *
+     * @var array
+     */
+    protected $visible = [
+        'id',
+        'category_id',
+        'social_id',
+        'url',
+        'name',
+        'age_limit',
+        'likes',
+        'subscribers',
+        'views',
+    ];
+
+    /**
      * @param $parserRules
      *
      * @return ParserRules

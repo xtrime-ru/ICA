@@ -2,8 +2,8 @@
     <v-navigation-drawer
             v-model="drawer"
             app
-            :mini-variant="!sideBarHover"
-            :mobile-breakpoint="1024"
+            width=230
+            :mini-variant="!sideBarHover && !this.$vuetify.breakpoint.mobile"
     >
         <v-hover
                 :close-delay="300"
@@ -81,6 +81,9 @@
                 {title: "Выход", icon: "mdi-logout", path: "/logout", access: roles.user},
             ]
         }),
+        created() {
+            this.drawer = !this.$vuetify.breakpoint.mobile;
+        },
         computed: mapGetters({
             hasAccess: "user/hasAccess",
         }),

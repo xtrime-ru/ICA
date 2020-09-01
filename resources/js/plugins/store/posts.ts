@@ -1,3 +1,15 @@
+interface Sourse {
+    'id': bigint,
+    'category_id': bigint,
+    'social_id': bigint,
+    'url': string,
+    'name': string,
+    'age_limit': bigint,
+    'likes': bigint,
+    'subscribers': bigint,
+    'views': bigint,
+}
+
 interface Post {
     id: bigint,
     url: string,
@@ -7,34 +19,39 @@ interface Post {
     views: bigint,
     likes: bigint,
     bookmarks: bigint,
+    viewed: boolean,
+    liked: boolean,
+    bookmarked: boolean
+    source: Sourse
 }
 
-interface Posts extends Array<Post>{}
+interface Posts extends Array<Post> {
+}
 
 interface PostsResponse extends Omit<Response, 'body'> {
-    body: {posts:Posts, errors:object},
+    body: { posts: Posts, errors: object },
 }
 
 let state = {
-    posts: [],
+    posts: [] as Posts,
     lastId: 0,
-    hasMorePosts: true,
+    hasMorePosts: true as boolean,
 };
 
 const mutations = {
     set(state, input: Posts): void {
-       state.posts = input;
-       if (input.length) {
-           state.lastId = input[input.length - 1].id;
-       } else {
-           state.lastId = 0;
-           state.hasMorePosts = false;
-       }
+        state.posts = input;
+        if (input.length) {
+            state.lastId = input[input.length - 1].id;
+        } else {
+            state.lastId = 0;
+            state.hasMorePosts = false;
+        }
     },
 }
 
 const getters = {
-    all: (state) => state.posts,
+    all: (state): Posts => state.posts,
 }
 
 const actions = {
@@ -43,8 +60,8 @@ const actions = {
             dispatch('notifications/add', {
                 text: 'Больше нет постов',
                 timeout: 5000,
-                color:'info'
-            }, {root:true})
+                color: 'info'
+            }, {root: true})
             return;
         }
 
@@ -58,8 +75,8 @@ const actions = {
                 dispatch('notifications/add', {
                     text: 'Ошибка при загрузке постов',
                     timeout: 5000,
-                    color:'error'
-                }, {root:true})
+                    color: 'error'
+                }, {root: true})
             }
         )
     },
