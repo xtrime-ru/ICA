@@ -1,0 +1,76 @@
+<?php
+
+namespace App\Models;
+
+use App\Helpers\TextHelper;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+
+
+/**
+ * App\Models\Post
+ *
+ * @property int $id
+ * @property string $url
+ * @property string|null $title
+ * @property string|null $description
+ * @property string|null $image
+ * @property int $views
+ * @property int $likes
+ * @property int $bookmarks
+ * @property Carbon|null $created_at
+ * @property-read Collection|Source[] $sources
+ * @property-read int|null $sources_count
+ * @property-read Collection|User[] $users
+ * @property-read int|null $users_count
+ * @method static Builder|Post newModelQuery()
+ * @method static Builder|Post newQuery()
+ * @method static Builder|Post query()
+ * @method static Builder|Post whereBookmarks($value)
+ * @method static Builder|Post whereCreatedAt($value)
+ * @method static Builder|Post whereDescription($value)
+ * @method static Builder|Post whereId($value)
+ * @method static Builder|Post whereImage($value)
+ * @method static Builder|Post whereLikes($value)
+ * @method static Builder|Post whereTitle($value)
+ * @method static Builder|Post whereUrl($value)
+ * @method static Builder|Post whereViews($value)
+ * @mixin \Eloquent
+ */
+class Post extends Model
+{
+    protected static $unguarded = true;
+    public const UPDATED_AT = null;
+
+    private const TITLE_LENGTH = 100;
+    private const DESCRIPTION_LENGTH = 750;
+    private const TRIM_PLACEHOLDER = ' [...]';
+
+    public function setTitleAttribute($text)
+    {
+        $text = TextHelper::htmlToText($text);
+        $text = TextHelper::cropText($text, self::TITLE_LENGTH, static::TRIM_PLACEHOLDER);
+
+        return $this->attributes['title'] = ($text ?: null);
+    }
+
+    public function setDescriptionAttribute($text)
+    {
+        $text = TextHelper::htmlToText($text);
+        $text = TextHelper::cropText($text, self::DESCRIPTION_LENGTH, static::TRIM_PLACEHOLDER);
+
+        return $this->attributes['description'] = ($text ?: null);
+    }
+
+    public function sources()
+    {
+        return $this->belongsToMany(Source::class, 'source_post');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_post');
+    }
+}

@@ -90,7 +90,7 @@ class CategoriesTableSeeder extends Seeder
         $categories = json_decode(static::$categoriesJson, true);
 
         foreach ($categories as $category) {
-            \App\Category::create([
+            \App\Models\Category::create([
                 'name' => $category['name'],
                 'slug' => $category['slug'],
                 'style' => ['color' => $category['color']],

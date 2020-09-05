@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 
 use App\Http\Controllers\Api\ApiController;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;

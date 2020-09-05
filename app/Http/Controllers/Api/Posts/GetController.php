@@ -4,9 +4,8 @@
 namespace App\Http\Controllers\Api\Posts;
 
 use App\Http\Controllers\Api\ApiController;
-use App\Post;
-use App\Source;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Post;
+use App\Models\Source;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 

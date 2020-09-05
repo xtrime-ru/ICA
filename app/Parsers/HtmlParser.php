@@ -3,7 +3,7 @@
 
 namespace App\Parsers;
 
-use App\Post;
+use App\Models\Post;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use QL\Dom\Elements;

@@ -1,6 +1,6 @@
 <?php
 
-use App\Source;
+use App\Models\Source;
 use Illuminate\Database\Seeder;
 use Psy\Util\Json;
 

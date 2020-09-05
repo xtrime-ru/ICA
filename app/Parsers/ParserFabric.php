@@ -4,7 +4,7 @@
 namespace App\Parsers;
 
 
-use App\Source;
+use App\Models\Source;
 use Doctrine\DBAL\Exception\DatabaseObjectNotFoundException;
 
 class ParserFabric
