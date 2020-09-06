@@ -21,6 +21,8 @@ class CreateUserPostTable extends Migration
             $table->boolean('liked')->default(false);
             $table->boolean('bookmarked')->default(false);
 
+            $table->timestamp('created_at', 0)->nullable()->index();
+
             $table->primary(['user_id', 'post_id']);
 
             $table->foreign('user_id' , 'users')

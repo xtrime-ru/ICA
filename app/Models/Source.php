@@ -18,7 +18,7 @@ use Illuminate\Support\Carbon;
  * @property string $url
  * @property string $name
  * @property string $access
- * @property int $active
+ * @property bool $active
  * @property string $age_limit
  * @property int|null $user_id
  * @property int $likes

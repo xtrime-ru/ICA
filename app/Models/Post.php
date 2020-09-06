@@ -48,6 +48,12 @@ class Post extends Model
     private const DESCRIPTION_LENGTH = 750;
     private const TRIM_PLACEHOLDER = ' [...]';
 
+    public const META_COLUMNS = [
+        'viewed' => 'views',
+        'liked' => 'likes',
+        'bookmarked' => 'bookmarks'
+    ];
+
     public function setTitleAttribute($text)
     {
         $text = TextHelper::htmlToText($text);
@@ -64,6 +70,29 @@ class Post extends Model
         return $this->attributes['description'] = ($text ?: null);
     }
 
+    public function updateUserMeta(User $user, array $meta): UserPost {
+        $postMeta = $this->userPost()->firstOrCreate([
+            'user_id' => $user->id,
+            'post_id' => $this->id,
+        ]);
+
+        foreach (static::META_COLUMNS as $metaColumn => $postColumn) {
+            if ((bool)$meta[$metaColumn] !== (bool)$postMeta->{$metaColumn}) {
+                if ($meta[$metaColumn]) {
+                    $this->increment($postColumn);
+                } else {
+                    $this->decrement($postColumn);
+                }
+                $postMeta->{$metaColumn} = $meta[$metaColumn];
+            }
+        }
+        if ($postMeta->isDirty()) {
+            $postMeta->save();
+        }
+
+        return $postMeta;
+    }
+
     public function sources()
     {
         return $this->belongsToMany(Source::class, 'source_post');
@@ -72,5 +101,9 @@ class Post extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_post');
+    }
+
+    public function userPost() {
+        return $this->hasMany(UserPost::class, 'post_id');
     }
 }

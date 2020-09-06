@@ -40,6 +40,7 @@ mix
                     test: /\.ts?$/,
                     use: [{
                         loader: "ts-loader",
+                        options: { appendTsSuffixTo: [/\.vue$/] }
                     }]
                 },
             ]
@@ -49,8 +50,8 @@ mix
         browser: "google chrome",
         proxy: '127.0.0.1:8000'
     });
-;
+
 
 if (mix.inProduction()) {
-    mix.version();
+    mix.version()
 }

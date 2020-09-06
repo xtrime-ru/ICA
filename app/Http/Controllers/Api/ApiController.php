@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 abstract class ApiController extends Controller
 {
 
-
     /**
      * @return Guard|StatefulGuard
      */

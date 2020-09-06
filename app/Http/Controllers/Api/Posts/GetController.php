@@ -62,14 +62,30 @@ class GetController extends ApiController
         $query->orderBy('p.id', 'DESC');
 
         $posts = $query->get()->toArray();
+        $lastId = 0;
 
         foreach ($posts as &$post) {
             $post['source'] = $sources[$post['source_id']];
+            $post['meta'] = [
+                'post_id' => $post['id'],
+                'views' => $post['views'],
+                'likes' => $post['likes'],
+                'bookmarks' => $post['bookmarks'],
+                'viewed' => (bool) $post['viewed'],
+                'liked' => (bool) $post['liked'],
+                'bookmarked' => (bool) $post['bookmarked'],
+            ];
+            foreach (array_keys($post['meta']) as $key) {
+                unset($post[$key]);
+            }
+            $lastId = $post['id'];
         }
         unset($post);
 
         return [
-            'posts' => $posts
+            'posts' => $posts,
+            'last_id' => $lastId,
+            'has_more_posts' => Post::where('id','<', $lastId)->exists()
         ];
     }
 

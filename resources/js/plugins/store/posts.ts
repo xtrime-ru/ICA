@@ -1,7 +1,14 @@
-interface Sourse {
-    'id': bigint,
-    'category_id': bigint,
-    'social_id': bigint,
+interface State {
+    posts: Posts,
+    postIds: Map<number,number>,
+    lastId: number,
+    hasMorePosts: boolean,
+}
+
+interface Source {
+    'id': number,
+    'category_id': number,
+    'social_id': number,
     'url': string,
     'name': string,
     'age_limit': bigint,
@@ -11,43 +18,65 @@ interface Sourse {
 }
 
 interface Post {
-    id: bigint,
+    id: number,
     url: string,
     image?: string,
     title: string,
     description: string,
-    views: bigint,
-    likes: bigint,
-    bookmarks: bigint,
+
+    meta: Meta
+    source: Source
+}
+
+interface Meta {
+    post_id: number,
+    user_id: number,
+    views: number,
     viewed: boolean,
+
+    likes: number,
     liked: boolean,
+
+    bookmarks: number,
     bookmarked: boolean
-    source: Sourse
 }
 
 interface Posts extends Array<Post> {
 }
 
 interface PostsResponse extends Omit<Response, 'body'> {
-    body: { posts: Posts, errors: object },
+    body: { posts: Posts, last_id:number, has_more_posts:boolean, errors: Array<string> },
 }
 
-let state = {
-    posts: [] as Posts,
+interface MetaResponse extends Omit<Response, 'body'> {
+    body: { posts_meta: Array<Meta>, errors: Array<string> },
+}
+
+let state: State = {
+    posts: [],
+    postIds: new Map(),
     lastId: 0,
-    hasMorePosts: true as boolean,
+    hasMorePosts: true,
 };
 
 const mutations = {
-    set(state, input: Posts): void {
-        state.posts = input;
-        if (input.length) {
-            state.lastId = input[input.length - 1].id;
-        } else {
-            state.lastId = 0;
-            state.hasMorePosts = false;
-        }
+    setPosts(state: State, payload: Posts): void {
+        state.posts = payload;
+        state.postIds = new Map();
+        state.posts.forEach((post, key)=>{
+            state.postIds.set(post.id, key);
+        })
     },
+    setLastId(state:State, lastId:number): void {
+        state.lastId = lastId;
+    },
+    setHasMorePosts(state:State, hasMorePosts:boolean): void {
+        state.hasMorePosts = hasMorePosts;
+    },
+    updateMeta(state: State, meta:Meta) {
+        let postkey = state.postIds.get(meta.post_id)
+        state.posts[postkey].meta = meta
+    }
 }
 
 const getters = {
@@ -67,20 +96,39 @@ const actions = {
 
         this._vm.$http.post("posts/get", {'id': state.lastId}).then(
             (response: PostsResponse) => {
-                commit('set', response.body.posts)
-
+                commit('setPosts', response.body.posts)
+                commit('setLastId', response.body.last_id)
+                commit('setHasMorePosts', response.body.has_more_posts)
             },
             (error: PostsResponse) => {
                 console.log(error.body.errors);
                 dispatch('notifications/add', {
-                    text: 'Ошибка при загрузке постов',
+                    text: 'Ошибка при загрузке постов: ' + error.body.errors.join('; '),
                     timeout: 5000,
                     color: 'error'
                 }, {root: true})
             }
         )
     },
+    async updateMeta({commit, dispatch}, meta:Meta) {
+        commit('updateMeta', meta)
 
+        this._vm.$http.post("posts/updateMeta", {'posts': [meta]}).then(
+            (response: MetaResponse) => {
+                response.body.posts_meta.forEach((meta) => {
+                    commit('updateMeta', meta)
+                });
+            },
+            (error: MetaResponse) => {
+                console.log(error.body.errors);
+                dispatch('notifications/add', {
+                    text: 'Ошибка при сохранении данных: ' + error.body.errors.join('; '),
+                    timeout: 0,
+                    color: 'error'
+                }, {root: true})
+            }
+        )
+    }
 }
 
 export default {

@@ -7,7 +7,7 @@
     >
         <v-snackbar
             class="list-fade-item"
-            v-for="( snackbar, index ) in getNotifications.slice()" v-bind:key="snackbar.id"
+            v-for="snackbar in getNotifications" v-bind:key="snackbar.id"
             :value="true"
             top right
             :color="snackbar.color"
@@ -22,7 +22,7 @@
                     dark
                     text
                     v-bind="attrs"
-                    @click="removeNotification(index)"
+                    @click="removeNotification(snackbar.id)"
                 >
                     <v-icon dark>mdi-close</v-icon>
                     Close
@@ -63,43 +63,48 @@
     }
 </script>
 
-<style scoped>
+<style>
 
     .notification-container {
         position: fixed;
         right: 0;
         z-index: 1000;
         padding: 16px;
-        width: auto;
         max-height: 100vh;
-        overflow: auto;
+        overflow: visible;
     }
 
-    .notification-container .full-width {
+    .notification-container.full-width {
+        padding: 0;
         width: 100%;
     }
 
     .notification-container .v-snack {
         position: relative;
-        margin: 0 auto 8px 0;
+        margin: 0 0 auto auto;
         z-index: inherit;
         top: 0;
-        left: 0;
+        right: 0;
         height: auto;
     }
 
-    .list-fade-item {
+    .notification-container .v-snack__wrapper {
+      min-width: 300px;
+      max-width: 400px;
+    }
+
+    .notification-container .list-fade-item {
         transition-property: all;
         transition-duration: 0.5s;
     }
 
-    .list-fade-enter,
-    .list-fade-leave-to {
+    .notification-container .list-fade-enter,
+    .notification-container .list-fade-leave-to {
         opacity: 0;
         transform: translateX(100%);
     }
 
-    .list-fade-leave-active {
+    .notification-container .list-fade-leave-active {
         max-height: 0;
         margin-bottom: 0 !important;
     }
