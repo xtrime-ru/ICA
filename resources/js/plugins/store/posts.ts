@@ -6,15 +6,16 @@ interface State {
 }
 
 interface Source {
-    'id': number,
-    'category_id': number,
-    'social_id': number,
-    'url': string,
-    'name': string,
-    'age_limit': bigint,
-    'likes': bigint,
-    'subscribers': bigint,
-    'views': bigint,
+    id: number,
+    category_id: number,
+    social_id: number,
+    url: string,
+    icon?: string,
+    name: string,
+    age_limit: bigint,
+    likes: bigint,
+    subscribers: bigint,
+    views: bigint,
 }
 
 interface Post {
@@ -84,7 +85,11 @@ const getters = {
 }
 
 const actions = {
-    async load({commit, dispatch}) {
+    async load({commit, dispatch}, reload:boolean = false) {
+        if (reload) {
+            commit('setLastId', 0);
+            commit('setHasMorePosts', true);
+        }
         if (!state.hasMorePosts) {
             dispatch('notifications/add', {
                 text: 'Больше нет постов',
@@ -94,7 +99,7 @@ const actions = {
             return;
         }
 
-        this._vm.$http.post("posts/get", {'id': state.lastId}).then(
+        return this._vm.$http.post("posts/get", {'id': state.lastId}).then(
             (response: PostsResponse) => {
                 commit('setPosts', response.body.posts)
                 commit('setLastId', response.body.last_id)

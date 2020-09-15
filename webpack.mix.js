@@ -23,9 +23,6 @@ mix
                 'resources': path.join(__dirname, './resources'),
             },
         },
-        plugins: [
-            new VuetifyLoaderPlugin()
-        ],
         module: {
             rules: [
                 {
@@ -42,14 +39,24 @@ mix
                         loader: "ts-loader",
                         options: { appendTsSuffixTo: [/\.vue$/] }
                     }]
-                },
+                }
             ]
         }
-    },)
+    })
+    .options({
+        extractVueStyles: true
+    })
     .browserSync({
         browser: "google chrome",
         proxy: '127.0.0.1:8000'
-    });
+    })
+    .extend('vuetify', new class {
+        webpackConfig (config) {
+            config.plugins.push(new VuetifyLoaderPlugin())
+        }
+    })
+    .vuetify()
+;
 
 
 if (mix.inProduction()) {

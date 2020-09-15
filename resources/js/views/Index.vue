@@ -11,6 +11,15 @@
       <div>Нет постов :(</div>
     </v-alert>
 
+    <v-alert
+        v-if="loading"
+        outlined
+        type="info"
+        color="primary"
+    >
+      <div>Загрузка...</div>
+    </v-alert>
+
     <v-row dense>
       <v-col
           v-for="post in posts"
@@ -20,9 +29,18 @@
         <v-card class="post"
                 :link=true
                 target="_blank"
-                :href="post.url">
-          <v-card-title v-text="post.title"
-          />
+                :href="post.url"
+        >
+          <v-item-group class="post-info">
+            <a :href="post.source.url" target="_blank">
+              <img v-if="post.source.icon"
+                   :alt="post.source.name"
+                   :src="post.source.icon"
+              />
+              <span v-if="!post.source.icon" >{{post.source.name}}</span>
+            </a>
+          </v-item-group>
+          <v-card-title v-if="post.title" v-text="post.title"/>
           <v-img
               v-if="post.image"
               :src="post.image"
@@ -67,7 +85,7 @@
       </v-col>
     </v-row>
     <v-btn
-        v-if="hasMorePosts"
+        v-if="hasMorePosts && !loading"
         @click="load"
         block
         dark
@@ -82,6 +100,11 @@
 import {mapActions, mapState} from "vuex"
 
 export default {
+  data () {
+    return {
+      loading: false,
+    }
+  },
   computed: mapState({
     posts: state => state.posts.posts,
     hasMorePosts: state => state.posts.hasMorePosts
@@ -90,6 +113,10 @@ export default {
     ...mapActions("posts", [
       "load",
     ]),
+    async fetchData () {
+      this.loading = true
+      await this.$store.dispatch("posts/load", true).finally(()=>this.loading = false)
+    },
     updateMeta: function (property, post, value) {
       if (value === undefined) {
         post.meta[property] = !post.meta[property]
@@ -104,23 +131,37 @@ export default {
     }
   },
   async created() {
-    if (!this.$store.getters["posts/all"].length) {
-      await this.$store.dispatch("posts/load")
-    }
+    await this.fetchData();
+  },
+  watch: {
+    '$route': 'fetchData'
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 
+.post .post-info {
+  max-width: 600px;
+  width: 100%;
+  padding: 1em 1em 0;
+  display: flex;
+  justify-content: space-between;
+
+  & img {
+    border-radius: 2px;
+    height: 2em;
+    width: auto;
+  }
+}
 
 .post .actions {
   cursor: default;
   max-width: 600px;
   margin: 0 auto;
-}
 
-.post .actions .v-btn {
-  vertical-align: sub;
+  & .v-btn {
+    vertical-align: sub;
+  }
 }
 </style>

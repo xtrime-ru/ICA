@@ -25,6 +25,8 @@ import vuetify from '~/plugins/vuetify'
 
 store.dispatch('user/init')
 
+Vue.use(require('vue-moment'))
+
 export const app = new Vue({
     el:'#app',
     store,

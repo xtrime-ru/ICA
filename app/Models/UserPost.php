@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\DB;
  * @method static Builder|UserPost newQuery()
  * @method static Builder|UserPost query()
  * @mixin \Eloquent
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPost whereCreatedAt($value)
  */
 class UserPost extends Model
 {

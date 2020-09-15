@@ -19,6 +19,7 @@ class CreateSourcesTable extends Migration
             $table->unsignedBigInteger('social_id')->nullable()->index();
 
             $table->string('url', 2048);
+            $table->string('icon', 255)->nullable();
             $table->string('name', 255);
             $table->enum('access', ['public', 'personal'])->default('personal');
             $table->boolean('active')->default(true);

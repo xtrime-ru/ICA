@@ -38,6 +38,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Post whereUrl($value)
  * @method static Builder|Post whereViews($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserPost[] $userPost
+ * @property-read int|null $user_post_count
  */
 class Post extends Model
 {

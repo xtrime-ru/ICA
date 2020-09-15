@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $category_id
  * @property int|null $social_id
  * @property string $url
+ * @property string|null $icon
  * @property string $name
  * @property string $access
  * @property bool $active
@@ -55,6 +56,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Source whereSubscribers($value)
  * @method static Builder|Source whereUpdatedAt($value)
  * @method static Builder|Source whereUrl($value)
+ * @method static Builder|Source whereIcon($value)
  * @method static Builder|Source whereUserId($value)
  * @method static Builder|Source whereViews($value)
  * @mixin \Eloquent
@@ -76,6 +78,7 @@ class Source extends Model
         'category_id',
         'social_id',
         'url',
+        'icon',
         'name',
         'age_limit',
         'likes',
