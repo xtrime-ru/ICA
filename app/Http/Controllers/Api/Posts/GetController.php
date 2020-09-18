@@ -37,7 +37,7 @@ class GetController extends ApiController
         $sources = $sources->keyBy('id')->toArray();
 
         $query = Post::query()->from('posts', 'p');
-        $query->select(['p.*', 'up.*', 'sp.source_id']);
+        $query->select(['up.*', 'p.*', 'sp.source_id']);
 
         if ($id = (int) $request->get('id')) {
             $query->where('p.id','<', $id);

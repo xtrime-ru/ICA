@@ -39,6 +39,7 @@
               />
               <span v-if="!post.source.icon" >{{post.source.name}}</span>
             </a>
+            <span>{{ post.created_at | moment("from", "now") }}</span>
           </v-item-group>
           <v-card-title v-if="post.title" v-text="post.title"/>
           <v-img
@@ -142,7 +143,6 @@ export default {
 <style lang="scss">
 
 .post .post-info {
-  max-width: 600px;
   width: 100%;
   padding: 1em 1em 0;
   display: flex;

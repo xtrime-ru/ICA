@@ -26,7 +26,8 @@ interface Post {
     description: string,
 
     meta: Meta
-    source: Source
+    source: Source,
+    created_at: string,
 }
 
 interface Meta {
