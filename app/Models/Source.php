@@ -94,7 +94,7 @@ class Source extends Model
     public function getParserRulesAttribute($parserRules): ParserRules
     {
         if (!($parserRules instanceof ParserRules)) {
-            $parserRules = new ParserRules(json_decode($parserRules, true));
+            $parserRules = new ParserRules(json_decode($parserRules, true, 10,JSON_THROW_ON_ERROR));
             $this->parser_rules = $parserRules;
         }
 

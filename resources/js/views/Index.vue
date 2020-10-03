@@ -11,20 +11,26 @@
       <div>Нет постов :(</div>
     </v-alert>
 
-    <v-alert
+    <v-col
         v-if="loading"
-        outlined
-        type="info"
-        color="primary"
+        v-for="item in 3"
+        :key="item"
+        :cols="12"
+        class="my-2"
     >
-      <div>Загрузка...</div>
-    </v-alert>
+      <v-skeleton-loader
+          class="post"
+          type="list-item-avatar, image, list-item-two-line, actions"
+      ></v-skeleton-loader>
+    </v-col>
 
     <v-row dense>
       <v-col
+          v-if="!loading"
           v-for="post in posts"
           :key="post.id"
           :cols="12"
+          class="my-2"
       >
         <v-card class="post"
                 :link=true
@@ -87,10 +93,11 @@
     </v-row>
     <v-btn
         v-if="hasMorePosts && !loading"
-        @click="load"
+        @click="load()"
         block
         dark
-        class="mt-10"
+        x-large
+        class="mt-10 primary--text"
     >
       Load more
     </v-btn>
@@ -98,25 +105,21 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex"
+import {mapState} from "vuex"
 
 export default {
-  data () {
-    return {
-      loading: false,
-    }
-  },
   computed: mapState({
     posts: state => state.posts.posts,
-    hasMorePosts: state => state.posts.hasMorePosts
+    hasMorePosts: state => state.posts.hasMorePosts,
+    loading: state => state.posts.loading
   }),
   methods: {
-    ...mapActions("posts", [
-      "load",
-    ]),
+    async load() {
+      this.$store.dispatch("posts/load", false)
+      window.scrollTo(0,0);
+    },
     async fetchData () {
-      this.loading = true
-      await this.$store.dispatch("posts/load", true).finally(()=>this.loading = false)
+      await this.$store.dispatch("posts/load", true)
     },
     updateMeta: function (property, post, value) {
       if (value === undefined) {

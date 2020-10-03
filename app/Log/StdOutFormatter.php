@@ -56,7 +56,7 @@ class StdOutFormatter extends LineFormatter
 
     protected function toJson($data, bool $ignoreErrors = true): string
     {
-        $options = JSON_PRETTY_PRINT;
+        $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
         if ($ignoreErrors) {
             $options |= JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_INVALID_UTF8_IGNORE;
         }

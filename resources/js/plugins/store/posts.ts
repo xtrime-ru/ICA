@@ -3,6 +3,7 @@ interface State {
     postIds: Map<number,number>,
     lastId: number,
     hasMorePosts: boolean,
+    loading: boolean
 }
 
 interface Source {
@@ -59,6 +60,7 @@ let state: State = {
     postIds: new Map(),
     lastId: 0,
     hasMorePosts: true,
+    loading: true
 };
 
 const mutations = {
@@ -68,6 +70,7 @@ const mutations = {
         state.posts.forEach((post, key)=>{
             state.postIds.set(post.id, key);
         })
+        state.loading = false;
     },
     setLastId(state:State, lastId:number): void {
         state.lastId = lastId;
@@ -78,7 +81,10 @@ const mutations = {
     updateMeta(state: State, meta:Meta) {
         let postkey = state.postIds.get(meta.post_id)
         state.posts[postkey].meta = meta
-    }
+    },
+    setLoading(state: State, loading:boolean) {
+        state.loading = loading;
+    },
 }
 
 const getters = {
@@ -100,6 +106,7 @@ const actions = {
             return;
         }
 
+        commit('setLoading', true)
         return this._vm.$http.post("posts/get", {'id': state.lastId}).then(
             (response: PostsResponse) => {
                 commit('setPosts', response.body.posts)
