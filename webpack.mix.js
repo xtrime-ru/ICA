@@ -44,7 +44,7 @@ mix
         }
     })
     .options({
-        extractVueStyles: true
+        extractVueStyles: false
     })
     .browserSync({
         browser: "google chrome",

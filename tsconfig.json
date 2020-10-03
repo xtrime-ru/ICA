@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "allowJs": true,
+        "allowJs": false,
         "module": "esnext",
         "moduleResolution": "node",
         "baseUrl": ".",
@@ -8,5 +8,6 @@
             "~/*": ["resources/js/*"],
             "resources/*": ["resources/*"]
         }
-    }
+    },
+    "exclude": ["node_modules"]
 }

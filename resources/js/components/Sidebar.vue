@@ -54,6 +54,7 @@
                     top
                     right
                     absolute
+                    rounded
                     @click.stop="drawer = !drawer"
             >
                 <v-icon color="black" v-show="drawer" transition="fade-out-in">mdi-close</v-icon>

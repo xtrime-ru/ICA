@@ -40,7 +40,7 @@ class UserPost extends Model
     protected $primaryKey = ['user_id', 'post_id'];
     public $incrementing = false;
 
-    protected function setKeysForSaveQuery(Builder $query)
+    protected function setKeysForSaveQuery($query)
     {
         return $query->where('user_id', $this->getAttribute('user_id'))
             ->where('post_id', $this->getAttribute('post_id'));

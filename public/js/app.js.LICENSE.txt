@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.4.3
+  * vue-router v3.4.5
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -67,6 +67,8 @@
 
 //! author : Armendarabyan : https://github.com/armendarabyan
 
+//! author : Asraf Hossain Patoary : https://github.com/ashwoolford
+
 //! author : Atamyrat Abdyrahmanov : https://github.com/atamyratabdy
 
 //! author : Atolagbe Abisoye : https://github.com/andela-batolagbe
@@ -132,6 +134,8 @@
 //! author : Irakli Janiashvili : https://github.com/IrakliJani
 
 //! author : Iustì Canun
+
+//! author : JC Franco : https://github.com/jcfranco
 
 //! author : Jacob Middag : https://github.com/middagj
 
@@ -239,6 +243,8 @@
 
 //! author : Orif N. Jr. : https://github.com/orif-jr
 
+//! author : Peter Viszt  : https://github.com/passatgt
+
 //! author : Quentin PAGÈS : https://github.com/Quenty31
 
 //! author : Rafal Hirsz : https://github.com/evoL
@@ -272,6 +278,8 @@
 //! author : Sonia Simoes : https://github.com/soniasimoes
 
 //! author : Squar team, mysquar.com
+
+//! author : Stefan Crnjaković <stefan@hotmail.rs> : https://github.com/crnjakovic
 
 //! author : Suhail Alkowaileet : https://github.com/xsoh
 
@@ -398,6 +406,8 @@
 //! locale : Basque [eu]
 
 //! locale : Belarusian [be]
+
+//! locale : Bengali (Bangladesh) [bn-bd]
 
 //! locale : Bengali [bn]
 
@@ -591,6 +601,8 @@
 
 //! locale : Spanish (Dominican Republic) [es-do]
 
+//! locale : Spanish (Mexico) [es-mx]
+
 //! locale : Spanish (United States) [es-us]
 
 //! locale : Spanish [es]
@@ -649,4 +661,4 @@
 
 //! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 
-//! version : 2.28.0
+//! version : 2.29.0
