@@ -79,7 +79,7 @@ class Post extends Model
         ]);
 
         foreach (static::META_COLUMNS as $metaColumn => $postColumn) {
-            if ((bool)$meta[$metaColumn] !== (bool)$postMeta->{$metaColumn}) {
+            if (array_key_exists($metaColumn, $meta) && (bool)$meta[$metaColumn] !== (bool)$postMeta->{$metaColumn}) {
                 if ($meta[$metaColumn]) {
                     $this->increment($postColumn);
                 } else {

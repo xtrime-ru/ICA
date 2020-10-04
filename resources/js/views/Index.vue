@@ -80,7 +80,10 @@
             <v-item-group class="primary--text">
               <v-btn icon
                      v-on:click="openLink(post.url); updateMeta('viewed', post, true);"
-                     color="primary">
+                     v-intersect.once="onIntersect"
+                     color="primary"
+                     :postId="post.id"
+              >
                 <v-icon v-show="!post.meta.viewed">mdi-eye-outline</v-icon>
                 <v-icon v-show="post.meta.viewed">mdi-eye</v-icon>
               </v-btn>
@@ -93,7 +96,7 @@
     </v-row>
     <v-btn
         v-if="hasMorePosts && !loading"
-        @click="load()"
+        @click="fetchData(false)"
         block
         dark
         x-large
@@ -105,7 +108,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
+import {mapState, mapGetters} from "vuex"
 
 export default {
   computed: mapState({
@@ -114,28 +117,33 @@ export default {
     loading: state => state.posts.loading
   }),
   methods: {
-    async load() {
-      this.$store.dispatch("posts/load", false)
+    fetchData(reload = true) {
+      this.$store.dispatch("posts/load", reload);
       window.scrollTo(0,0);
-    },
-    async fetchData () {
-      await this.$store.dispatch("posts/load", true)
     },
     updateMeta: function (property, post, value) {
       if (value === undefined) {
-        post.meta[property] = !post.meta[property]
-      } else {
-        post.meta[property] = value
+        value = !post.meta[property]
       }
-
-      this.$store.dispatch("posts/updateMeta", post.meta)
+      this.$store.dispatch("posts/updateMeta", {postId:post.id, property:property, value:value})
     },
     openLink: function(url) {
       window.open(url, '_blank');
+    },
+    onIntersect (entries, observer, isIntersected) {
+      if (!isIntersected) {
+        return;
+      }
+      let postId = entries[0].target.getAttribute("postId")
+      let post = this.$store.getters["posts/get"](postId)
+
+      if (!post.meta.viewed) {
+        this.updateMeta('viewed', post, true)
+      }
     }
   },
-  async created() {
-    await this.fetchData();
+  created() {
+    this.fetchData(true);
   },
   watch: {
     '$route': 'fetchData'

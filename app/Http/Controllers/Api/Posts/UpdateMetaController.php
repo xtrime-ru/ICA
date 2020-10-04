@@ -15,9 +15,9 @@ class UpdateMetaController extends ApiController
     private const VALIDATION_RULES = [
         'posts' => 'array|between:1,100',
         'posts.*.post_id' => 'integer|required',
-        'posts.*.liked' => 'boolean|required',
-        'posts.*.bookmarked' => 'boolean|required',
-        'posts.*.viewed' => 'boolean|required',
+        'posts.*.liked' => 'boolean',
+        'posts.*.bookmarked' => 'boolean',
+        'posts.*.viewed' => 'boolean',
     ];
 
     public function index(Request $request): array
@@ -36,11 +36,14 @@ class UpdateMetaController extends ApiController
         $result = [];
         foreach ($posts as $post) {
             /** @var Post $post */
-            $postMeta = $post->updateUserMeta($user, [
-                'viewed' => $requestData[$post->id]['viewed'],
-                'liked' => $requestData[$post->id]['liked'],
-                'bookmarked' => $requestData[$post->id]['bookmarked'],
-            ]);
+            $meta = [
+                'viewed' => $requestData[$post->id]['viewed'] ?? null,
+                'liked' => $requestData[$post->id]['liked'] ?? null,
+                'bookmarked' => $requestData[$post->id]['bookmarked'] ?? null,
+            ];
+            $meta = array_filter($meta, static fn (?bool $item): bool => $item !== null);
+
+            $postMeta = $post->updateUserMeta($user, $meta);
 
             $result[] = [
                 'post_id' => (int) $post->id,

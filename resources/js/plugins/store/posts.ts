@@ -80,7 +80,7 @@ const mutations = {
     },
     updateMeta(state: State, meta:Meta) {
         let postkey = state.postIds.get(meta.post_id)
-        state.posts[postkey].meta = meta
+        state.posts[postkey].meta = {...state.posts[postkey].meta, ...meta}
     },
     setLoading(state: State, loading:boolean) {
         state.loading = loading;
@@ -89,6 +89,7 @@ const mutations = {
 
 const getters = {
     all: (state): Posts => state.posts,
+    get: (state) => (id): Post => state.posts[state.postIds.get(parseInt(id))]
 }
 
 const actions = {
@@ -123,7 +124,15 @@ const actions = {
             }
         )
     },
-    async updateMeta({commit, dispatch}, meta:Meta) {
+    async updateMeta({commit, dispatch, rootGetters}, data:{postId:number, property:"viewed"|"liked"|"bookmarked", value:boolean}) {
+        if (!rootGetters["user/hasAccess"]('user')) {
+            return;
+        }
+        let meta = {
+            "post_id": data.postId
+        };
+        meta[data.property] = data.value;
+
         commit('updateMeta', meta)
 
         this._vm.$http.post("posts/updateMeta", {'posts': [meta]}).then(
