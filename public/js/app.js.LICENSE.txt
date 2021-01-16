@@ -1,5 +1,5 @@
 /*!
-  * vue-router v3.4.5
+  * vue-router v3.4.9
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -17,7 +17,7 @@
  */
 
 /*!
- * vuex v3.5.1
+ * vuex v3.6.0
  * (c) 2020 Evan You
  * @license MIT
  */
@@ -661,4 +661,4 @@
 
 //! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 
-//! version : 2.29.0
+//! version : 2.29.1

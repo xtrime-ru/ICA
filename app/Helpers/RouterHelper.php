@@ -58,11 +58,11 @@ class RouterHelper
     public static function getFirstExistingController($controllers): ?string
     {
         foreach ($controllers as [$class, $method]) {
-            if (is_callable([$class, $method])) {
+            if (method_exists($class, $method)) {
                 return "{$class}@{$method}";
             }
         }
-        return null;
+        throw new \BadMethodCallException("Method not found: {$method}", 404);
     }
 
     public static function getErrorResponse(array $errors, int $code = 0): JsonResponse
