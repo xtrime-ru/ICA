@@ -126,6 +126,13 @@ const actions = {
     },
     async updateMeta({commit, dispatch, rootGetters}, data:{postId:number, property:"viewed"|"liked"|"bookmarked", value:boolean}) {
         if (!rootGetters["user/hasAccess"]('user')) {
+            if (data.property !== "viewed") {
+                dispatch('notifications/add', {
+                    text: 'Необходимо авторизоваться',
+                    timeout: 5000,
+                    color: 'info'
+                }, {root: true})
+            }
             return;
         }
         let meta = {
