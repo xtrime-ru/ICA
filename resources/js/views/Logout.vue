@@ -7,9 +7,17 @@
 
 <script>
     export default {
+        props: {
+            redirect: String
+        },
         async created() {
-            await this.$store.dispatch('user/logout')
-            this.$router.back()
+            console.log(this.redirect)
+            //await this.$store.dispatch('user/logout')
+            if (!this.redirect) {
+                this.$router.back()
+            } else {
+                this.$router.push({path: this.redirect})
+            }
         }
     }
 </script>

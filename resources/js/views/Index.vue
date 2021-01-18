@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="fill-height">
     <h1 class="primary--text">Лента</h1>
 
     <v-alert
@@ -11,20 +11,22 @@
       <div>Нет постов :(</div>
     </v-alert>
 
-    <v-col
-        v-if="loading"
-        v-for="item in 3"
-        :key="item"
-        :cols="12"
-        class="my-2"
-    >
-      <v-skeleton-loader
-          class="post"
-          type="list-item-avatar, image, list-item-two-line, actions"
-      ></v-skeleton-loader>
-    </v-col>
+
 
     <v-row dense>
+      <v-col
+          v-if="loading"
+          v-for="item in 3"
+          :key="item"
+          :cols="12"
+          class="my-2"
+      >
+        <v-skeleton-loader
+            class="post"
+            type="list-item-avatar, image, list-item-two-line, actions"
+        ></v-skeleton-loader>
+      </v-col>
+
       <v-col
           v-if="!loading"
           v-for="post in posts"
@@ -153,6 +155,9 @@ export default {
 
 <style lang="scss">
 
+.row {
+  overflow: hidden;
+}
 .post .post-info {
   width: 100%;
   padding: 1em 1em 0;

@@ -25,6 +25,7 @@ let routes = [
         name: 'logout',
         path: '/logout',
         component: () => import('~/views/Logout'),
+        props: route => ({ redirect: route.query.redirect || route.params.redirect })
     },
     {
         name: 'register',

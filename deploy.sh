@@ -7,3 +7,4 @@ composer install -o --no-dev
 composer dump-auto --apcu
 yarn install
 php artisan optimize
+yarn prod

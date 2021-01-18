@@ -4,11 +4,7 @@
         <notifications/>
 
         <v-main>
-            <v-container
-                    class="fill-height"
-            >
-                <router-view></router-view>
-            </v-container>
+            <router-view></router-view>
         </v-main>
 
     </v-app>
