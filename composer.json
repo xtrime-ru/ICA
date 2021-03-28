@@ -22,8 +22,8 @@
         "laravel/ui": "^3.0"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2.6",
-        "doctrine/dbal": "^2.9",
+        "barryvdh/laravel-ide-helper": "^2",
+        "doctrine/dbal": "^3",
         "facade/ignition": "^2.3",
         "nunomaduro/collision": "^5"
     },

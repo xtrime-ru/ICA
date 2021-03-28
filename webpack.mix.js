@@ -1,3 +1,4 @@
+let path = require('path');
 const mix = require('laravel-mix');
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
@@ -15,24 +16,23 @@ const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 mix
     .js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
+    .vue({
+        version:2,
+        extractStyles: false,
+        globalStyles: {
+            css: ['public/css/app.css'],
+        },
+    })
     .webpackConfig({
         resolve: {
             extensions: ['.js', '.json', '.vue', '.ts'],
             alias: {
-                '~': path.join(__dirname, './resources/js'),
-                'resources': path.join(__dirname, './resources'),
+                '~': path.join(__dirname, 'resources/js'),
+                'resources': path.join(__dirname, 'resources'),
             },
         },
         module: {
             rules: [
-                {
-                    test: /\.js?$/,
-                    exclude: /(bower_components)/,
-                    use: [{
-                        loader: "babel-loader",
-                        options: mix.config.babel()
-                    }]
-                },
                 {
                     test: /\.ts?$/,
                     use: [{
@@ -42,9 +42,6 @@ mix
                 }
             ]
         }
-    })
-    .options({
-        extractVueStyles: false
     })
     .browserSync({
         browser: "google chrome",

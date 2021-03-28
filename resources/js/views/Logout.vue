@@ -11,8 +11,7 @@
             redirect: String
         },
         async created() {
-            console.log(this.redirect)
-            //await this.$store.dispatch('user/logout')
+            await this.$store.dispatch('user/logout')
             if (!this.redirect) {
                 this.$router.back()
             } else {

@@ -3,9 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 /**
  * App\Models\UserPost
@@ -25,11 +23,10 @@ use Illuminate\Support\Facades\DB;
  * @method static Builder|UserPost query()
  * @mixin \Eloquent
  * @property \Illuminate\Support\Carbon|null $created_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPost whereCreatedAt($value)
+ * @method static Builder|UserPost whereCreatedAt($value)
  */
 class UserPost extends Model
 {
-    use HasFactory;
 
     protected $table = 'user_post';
 
