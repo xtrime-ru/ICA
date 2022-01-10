@@ -44,8 +44,9 @@ mix
         }
     })
     .browserSync({
-        browser: "google chrome",
-        proxy: '127.0.0.1:8000'
+        proxy: 'ica:8000',
+        port: 3000,
+        open: false,
     })
     .extend('vuetify', new class {
         webpackConfig (config) {

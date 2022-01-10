@@ -23,7 +23,6 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2",
-        "doctrine/dbal": "^3",
         "facade/ignition": "^2.3",
         "nunomaduro/collision": "^5"
     },
@@ -69,6 +68,7 @@
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta",
             "@php artisan ide-helper:models -W"
-        ]
+        ],
+        "docker-watch": "docker exec -it ica npm run watch"
     }
 }

@@ -1,14 +1,17 @@
-version: '3.5'
+version: '2.4'
 services:
   ica:
-    build: ./
+    image: xtrime/ica:latest
     container_name: ica
-    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
     volumes:
       - ./:/ica
       - ./docker/php/conf.d/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
     working_dir: /ica
-    entrypoint: "php artisan serve"
+    entrypoint: "php artisan serve --host 0.0.0.0"
     ports:
       - "127.0.0.1:8000:8000"
     depends_on:
@@ -19,15 +22,21 @@ services:
         max-size: "1024k"
         max-file: "2"
   mysql:
-    image: mariadb:10.5
+    image: mariadb:10.6
     container_name: ica-mysql
-    restart: unless-stopped
+    restart: always
     ports:
-      - "127.0.0.1:9507:3306"
+      - "127.0.0.1:9407:3306"
     volumes:
       - ./.mysql:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10k"
+        max-file: "2"
 networks:
   default:
+    external: no
     name: ica-network

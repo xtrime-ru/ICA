@@ -13,6 +13,11 @@ RUN apt-get update && apt-get upgrade -y \
 #    && PHP_OPENSSL=yes pecl install ev \
 #    && docker-php-ext-enable ev \
 #
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+#
 #    Чистим временные файлы
     && docker-php-source delete \
-    && apt-get autoremove --purge -y && apt-get autoclean -y && apt-get clean -y
+    && apt-get autoremove --purge -y && apt-get autoclean -y && apt-get clean -y \
+
+
+EXPOSE 8000
