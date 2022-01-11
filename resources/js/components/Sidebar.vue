@@ -76,6 +76,7 @@
             sideBarHover: null,
             items: [
                 {title: "Лента", icon: "mdi-view-headline", path: "/", access: roles.any},
+                {title: "Источники", icon: "mdi-apps", path: "/sources", access: roles.user},
                 {title: "Вход", icon: "mdi-login", path: "/login", access: roles.guest},
                 {title: "Регистрация", icon: "mdi-account", path: "/register", access: roles.guest},
                 {title: "Настройки", icon: "mdi-cog-outline", path: "/settings", access: roles.user},

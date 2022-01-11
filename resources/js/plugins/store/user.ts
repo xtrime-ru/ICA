@@ -1,4 +1,3 @@
-import _ from "lodash";
 import roles from "~/plugins/store/roles"
 
 const localStorageKey: string = 'user'
@@ -19,12 +18,12 @@ const guest: User = {
     api_token: null
 }
 
-let state = _.clone(guest)
+let state = Object.assign({}, guest)
 
 const mutations = {
     set(state: User, input: User): void {
         if (input.version && input.version !== guest.version) {
-            input = _.clone(guest)
+            input = Object.assign({}, guest)
         }
 
         state.version = input.version || guest.version

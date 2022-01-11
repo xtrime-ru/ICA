@@ -11,15 +11,12 @@
       <div>Нет постов :(</div>
     </v-alert>
 
-
-
-    <v-row dense>
+    <v-row>
       <v-col
           v-if="loading"
           v-for="item in 3"
           :key="item"
           :cols="12"
-          class="my-2"
       >
         <v-skeleton-loader
             class="post"
@@ -32,7 +29,6 @@
           v-for="post in posts"
           :key="post.id"
           :cols="12"
-          class="my-2"
       >
         <v-card class="post"
                 :link=true
@@ -55,7 +51,7 @@
               :src="post.image"
               :eager="true"
           />
-          <v-card-text>
+          <v-card-text class="post-text" v-if="post.description">
             {{ post.description }}
           </v-card-text>
 
@@ -110,7 +106,7 @@
 </template>
 
 <script>
-import {mapState, mapGetters} from "vuex"
+import {mapState} from "vuex"
 
 export default {
   computed: mapState({
@@ -154,30 +150,35 @@ export default {
 </script>
 
 <style lang="scss">
-
-.row {
-  overflow: hidden;
-}
-.post .post-info {
-  width: 100%;
-  padding: 1em 1em 0;
-  display: flex;
-  justify-content: space-between;
-
-  & img {
-    border-radius: 2px;
-    height: 2em;
-    width: auto;
+  .row {
+    overflow: hidden;
   }
-}
+  .post {
+    .post-info {
+      width: 100%;
+      padding: 1em 1em 0;
+      display: flex;
+      justify-content: space-between;
 
-.post .actions {
-  cursor: default;
-  max-width: 600px;
-  margin: 0 auto;
+      & img {
+        border-radius: 2px;
+        height: 2em;
+        width: auto;
+      }
+    }
 
-  & .v-btn {
-    vertical-align: sub;
+    .actions {
+      cursor: default;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2em 0;
+
+      & .v-btn {
+        vertical-align: sub;
+      }
+    }
+    .post-text {
+      padding-bottom: 0;
+    }
   }
-}
 </style>

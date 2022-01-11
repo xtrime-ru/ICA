@@ -9,7 +9,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
 
-class UpdateMetaController extends ApiController
+final class UpdateMetaController extends ApiController
 {
 
     private const VALIDATION_RULES = [
@@ -26,7 +26,7 @@ class UpdateMetaController extends ApiController
             throw new UnauthorizedException('Необходимо зарегистрироваться или войти');
         }
 
-        $this->validate($request, static::VALIDATION_RULES);
+        $this->validate($request, self::VALIDATION_RULES);
 
         $requestData = $request->get('posts');
         $requestData = array_combine(array_column($requestData, 'post_id'), array_values($requestData));
