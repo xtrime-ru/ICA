@@ -32,7 +32,7 @@ class UserPost extends Model
 
     protected static $unguarded = true;
 
-    public const UPDATED_AT = null;
+    public $timestamps = false;
 
     protected $primaryKey = ['user_id', 'post_id'];
     public $incrementing = false;

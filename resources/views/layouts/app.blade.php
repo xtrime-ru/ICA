@@ -6,11 +6,15 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+
     <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    <script src="{{ mix('build/app.js') }}" defer></script>
 
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('build/global.css') }}" rel="stylesheet">
+    <link href="{{ mix('build/vue.css') }}" rel="stylesheet">
+    <link href="{{ mix('build/app.css') }}" rel="stylesheet">
 </head>
 <body>
 <div id="app">

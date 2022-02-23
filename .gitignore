@@ -1,11 +1,9 @@
 /node_modules
 /public/hot
-/public/storage
-/public/js
-/public/css
+/public/build
 /public/fonts
 /public/mix-manifest.json
-/storage/*.key
+/storage
 /vendor
 .*
 composer.lock

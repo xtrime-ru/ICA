@@ -90,6 +90,9 @@ class RouterHelper
         if ($throwable instanceof AuthenticationException) {
             $code = 401;
         }
+        if ($throwable instanceof \PDOException || !is_int($code)) {
+            $code = 500;
+        }
 
         if ($code < 300 || $code >= 600 ) {
             $code = 400;

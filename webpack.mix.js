@@ -1,6 +1,7 @@
 let path = require('path');
 const mix = require('laravel-mix');
-const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const { VuetifyLoaderPlugin } = require('vuetify-loader')
+const del = require('del');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,16 +13,11 @@ const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
  | file for the application as well as bundling up all the JS files.
  |
  */
-
 mix
-    .js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
+    .js('resources/js/app.js', 'public/build/app.js')
     .vue({
-        version:2,
-        extractStyles: false,
-        globalStyles: {
-            css: ['public/css/app.css'],
-        },
+        version: 2,
+        extractStyles: 'public/build/vue.css',
     })
     .webpackConfig({
         resolve: {
@@ -39,23 +35,20 @@ mix
                         loader: "ts-loader",
                         options: { appendTsSuffixTo: [/\.vue$/] }
                     }]
-                }
+                },
             ]
-        }
+        },
+        plugins:[
+          new VuetifyLoaderPlugin()
+        ]
     })
+    .sass('resources/sass/app.scss', 'public/build/global.css')
     .browserSync({
         proxy: 'ica:8000',
         port: 3000,
         open: false,
     })
-    .extend('vuetify', new class {
-        webpackConfig (config) {
-            config.plugins.push(new VuetifyLoaderPlugin())
-        }
-    })
-    .vuetify()
 ;
-
 
 if (mix.inProduction()) {
     mix.version()

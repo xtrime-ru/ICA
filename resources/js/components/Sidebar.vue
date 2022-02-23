@@ -43,7 +43,7 @@
 
         <template v-slot:append>
             <v-footer color="transparent" elevation="0">
-                <span class="secondary--text text--lighten-3">&copy; {{new Date().getFullYear()}}</span>
+                <span class="copyright secondary--text text--lighten-3">&copy;&nbsp;{{new Date().getFullYear()}}</span>
             </v-footer>
         </template>
         <template v-slot:prepend>
@@ -101,5 +101,13 @@
         right: -6em!important;
         visibility: visible;
         margin: 12px;
+    }
+
+    .v-footer {
+      align-items: center;
+      justify-content: center;
+    }
+    .copyright {
+      font-size: 0.7rem;
     }
 </style>

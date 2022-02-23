@@ -179,6 +179,7 @@ export default {
     }
     .post-text {
       padding-bottom: 0;
+      font-size: 0.9rem;
     }
   }
 </style>

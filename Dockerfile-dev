@@ -1,7 +1,5 @@
 FROM xtrime/ica:latest
 
-RUN pecl install xdebug \
-    && curl -fsSL https://deb.nodesource.com/setup_16.x | bash -  \
-    && apt-get install -y nodejs
+RUN pecl install xdebug
 
 EXPOSE 9003

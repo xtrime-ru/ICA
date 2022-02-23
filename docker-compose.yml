@@ -1,4 +1,11 @@
 version: '2.4'
+x-logging:
+  &default-logging
+  driver: json-file
+  options:
+    max-size: '1m'
+    max-file: '2'
+
 services:
   ica:
     image: xtrime/ica:latest
@@ -11,16 +18,12 @@ services:
       - ./:/ica
       - ./docker/php/conf.d/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
     working_dir: /ica
-    entrypoint: "php artisan serve --host 0.0.0.0"
+    entrypoint: "composer install -o --no-dev && composer dump-auto --apcu && php artisan optimize && php artisan serve --host 0.0.0.0"
     ports:
       - "127.0.0.1:8000:8000"
     depends_on:
       - mysql
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1024k"
-        max-file: "2"
+    logging: *default-logging
   mysql:
     image: mariadb:10.6
     container_name: ica-mysql
@@ -28,14 +31,18 @@ services:
     ports:
       - "127.0.0.1:9407:3306"
     volumes:
-      - ./.mysql:/var/lib/mysql
+      - ./.mysql:/var/lib/mysql:delegated
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10k"
-        max-file: "2"
+    logging: *default-logging
+  npm:
+    image: node:16-alpine
+    container_name: ica-npm
+    volumes:
+      - ./:/ica
+    working_dir: /ica
+    entrypoint: "npm run production"
+    logging: *default-logging
 networks:
   default:
     external: no
