@@ -1,7 +1,6 @@
 let path = require('path');
 const mix = require('laravel-mix');
 const { VuetifyLoaderPlugin } = require('vuetify-loader')
-const del = require('del');
 
 /*
  |--------------------------------------------------------------------------
