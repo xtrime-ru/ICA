@@ -4,7 +4,7 @@
 namespace App\Parsers;
 
 
-use Psy\Util\Json;
+use Nette\Utils\Json;
 
 class ParserRules
 {
@@ -17,7 +17,7 @@ class ParserRules
     public function __construct(?array $rules)
     {
         foreach ($rules as $name => $rule) {
-            if (isset($this->{$name})) {
+            if (property_exists($this, $name)) {
                 $this->{$name} = $rule;
             }
         }

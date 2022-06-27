@@ -1,0 +1,109 @@
+id;category_id;url;social;name;access;icon;age_limit;user_id;parser_url;parser_rules;parser_type
+1;1;https://pikabu.ru/best;NULL;Пикабу: Лучшее;public;pikabu.png;0;1;https://pikabu.ru/search.php?r=5;"{
+""posts"":"".story:not(:last)"",
+""imgPath"":"".story__content img:eq(0)"",
+""headerPath"":"".story__title a"",
+""textPath"":"".story__content"",
+""urlPath"" : "".story__title a""
+}";html
+2;1;https://vk.com/mudakoff;vk;MDK;public;mdk.jpg;16;1;mudakoff;NULL;social
+3;1;https://vk.com/borsch;vk;Борщ;public;borsch.jpg;16;1;borsch;NULL;social
+4;1;https://d3.ru;NULL;D3;public;d3.png;0;1;https://d3.ru/rss/;NULL;rss
+5;1;http://trinixy.ru;NULL;Trinixy;public;trinixy.jpg;0;1;https://trinixy.ru/engine/rss.php;NULL;rss
+6;1;http://fishki.net;NULL;Fishki.net;public;fishki.png;0;1;https://fishki.net/rss/;NULL;rss
+7;1;https://vk.com/fuck_humor;vk;ЁП;public;fuck_humor.jpg;16;1;fuck_humor;NULL;social
+8;1;https://bash.im;NULL;bash.im;public;bash.png;0;1;https://bash.im/rss/;NULL;rss
+9;1;http://joyreactor.cc;NULL;Joyreactor;public;joyreactor.png;18;1;http://joyreactor.cc/rss;NULL;rss
+10;1;https://vk.com/leprum;vk;Лепра;public;leprum.jpg;1;1;leprum;NULL;social
+11;1;https://vk.com/rutube;vk;Rutube;public;rutube.jpg;0;1;rutube;NULL;social
+12;1;https://9gag.com;NULL;9gag;public;9gag.png;0;1;https://9gagrss.com/feed/;NULL;rss
+13;1;https://www.factroom.ru;NULL;Фактрум;public;factroom.png;0;1;https://www.factroom.ru/feed;NULL;rss
+14;1;https://vk.com/best_video_hd;vk;BestVideo;public;bestvideo.jpg;0;1;best_video_hd;NULL;social
+15;1;https://vk.com/souffrantmittelalter;vk;Страдающее Средневековье;public;souffrantmittelalter.jpg;0;1;souffrantmittelalter;NULL;social
+16;1;https://vk.com/just_str;vk;Just Story;public;juststory.jpg;0;1;just_str;NULL;social
+17;1;https://vk.com/fun_tyt;vk;Fun;public;fun.jpg;16;1;fun_tyt;NULL;social
+18;6;http://vk.com/science_technology;vk;Наука и техника;public;nauka.jpg;0;1;science_technology;NULL;social
+19;6;http://vk.com/discovery__world;vk;Discovery;public;discovery.jpg;0;1;discovery__world;NULL;social
+20;6;http://www.popmech.ru/;NULL;ПопМех;public;popmech.jpg;0;1;https://www.popmech.ru/out/public-all.xml;NULL;rss
+21;6;http://postnauka.ru/;NULL;ПостНаука;public;postnauka.jpg;0;1;https://postnauka.ru/feed;NULL;rss
+22;6;http://www.hi-news.ru/;NULL;hi-news;public;hinews.png;0;1;https://www.hi-news.ru/;"{
+""posts"":"".type-post"",
+""imgPath"":"".cover-wrap img:eq(0)"",
+""headerPath"":""h2, .inner-content span, .title"",
+""textPath"":"".text, p:eq(0)"",
+""urlPath"" : ""h2 a:eq(0), .main""
+}";html
+23;6;http://naked-science.ru/;NULL;Naked Science;public;nakedscience.jpg;0;1;https://naked-science.ru/feedrss.xml;NULL;rss
+24;4;http://www.rbc.ru/;NULL;РБК: Главное;public;rbc.jpg;0;1;https://static.feed.rbc.ru/rbc/logical/footer/news.rss;NULL;rss
+25;4;http://www.rbcdaily.ru/;NULL;РБК Daily;public;rbc.jpg;0;1;https://static.feed.rbc.ru/rbc/logical/footer/rbcdaily_last_issue.rss;NULL;rss
+26;4;https://lenta.ru/;NULL;Lenta.ru;public;lenta.png;0;1;https://lenta.ru/rss;NULL;rss
+27;4;https://meduza.io/;NULL;Meduza;public;meduza.jpg;0;1;meduzaproject;NULL;social
+28;4;https://republic.ru/;NULL;Republic;public;republic.jpg;0;1;republicmag;NULL;social
+29;5;https://tjournal.ru/;NULL;Tjournal;public;tjournal.jpg;0;1;https://tjournal.ru/rss/all;NULL;rss
+30;5;https://vc.ru/;NULL;VC.ru;public;vc.jpg;0;1;https://vc.ru/rss/all;NULL;rss
+31;5;https://habrahabr.ru/;NULL;Хабрахабр;public;habr.png;0;1;https://habrahabr.ru/rss/interesting/;NULL;rss
+32;5;https://geektimes.ru/;NULL;Geektimes;public;geektimes.png;0;1;https://geektimes.ru/rss/interesting/;NULL;rss
+33;5;https://www.iphones.ru/;NULL;Iphones.ru;public;iphones.png;0;1;https://www.iphones.ru/feed;NULL;rss
+34;5;https://www.3dnews.ru/news;NULL;3Dnews: Hard;public;3dnews.png;0;1;https://3dnews.ru/news/rss/;NULL;rss
+35;5;https://3dnews.ru/software-news;NULL;3Dnews: Soft;public;3dnews.png;0;1;https://3dnews.ru/software-news/rss/;NULL;rss
+36;5;http://hi-tech.mail.ru/;NULL;hi-tech@mail.ru;public;hi-tech@mail.ico;0;1;https://hi-tech.mail.ru/news/;"{
+""posts"":"".newsitem"",
+""imgPath"":""img:eq(0)"",
+""headerPath"":"".link-holder"",
+""textPath"":"".newsitem__text"",
+""urlPath"" : "".link-holder""
+}";html
+37;5;http://www.overclockers.ru/;NULL;Overclockers;public;overclockers.png;0;1;https://overclockers.ru/rss/news.rss;NULL;rss
+38;2;http://www.igromania.ru/;NULL;Игромания;public;igromania.png;0;1;https://www.igromania.ru/rss/all.rss;NULL;rss
+39;2;http://riotpixels.com/;NULL;RiotPixels;public;riotpixels.png;0;1;http://riotpixels.com/feed/;NULL;rss
+40;2;https://stopgame.ru/;NULL;StopGame;public;stopgame.jpg;0;1;stopgameru;NULL;social
+41;2;http://ru.ign.com/;NULL;ru.IGN;public;ign.png;0;1;https://ru.ign.com/feed.xml;NULL;rss
+42;7;http://www.the-village.ru/;NULL;The Village;public;village.png;0;1;https://www.the-village.ru/feeds/posts.atom;NULL;rss
+43;7;https://adme.ru/;NULL;AdMe;public;adme.jpg;0;1;https://www.adme.ru/rss/;NULL;rss
+44;10;https://www.championat.com/;NULL;Чемпионат.com;public;championat.png;0;1;https://www.championat.com/rss/article/;NULL;rss
+45;3;https://vk.com/public22798006;vk;Киномания;public;kinomania.jpg;0;1;owner_id=-22798006;NULL;social
+46;3;https://vk.com/exclusive_muzic;vk;Новинки музыки;public;goodmusic.jpg;0;1;exclusive_muzic;NULL;social
+47;3;https://vk.com/public_of_music;vk;Клубная музыка;public;public_of_music.jpg;0;1;public_of_music;NULL;social
+48;8;http://www.psychologies.ru/;NULL;Psychologies;public;psychologies.jpg;0;1;psychologiesrussia;NULL;social
+49;9;https://vk.com/motor;vk;Motor;public;motorvk.jpg;0;1;motor;NULL;social
+50;9;https://motor.ru/;NULL;Motor;public;motor.jpg;0;1;motorru;NULL;social
+51;9;http://www.kolesa.ru/;NULL;kolesa.ru;public;kolesa.png;0;1;kolesa_ru;NULL;social
+52;9;https://auto.mail.ru/;NULL;auto@mail.ru;public;auto@mail.ru.ico;0;1;automailru;NULL;social
+53;9;https://www.zr.ru/;NULL;ЗаРулем;public;zarulem.png;0;1;https://www.zr.ru/rss-yandex/;NULL;rss
+54;9;https://www.drive.ru/;NULL;Drive;public;drive.png;0;1;https://feeds.feedburner.com/drivenet?format=xml;NULL;rss
+55;9;https://topgearrussia.ru/;NULL;TopGear;public;topgear.png;0;1;goodcar;NULL;social
+56;9;https://vk.com/pubauto;vk;Auto;public;auto.jpg;0;1;pubauto;NULL;social
+57;9;https://vk.com/ru_chp;vk;РУ_ЧП;public;ruchp.jpg;18;1;ru_chp;NULL;social
+58;9;http://autokadabra.ru/;NULL;Автокадабра;public;autokadabra.png;16;1;https://autokadabra.ru/users/Xtrime/rss?rss_token=9a3a4d043673de1cf46802ca439cd8f7660067e4;NULL;rss
+59;9;https://vk.com/t4official;vk;time4race;public;time4race.png;0;1;t4official;NULL;social
+60;4;https://t.me/breakingmash;telegram;Mash;public;1d/df/1ddf7da7962c4bcc6ce950620b325179.jpg;16;1;breakingmash;NULL;social
+61;1;https://m.vk.com/vk.gifki;vk;Лучшие Гифки;public;cf/dd/cfdda44e72e54c79d995dabe0bdc8132.jpg;0;1;vk.gifki;NULL;social
+62;1;https://www.yaplakal.com/news.xml;NULL;ЯПлакалъ;public;b0/44/b044fcbb46efa215270dc016a4edd014.png;16;1;https://www.yaplakal.com/news.xml;NULL;rss
+63;2;https://www.youtube.com/user/stopgameru;youtube;StopGame.Ru;public;f9/b1/f9b1f25f83f0140aca812a37162e3f75.jpg;0;1;UUq7JZ8ATgQWeu6sDM1czjhg;NULL;social
+64;6;https://www.youtube.com/channel/UCIi2Tk2POJkRgWHD7HGBa7Q;youtube;Наука 2.0;public;f4/1b/f41b9f472dc68c56cd2b48c623697edb.jpg;0;1;UUIi2Tk2POJkRgWHD7HGBa7Q;NULL;social
+65;6;https://www.youtube.com/channel/UCSaVoRErW4kqKsDqExs2MXA;youtube;SciOne;public;1f/8b/1f8b8457212b2935f2425140dc4e9c3d.jpg;0;1;UUSaVoRErW4kqKsDqExs2MXA;NULL;social
+66;9;https://www.youtube.com/user/AutoreviewRu;youtube;AutoreviewRu;public;f7/8d/f78d34bd3b9163434cb76117719a2e03.jpg;0;1;UUqbqVFErhI8HbqSerYFIn7Q;NULL;social
+67;9;https://www.youtube.com/user/AcademeG;youtube;AcademeG;public;c1/57/c15732d3154c3523038fabcd41104816.jpg;0;1;UU0lT9K8Wfuc1KPqm6YjRf1A;NULL;social
+68;9;https://www.youtube.com/user/AvtoKriminalist;youtube;Максим Шелков;public;44/f2/44f21e5a15ea0b07bbaaa4d545c97492.jpg;0;1;UULlSts9lJLf90vFFNx7le4w;NULL;social
+69;3;https://www.youtube.com/channel/UC6cqazSR6CnVMClY0bJI0Lg;youtube;BadComedian;public;86/e0/86e0e69c7e8790019ed049ff3af8e111.jpg;0;1;UU6cqazSR6CnVMClY0bJI0Lg;NULL;social
+70;1;https://www.youtube.com/user/TheNafig;youtube;TheNafig;public;6b/89/6b89bfa18c0d3410618c56c9b3934ae6.jpg;0;1;UUuXYmUOJSbEH1x88WUV1aMg;NULL;social
+71;9;https://www.youtube.com/user/a21072;youtube;Антон Воротников;public;8a/65/8a6530e9770ef7a77c3d02c3f838d748.jpg;0;1;UUWZRANKlxNe_4QKiqBBCTOQ;NULL;social
+72;9;https://www.youtube.com/user/DragTimesInfo;youtube;DragtimesInfo;public;1a/ab/1aab4815317d151b35a1c9b3a1c99d15.jpg;0;1;UUT8Rf6QQeFADwyyPTrGgT4Q;NULL;social
+73;9;https://www.youtube.com/user/ZaRrubin;youtube;/ zaRRubin \;public;63/d2/63d24e39d5b7cb1b70eb01b052733096.jpg;0;1;UUBnJJcpyglvK7IDdNbCFsOQ;NULL;social
+74;6;https://www.youtube.com/channel/UCY6zVRa3Km52bsBmpyQnk6A;youtube;Vert Dider;public;48/25/4825490b740e74d02079acd8c18b1123.jpg;1;1;UUY6zVRa3Km52bsBmpyQnk6A;NULL;social
+75;2;https://www.youtube.com/channel/UC6bTF68IAV1okfRfwXIP1Cg;youtube;itpedia;public;2a/10/2a105f8674a4a3c0ec3ca16697c82c46.jpg;1;1;UU6bTF68IAV1okfRfwXIP1Cg;NULL;social
+76;1;https://www.youtube.com/channel/UCR-Hcwi27-Ee6VnGzmxE1pA;youtube;Данила Поперечный;public;1e/db/1edbe63e145db92ed40f8237754b67c3.jpg;0;1;UUR-Hcwi27-Ee6VnGzmxE1pA;NULL;social
+77;5;https://www.youtube.com/user/Wylsacom;youtube;Wylsacom;public;39/af/39af16b00f61f533828cd6370a5f46e7.jpg;0;1;UUt7sv-NKh44rHAEb-qCCxvA;NULL;social
+78;1;https://twitter.com/sandy_mustache;twitter;Усы Пескова;public;f2/f8/f2f8a0e18996d4d1d8225ee17008c24d.jpg;0;1;sandy_mustache;NULL;social
+79;11;https://varlamov.ru/data/rss;NULL;Make Russia warm again;public;e4/2b/e42b95677c3316cef31deab2f3670bff.png;0;1;https://varlamov.ru/data/rss;NULL;social
+80;11;https://twitter.com/yoshkinkrot;twitter;Ёшкин Крот;public;13/35/1335685b48439e461911ad51af4e602a.jpg;0;1;yoshkinkrot;NULL;social
+81;3;https://www.youtube.com/user/Mixadencik;youtube;iVideos;public;77/96/7796dcf2eb319470d44e786683b57747.jpg;0;1;UUs9tHGGpNjOMiCnbqTGA1PQ;NULL;social
+82;12;https://t.me/DeCenter;telegram;DeCenter – Биткоин и блокчейн;public;c7/c4/c7c4be558bc0444194391b5a28297e9e.jpg;0;1;DeCenter;NULL;social
+83;12;https://t.me/two_btc;telegram;Два Биткоина;public;fc/59/fc5957cfd20c4cc3d42dc72e5c0f2270.jpg;0;1;two_btc;NULL;social
+84;12;https://bits.media/rss.php;NULL;bits.media;public;3f/8c/3f8cd84cd698165335c9d89f399316bf.ico;0;1;https://bits.media/rss.php;NULL;rss
+85;1;https://www.boredpanda.com/feed/;NULL;Bored Panda;public;4f/37/4f373abaf02dd7953f2387041964764b.png;0;1;https://www.boredpanda.com/feed/;NULL;rss
+86;1;https://m.vk.com/bez_kota_i_zshizn_ne_ta;vk;СУПЕРКОТ  ツ;public;37/87/378707537cb465f0f716ddd6267e6196.jpg;0;1;bez_kota_i_zshizn_ne_ta;NULL;social
+87;1;https://www.youtube.com/channel/UCB6QSXhoaAR7mwsUFLp8jtw;youtube;Убежище Пирата;public;c6/f8/c6f84b1815c796dce938bfa0268103a1.jpg;0;1;UUB6QSXhoaAR7mwsUFLp8jtw;NULL;social
+88;5;https://www.youtube.com/channel/UC6uFoHcr_EEK6DgCS-LeTNA;youtube;PRO Hi-Tech;public;39/65/396577f5127bd681e9f94d21f1b0e632.jpg;0;1;UU6uFoHcr_EEK6DgCS-LeTNA;NULL;social
+89;12;https://forklog.com/feed/;NULL;ForkLog;public;90/c5/90c57f01559b68e3fc6855cf2f1689a5.png;0;1;https://forklog.com/feed/;NULL;rss
+90;1;https://vk.com/catism;vk;Котизм;public;87/a8/87a846142fcc713625344a89777b6b5d.jpg;0;1;catism;NULL;social

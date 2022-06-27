@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property int|null $category_id
- * @property int|null $social_id
+ * @property string|null $social
  * @property string $url
  * @property string|null $icon
  * @property string $name

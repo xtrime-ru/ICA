@@ -16,7 +16,7 @@ class CreateSourcesTable extends Migration
         Schema::create('sources', static function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('category_id')->nullable()->index();
-            $table->unsignedBigInteger('social_id')->nullable()->index();
+            $table->string('social', 64)->nullable()->index();
 
             $table->string('url', 2048);
             $table->string('icon', 255)->nullable();
@@ -34,7 +34,7 @@ class CreateSourcesTable extends Migration
             $table
                 ->enum(
                 'parser_type',
-                    ['rss', 'html', 'vk', 'fb', 'tg', 'instagram', 'youtube', 'twitter', 'web']
+                    ['rss', 'html', 'social', 'custom']
                 )
                 ->index()
             ;
@@ -51,10 +51,6 @@ class CreateSourcesTable extends Migration
             $table->foreign('category_id')
                 ->references('id')->on('categories')
                 ->onDelete('set null')
-            ;
-            $table->foreign('social_id')
-                ->references('id')->on('socials')
-                ->onDelete('cascade')
             ;
             $table->foreign('user_id')
                 ->references('id')->on('users')
