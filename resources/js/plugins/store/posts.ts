@@ -104,7 +104,6 @@ const actions = {
                 commit('setPosts', response.data.posts)
                 commit('setLastId', response.data.last_id)
                 commit('setHasMorePosts', response.data.has_more_posts)
-
             },
             (error: PostsResponse) => {
                 commit('setHasMorePosts', 0)

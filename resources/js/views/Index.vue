@@ -39,7 +39,7 @@
             <a :href="post.source.url" target="_blank">
               <img v-if="post.source.icon"
                    :alt="post.source.name"
-                   :src="post.source.icon"
+                   :src="'/icons/sources/' + post.source.icon"
               />
               <span v-if="!post.source.icon" >{{post.source.name}}</span>
             </a>
@@ -51,9 +51,7 @@
               :src="post.image"
               :eager="true"
           />
-          <v-card-text class="post-text" v-if="post.description">
-            {{ post.description }}
-          </v-card-text>
+          <v-card-text class="post-text" v-if="post.description">{{ post.description }}</v-card-text>
 
           <v-card-actions
               class="actions flex-fill d-flex justify-space-around"
@@ -178,6 +176,7 @@ export default {
       }
     }
     .post-text {
+      white-space: pre-wrap;
       padding-bottom: 0;
       font-size: 0.9rem;
     }
