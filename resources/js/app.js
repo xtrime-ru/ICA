@@ -31,6 +31,8 @@ Vue.use(require('vue-moment'), {
     moment
 })
 
+require('./plugins/filters');
+
 export const app = new Vue({
     el:'#app',
     store,

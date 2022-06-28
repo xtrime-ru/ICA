@@ -30,6 +30,7 @@
     "vue-template-compiler": "^2",
     "vuetify": "^2",
     "vuetify-loader": "^1",
-    "vuex": "^3"
+    "vuex": "^3",
+    "number-abbreviate": "^2.0.0"
   }
 }
