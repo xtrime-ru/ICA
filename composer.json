@@ -19,7 +19,8 @@
         "jaeger/querylist": "^4.1",
         "laravel/framework": "^8",
         "laravel/sanctum": "^2.1",
-        "laravel/ui": "^3.0"
+        "laravel/ui": "^3.0",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2",

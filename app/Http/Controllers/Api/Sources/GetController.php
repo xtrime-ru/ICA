@@ -5,12 +5,8 @@ namespace App\Http\Controllers\Api\Sources;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Category;
-use App\Models\Post;
 use App\Models\Source;
 use App\Models\UserSource;
-use Illuminate\Database\Query\JoinClause;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
 
 class GetController extends ApiController
 {
@@ -23,6 +19,7 @@ class GetController extends ApiController
             ->leftJoin('user_source as us', 'us.source_id', '=', 'id')
             ->orWhere('us.user_id', '=', $user->id)
             ->orWhere('access', '=', 'public')
+            ->withOnly([])
             ->get()
         ;
 
@@ -32,6 +29,7 @@ class GetController extends ApiController
             ->select(['source_id'])
             ->whereUserId($user->id)
             ->whereSelected(true)
+            ->withOnly([])
             ->get()
         ;
 

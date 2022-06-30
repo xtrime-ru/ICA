@@ -39,9 +39,10 @@
 </template>
 
 <script>
-const maxFieldLimit = 50
+const maxFieldLimit = 100
 const minFieldLimit = 3
-const minPasswordLimit = 8
+const maxPasswordLimit = 32
+const minPasswordLimit = 6
 
 export default {
   data: () => ({
@@ -56,7 +57,7 @@ export default {
     rules: {
       "required": v => !!v || "Обязательно поле",
       "textLength": v => (v && v.length <= maxFieldLimit && v.length >= minFieldLimit) || `Длина должна быть ${minFieldLimit} до ${maxFieldLimit} символов`,
-      "passwordLength": v => (v && v.length <= maxFieldLimit && v.length >= minPasswordLimit) || `Длина должна быть ${minPasswordLimit} до ${maxFieldLimit} символов`,
+      "passwordLength": v => (v && v.length <= maxPasswordLimit && v.length >= minPasswordLimit) || `Длина должна быть ${minPasswordLimit} до ${maxPasswordLimit} символов`,
       "email": v => /.+@.+\..+/.test(v) || "E-mail некорректен",
     },
   }),

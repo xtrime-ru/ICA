@@ -55,10 +55,10 @@
 
           <v-card-actions
               class="actions flex-fill d-flex justify-space-around"
-              v-on:click.prevent
+              @click.prevent
           >
             <v-item-group class="primary--text">
-              <v-btn icon v-on:click="updateMeta('liked', post)" color="primary">
+              <v-btn icon @click="updateMeta('liked', post)" color="primary">
                 <v-icon v-show="!post.meta.liked">mdi-heart-outline</v-icon>
                 <v-icon v-show="post.meta.liked">mdi-heart</v-icon>
               </v-btn>
@@ -66,7 +66,7 @@
             </v-item-group>
 
             <v-item-group class="primary--text">
-              <v-btn icon v-on:click="updateMeta('bookmarked', post)" color="primary">
+              <v-btn icon @click="updateMeta('bookmarked', post)" color="primary">
                 <v-icon v-show="!post.meta.bookmarked">mdi-bookmark-outline</v-icon>
                 <v-icon v-show="post.meta.bookmarked">mdi-bookmark</v-icon>
               </v-btn>
@@ -75,7 +75,7 @@
 
             <v-item-group class="primary--text">
               <v-btn icon
-                     v-on:click="openLink(post.url); updateMeta('viewed', post, true);"
+                     @click="openLink(post.url); updateMeta('viewed', post, true);"
                      v-intersect.once="onIntersect"
                      color="primary"
                      :postId="post.id"

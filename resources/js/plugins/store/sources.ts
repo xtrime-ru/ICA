@@ -4,7 +4,7 @@ import {HttpResponse} from "vue-resource/types/vue_resource"
 export interface Source {
     id: number,
     category_id: number,
-    social_id: number,
+    social: string,
     url: string,
     icon?: string,
     name: string,
@@ -46,7 +46,7 @@ interface ToggleResponse extends HttpResponse {
     },
 }
 
-let state: State = {
+const state: State = {
     categories: [],
     sources: new Map(),
     sources_enabled: new Map(),
@@ -122,7 +122,7 @@ const actions = {
         }
 
         commit('toggleSource', data.sourceId, data.enabled)
-        console.log(data)
+
         this._vm.$http.post("sources/toggle", {'source_id': data.sourceId, 'enabled': data.enabled}).then(
             (response: ToggleResponse) => {
             },

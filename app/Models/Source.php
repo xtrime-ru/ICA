@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Parsers\ParserRules;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\AsStringable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -20,7 +21,7 @@ use Illuminate\Support\Carbon;
  * @property string $name
  * @property string $access
  * @property bool $active
- * @property string $age_limit
+ * @property int $age_limit
  * @property int|null $user_id
  * @property int $likes
  * @property int $subscribers
@@ -76,7 +77,7 @@ class Source extends Model
     protected $visible = [
         'id',
         'category_id',
-        'social_id',
+        'social',
         'url',
         'icon',
         'name',
@@ -84,6 +85,10 @@ class Source extends Model
         'likes',
         'subscribers',
         'views',
+    ];
+
+    protected $casts = [
+        'age_limit' => 'integer',
     ];
 
     /**
@@ -104,5 +109,10 @@ class Source extends Model
     public function posts()
     {
         return $this->belongsToMany(Post::class, 'source_post');
+    }
+
+    public function getSocialAttribute($value): ?string
+    {
+        return $value === 'NULL' ? null : $value;
     }
 }
