@@ -13,6 +13,7 @@
             :color="snackbar.color"
             multi-line
             vertical
+            :absolute=true
             :timeout=-1
             dark
         >

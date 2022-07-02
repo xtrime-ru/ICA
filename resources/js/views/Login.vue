@@ -19,7 +19,7 @@
         />
         <v-text-field
             v-model="user.password"
-            :counter="fieldLimit"
+            :counter="passwordLimit"
             :rules="[rules.required, rules.passwordLength]"
             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show1 ? 'text' : 'password'"
@@ -48,6 +48,7 @@ export default {
   data: () => ({
     show1: false,
     fieldLimit: maxFieldLimit,
+    passwordLimit: maxPasswordLimit,
     valid: true,
     user: {
       email: "",
@@ -71,6 +72,11 @@ export default {
             },
             (errors) => {
               this.errors = errors
+              this.$store.commit("notifications/add", {
+                text: errors,
+                timeout: 0,
+                color: "error"
+              })
             }
         )
       }

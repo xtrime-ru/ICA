@@ -7,6 +7,7 @@
           ref="form"
           v-model="valid"
           @keydown.enter.native="submit"
+          :disabled="isDisabled"
       >
         <v-text-field
             v-model="user.name"
@@ -32,7 +33,7 @@
         />
         <v-text-field
             v-model="user.password"
-            :counter="fieldLimit"
+            :counter="passwordLimit"
             :rules="[rules.required, rules.passwordLength]"
             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="show1 = !show1"
@@ -45,7 +46,7 @@
         />
         <v-text-field
             v-model="user.password_confirmation"
-            :counter="fieldLimit"
+            :counter="passwordLimit"
             :rules="[rules.required, rules.passwordLength, passwordConfirmationRule]"
             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="show1 = !show1"
@@ -63,16 +64,19 @@
 </template>
 
 <script>
-const maxFieldLimit = 50
+const maxFieldLimit = 100
 const minFieldLimit = 3
-const minPasswordLimit = 8
+const minPasswordLimit = 6
+const maxPasswordLimit = 32
 
 export default {
   data: () => ({
     show1: false,
     fieldLimit: maxFieldLimit,
+    passwordLimit: maxPasswordLimit,
     valid: true,
     errors: [],
+    isDisabled: false,
     user: {
       name: "",
       email: "",
@@ -83,7 +87,7 @@ export default {
       "username": v => /^[\wа-я\d\._ -]*$/iu.test(v) || "Недопустимые символы",
       "required": v => !!v || "Обязательно поле",
       "textLength": v => (v && v.length <= maxFieldLimit && v.length >= minFieldLimit) || `Длина должна быть ${minFieldLimit} до ${maxFieldLimit} символов`,
-      "passwordLength": v => (v && v.length <= maxFieldLimit && v.length >= minPasswordLimit) || `Длина должна быть ${minPasswordLimit} до ${maxFieldLimit} символов`,
+      "passwordLength": v => (v && v.length <= maxPasswordLimit && v.length >= minPasswordLimit) || `Длина должна быть ${minPasswordLimit} до ${maxPasswordLimit} символов`,
       "email": v => /.+@.+\..+/.test(v) || "E-mail некорректен",
     },
   }),
@@ -95,16 +99,18 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
+        this.isDisabled = true;
         this.$store.dispatch("user/register", this.user).then(
             (response) => {
               this.$router.push("/login")
               this.$store.commit("notifications/add", {
                 text: "Регистрация завершена. На email отправлена ссылка для активации аккаунта.",
-                timeout: -1,
+                timeout: 0,
                 color: "info"
               })
             },
             (errors) => {
+              this.isDisabled = false;
               this.errors = errors
             }
         )
