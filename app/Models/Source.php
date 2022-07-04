@@ -53,7 +53,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Source whereParserRules($value)
  * @method static Builder|Source whereParserType($value)
  * @method static Builder|Source whereParserUrl($value)
- * @method static Builder|Source whereSocialId($value)
+ * @method static Builder|Source whereSocial($value)
  * @method static Builder|Source whereSubscribers($value)
  * @method static Builder|Source whereUpdatedAt($value)
  * @method static Builder|Source whereUrl($value)

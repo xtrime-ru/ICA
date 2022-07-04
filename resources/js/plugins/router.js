@@ -15,7 +15,7 @@ let routes = [
     {
         name: 'login',
         path: '/login',
-        component: () => import('~/views/Login'),
+        component: () => import('~/views/Auth/Login'),
         props: true,
         meta: {
             access: roles.guest
@@ -24,14 +24,23 @@ let routes = [
     {
         name: 'logout',
         path: '/logout',
-        component: () => import('~/views/Logout'),
+        component: () => import('~/views/Auth/Logout'),
         props: route => ({ redirect: route.query.redirect || route.params.redirect })
     },
     {
         name: 'register',
         path: '/register',
-        component: () => import('~/views/Register'),
+        component: () => import('~/views/Auth/Register'),
         props: true,
+        meta: {
+            access: roles.guest
+        }
+    },
+    {
+        name: 'repass',
+        path: '/password/reset/:token?',
+        component: () => import('~/views/Auth/Repass'),
+        props: route => ({ token: route.params.token, email: route.query.email }),
         meta: {
             access: roles.guest
         }

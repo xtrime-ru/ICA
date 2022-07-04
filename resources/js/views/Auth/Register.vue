@@ -66,7 +66,7 @@
 <script>
 const maxFieldLimit = 100
 const minFieldLimit = 3
-const minPasswordLimit = 6
+const minPasswordLimit = 8
 const maxPasswordLimit = 32
 
 export default {

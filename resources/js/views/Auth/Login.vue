@@ -39,10 +39,10 @@
 </template>
 
 <script>
-const maxFieldLimit = 100
+const maxFieldLimit = 255
 const minFieldLimit = 3
 const maxPasswordLimit = 32
-const minPasswordLimit = 6
+const minPasswordLimit = 8
 
 export default {
   data: () => ({

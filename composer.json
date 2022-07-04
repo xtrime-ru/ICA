@@ -15,17 +15,18 @@
     "require": {
         "php": "^8.1",
         "ext-json": "*",
+        "ext-pdo": "*",
         "ext-posix": "*",
         "jaeger/querylist": "^4.1",
-        "laravel/framework": "^8",
+        "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.1",
         "laravel/ui": "^3.0",
-        "ext-pdo": "*"
+        "league/flysystem": "3.1 as 1.99"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2",
-        "facade/ignition": "^2.3",
-        "nunomaduro/collision": "^5"
+        "spatie/laravel-ignition": "^1.0",
+        "nunomaduro/collision": "^6.1"
     },
     "config": {
         "optimize-autoloader": true,
@@ -66,8 +67,6 @@
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "@php artisan ide-helper:generate",
-            "@php artisan ide-helper:meta",
             "@php artisan ide-helper:models -W"
         ]
     }

@@ -43,7 +43,7 @@
 
         <template v-slot:append>
             <v-footer color="transparent" elevation="0">
-                <span class="copyright secondary--text text--lighten-3">&copy;&nbsp;{{new Date().getFullYear()}}</span>
+              <span class="copyright secondary--text text--lighten-3 d-inline-flex"><div style="transform: rotate(180deg)">&copy;</div>&nbsp;2015</span>
             </v-footer>
         </template>
         <template v-slot:prepend>
@@ -78,7 +78,8 @@
                 {title: "Лента", icon: "mdi-view-headline", path: "/", access: roles.any},
                 {title: "Источники", icon: "mdi-apps", path: "/sources", access: roles.user},
                 {title: "Вход", icon: "mdi-login", path: "/login", access: roles.guest},
-                {title: "Регистрация", icon: "mdi-account", path: "/register", access: roles.guest},
+                {title: "Регистрация", icon: "mdi-account-outline", path: "/register", access: roles.guest},
+                {title: "Сброс пароля", icon: "mdi-account-key-outline", path: "/password/reset", access: roles.guest},
                 {title: "Настройки", icon: "mdi-cog-outline", path: "/settings", access: roles.user},
             ]
         }),
