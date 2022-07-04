@@ -3,6 +3,8 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
 </head>
 <body>
 <style>
@@ -20,6 +22,23 @@ width: 100% !important;
 .button {
 width: 100% !important;
 }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212 !important;
+        color: #FFFFFF !important;
+    }
+    .body, .wrapper {
+        background: #121212 !important;
+        border: none !important;
+    }
+    .inner-body {
+        background-color: #1E1E1E !important;
+    }
+    h1, .footer a, .footer p {
+        color: #ffffff !important;
+    }
 }
 </style>
 
