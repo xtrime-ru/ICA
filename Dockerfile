@@ -21,3 +21,5 @@ RUN apt-get update && apt-get upgrade -y \
 
 
 EXPOSE 8000
+
+ENTRYPOINT ["/bin/bash", "-c"]

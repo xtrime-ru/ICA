@@ -10,10 +10,11 @@ services:
       - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     ports:
       - "9003"
-    entrypoint: "php artisan serve --host 0.0.0.0"
+    command:
+      - "php artisan serve --host 0.0.0.0"
     environment:
       PHP_IDE_CONFIG: "serverName=Docker"
   npm:
     ports:
       - "127.0.0.1:3000:3000"
-    entrypoint: "npm run watch"
+    command: "npm run watch"

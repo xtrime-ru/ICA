@@ -13,12 +13,13 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    restart: always
+    restart: 'no'
     volumes:
       - ./:/ica
       - ./docker/php/conf.d/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
     working_dir: /ica
-    entrypoint: "composer install -o --no-dev && composer dump-auto --apcu && php artisan optimize && php artisan serve --host 0.0.0.0"
+    command:
+      - "composer install -o --no-dev && composer dump-auto --apcu && php artisan optimize && php artisan serve --host 0.0.0.0"
     ports:
       - "127.0.0.1:8000:8000"
     depends_on:
@@ -41,7 +42,7 @@ services:
     volumes:
       - ./:/ica
     working_dir: /ica
-    entrypoint: "npm run production"
+    command: "npm run production"
     logging: *default-logging
 networks:
   default:

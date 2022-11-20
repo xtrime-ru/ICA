@@ -1,10 +1,12 @@
 // Fonts
 @import '~@mdi/font/css/materialdesignicons.min.css';
 
-// Variables
-@import 'variables';
 
 #app {
+    .v-application{
+        font-family: "Open Sans", sans-serif;
+    }
+
     .v-main {
         padding: initial;
 
