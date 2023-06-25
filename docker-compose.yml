@@ -26,7 +26,7 @@ services:
       - mysql
     logging: *default-logging
   mysql:
-    image: mariadb:10.8
+    image: mariadb:10.9
     container_name: ica-mysql
     restart: always
     ports:
@@ -34,10 +34,15 @@ services:
     volumes:
       - ./.mysql:/var/lib/mysql:delegated
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
+      MARIADB_AUTO_UPGRADE: 'yes'
+    command:
+      - --skip-grant-tables
+      - --innodb-buffer-pool-size=32M
+      - --wait_timeout=65
     logging: *default-logging
   npm:
-    image: node:18-alpine
+    image: node:20-alpine
     container_name: ica-npm
     volumes:
       - ./:/ica
@@ -46,5 +51,5 @@ services:
     logging: *default-logging
 networks:
   default:
-    external: no
+    external: false
     name: ica-network

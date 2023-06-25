@@ -12,9 +12,8 @@
     <script src="{{ mix('build/app.js') }}" defer></script>
 
     <!-- Styles -->
-    <link href="{{ mix('build/global.css') }}" rel="stylesheet">
-    <link href="{{ mix('build/vue.css') }}" rel="stylesheet">
     <link href="{{ mix('build/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('build/global.css') }}" rel="stylesheet">
 </head>
 <body>
 <div id="app">

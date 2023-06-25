@@ -15,8 +15,9 @@ const { VuetifyLoaderPlugin } = require('vuetify-loader')
 mix
     .js('resources/js/app.js', 'public/build/app.js')
     .vue({
-        version: 2,
-        extractStyles: 'public/build/vue.css',
+      version: 2,
+      extractStyles: true,
+      useVueStyleLoader: true,
     })
     .webpackConfig({
         resolve: {
@@ -38,7 +39,7 @@ mix
             ]
         },
         plugins:[
-          new VuetifyLoaderPlugin()
+          new VuetifyLoaderPlugin(),
         ]
     })
     .sass('resources/sass/app.scss', 'public/build/global.css')

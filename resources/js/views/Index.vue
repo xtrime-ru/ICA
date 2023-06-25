@@ -178,7 +178,7 @@ export default {
     .post-text {
       white-space: pre-wrap;
       padding-bottom: 0;
-      font-size: 0.9rem;
+      //font-size: 0.9rem;
     }
   }
 </style>

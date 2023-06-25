@@ -13,6 +13,7 @@
 
 use App\Helpers\RouterHelper;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpFoundation\Response;
 
 Route::any(
@@ -24,9 +25,11 @@ Route::any(
         try {
             $controller = RouterHelper::getFirstExistingController($controllers);
             $result = app()->call($controller);
-        } catch (\BadMethodCallException $exception) {
-            $result = RouterHelper::getErrorResponse(["Incorrect path: $path"], 404);
-        } catch (\Throwable $exception) {
+        } catch (UnauthorizedException $e) {
+            $result = RouterHelper::getErrorResponse([$e->getMessage()], 401);
+        } catch (BadMethodCallException $exception) {
+            $result = RouterHelper::getErrorResponse([trans('errors.404')], 404);
+        } catch (Throwable $exception) {
             $errors = RouterHelper::getExceptionErros($exception);
             $code = RouterHelper::getExceptionCode($exception);
 

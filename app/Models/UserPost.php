@@ -21,9 +21,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|UserPost newModelQuery()
  * @method static Builder|UserPost newQuery()
  * @method static Builder|UserPost query()
- * @mixin \Eloquent
  * @property \Illuminate\Support\Carbon|null $created_at
  * @method static Builder|UserPost whereCreatedAt($value)
+ * @mixin \Eloquent
  */
 class UserPost extends Model
 {

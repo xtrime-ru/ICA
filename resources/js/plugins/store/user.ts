@@ -25,7 +25,7 @@ const mutations = {
         if (input.version && input.version !== guest.version) {
             input = Object.assign({}, guest)
         }
-
+        console.log(input)
         state.version = input.version || guest.version
         state.api_token = input.api_token
         state.role = input.role
@@ -73,6 +73,7 @@ const actions = {
                             color:'error'
                         }, {root:true})
                     }
+
                     commit('set', guest)
                 }
             }

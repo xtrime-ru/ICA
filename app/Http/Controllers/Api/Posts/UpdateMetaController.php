@@ -23,7 +23,7 @@ final class UpdateMetaController extends ApiController
     public function index(Request $request): array
     {
         if (!$user = $this->getUser()) {
-            throw new UnauthorizedException('Необходимо зарегистрироваться или войти');
+            throw new UnauthorizedException(trans('errors.401'));
         }
 
         $this->validate($request, self::VALIDATION_RULES);

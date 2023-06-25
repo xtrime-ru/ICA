@@ -11,3 +11,9 @@ This is the draft of the new version of https://i-c-a.su
 ## Update
 - `docker-compose exec -e 'XDEBUG_MODE=off' ica composer update`
 - `docker-compose exec npm npm update`
+
+## TODO
+- Parsers
+- User sources
+- Pagination
+- Filers for feed

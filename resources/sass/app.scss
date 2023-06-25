@@ -1,6 +1,9 @@
 // Fonts
 @import '~@mdi/font/css/materialdesignicons.min.css';
 
+html {
+    font-size: 18px !important;
+}
 
 #app {
     .v-application{

@@ -1,7 +1,8 @@
-FROM php:8.1-cli
+FROM php:8.2-cli
 
-RUN apt-get update && apt-get upgrade -y \
-    && apt-get install apt-utils -y \
+RUN apt-get update && apt-get upgrade -y
+
+RUN  apt-get install apt-utils -y \
 #
 #    устанавливаем необходимые пакеты
     && apt-get install git zip vim libzip-dev  -y \

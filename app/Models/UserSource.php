@@ -16,8 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|UserSource newModelQuery()
  * @method static Builder|UserSource newQuery()
  * @method static Builder|UserSource query()
- * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserSource whereSelected($value)
+ * @mixin \Eloquent
  */
 class UserSource extends Model
 {
