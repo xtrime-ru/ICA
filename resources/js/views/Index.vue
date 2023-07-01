@@ -2,104 +2,118 @@
   <v-container class="fill-height">
     <h1 class="primary--text">Лента</h1>
 
-    <v-alert
-        v-if="posts.length === 0 && !hasMorePosts"
-        outlined
-        type="warning"
-        color="primary"
-    >
-      <div>Нет постов :(</div>
-    </v-alert>
+      <v-alert
+              v-if="posts.length === 0 && !hasMorePosts"
+              outlined
+              type="warning"
+              color="primary"
+              class="flex"
+      >
+          <div>Нет постов :(</div>
+      </v-alert>
 
     <v-row>
-      <v-col
-          v-if="loading"
-          v-for="item in 3"
-          :key="item"
-          :cols="12"
-      >
-        <v-skeleton-loader
-            class="post"
-            type="list-item-avatar, image, list-item-two-line, actions"
-        ></v-skeleton-loader>
-      </v-col>
 
-      <v-col
-          v-if="!loading"
-          v-for="post in posts"
-          :key="post.id"
-          :cols="12"
-      >
-        <v-card class="post"
-                :link=true
-                target="_blank"
-                :href="post.url"
+        <v-col
+                v-if="loading"
+                v-for="item in 10"
+                :key="'sk'+item"
+                :cols="12"
+                style="width: 100%"
         >
-          <v-item-group class="post-info">
-            <a :href="post.source.url" target="_blank">
-              <img v-if="post.source.icon"
-                   :alt="post.source.name"
-                   :src="'/icons/sources/' + post.source.icon"
-              />
-              <span v-if="!post.source.icon" >{{post.source.name}}</span>
-            </a>
-            <span>{{ post.created_at | moment("from", "now") }}</span>
-          </v-item-group>
-          <v-card-title v-if="post.title" v-text="post.title"/>
-          <v-img
-              v-if="post.image"
-              :src="post.image"
-              :eager="true"
-          />
-          <v-card-text class="post-text" v-if="post.description">{{ post.description }}</v-card-text>
-
-          <v-card-actions
-              class="actions flex-fill d-flex justify-space-around"
-              @click.prevent
+            <v-skeleton-loader
+                    class="post"
+                    type="list-item-avatar, image, list-item-two-line, actions"
+            ></v-skeleton-loader>
+        </v-col>
+      <transition name="fade">
+          <div class="transition-wrapper" v-if="!loading" >
+            <v-col
+              v-for="post in posts"
+              :key="post.id"
+              :cols="12"
           >
-            <v-item-group class="primary--text">
-              <v-btn icon @click="updateMeta('liked', post)" color="primary">
-                <v-icon v-show="!post.meta.liked">mdi-heart-outline</v-icon>
-                <v-icon v-show="post.meta.liked">mdi-heart</v-icon>
-              </v-btn>
-              <span>{{ post.meta.likes }}</span>
-            </v-item-group>
+            <v-card
+                    class="post fade-enter-active"
+                    :link=true
+                    target="_blank"
+                    :href="post.url"
+            >
+              <v-item-group class="post-info">
+                <a :href="post.source.url" target="_blank">
+                  <img v-if="post.source.icon"
+                       :alt="post.source.name"
+                       :src="'/icons/sources/' + post.source.icon"
+                  />
+                  <span v-if="!post.source.icon" >{{post.source.name}}</span>
+                </a>
+                <span>{{ post.created_at | moment("from", "now") }}</span>
+              </v-item-group>
+              <v-card-title v-if="post.title" v-text="post.title"/>
+              <v-img
+                  v-if="post.image"
+                  :src="post.image"
+                  :eager="true"
+              />
+              <v-card-text class="post-text" v-if="post.description">{{ post.description }}</v-card-text>
 
-            <v-item-group class="primary--text">
-              <v-btn icon @click="updateMeta('bookmarked', post)" color="primary">
-                <v-icon v-show="!post.meta.bookmarked">mdi-bookmark-outline</v-icon>
-                <v-icon v-show="post.meta.bookmarked">mdi-bookmark</v-icon>
-              </v-btn>
-              <span>{{ post.meta.bookmarks }}</span>
-            </v-item-group>
-
-            <v-item-group class="primary--text">
-              <v-btn icon
-                     @click="openLink(post.url); updateMeta('viewed', post, true);"
-                     v-intersect.once="onIntersect"
-                     color="primary"
-                     :postId="post.id"
+              <v-card-actions
+                  class="actions flex-fill d-flex justify-space-around"
+                  @click.prevent
               >
-                <v-icon v-show="!post.meta.viewed">mdi-eye-outline</v-icon>
-                <v-icon v-show="post.meta.viewed">mdi-eye</v-icon>
-              </v-btn>
-              <span>{{ post.meta.views }}</span>
-            </v-item-group>
+                <v-item-group class="primary--text">
+                  <v-btn icon @click="updateMeta('liked', post)" color="primary">
+                    <v-icon v-show="!post.meta.liked">mdi-heart-outline</v-icon>
+                    <v-icon v-show="post.meta.liked">mdi-heart</v-icon>
+                  </v-btn>
+                  <span>{{ post.meta.likes }}</span>
+                </v-item-group>
 
-          </v-card-actions>
-        </v-card>
-      </v-col>
+                <v-item-group class="primary--text">
+                  <v-btn icon @click="updateMeta('bookmarked', post)" color="primary">
+                    <v-icon v-show="!post.meta.bookmarked">mdi-bookmark-outline</v-icon>
+                    <v-icon v-show="post.meta.bookmarked">mdi-bookmark</v-icon>
+                  </v-btn>
+                  <span>{{ post.meta.bookmarks }}</span>
+                </v-item-group>
+
+                <v-item-group class="primary--text">
+                  <v-btn icon
+                         @click="openLink(post.url); updateMeta('viewed', post, true);"
+                         v-intersect.once="onIntersectPost"
+                         color="primary"
+                         :postId="post.id"
+                  >
+                    <v-icon v-show="!post.meta.viewed">mdi-eye-outline</v-icon>
+                    <v-icon v-show="post.meta.viewed">mdi-eye</v-icon>
+                  </v-btn>
+                  <span>{{ post.meta.views }}</span>
+                </v-item-group>
+
+              </v-card-actions>
+            </v-card>
+          </v-col>
+          </div>
+      </transition>
     </v-row>
-    <v-btn
-        v-if="hasMorePosts && !loading"
-        @click="fetchData(false)"
-        block
-        dark
-        x-large
-        class="mt-10 primary--text"
+
+    <div
+            v-show="hasMorePosts && !loading"
+            v-intersect="{
+              handler: onIntersectLoader,
+              options: {
+                threshold: 0.95
+              }
+            }"
+            class="infinity_loader"
     >
-      Load more
-    </v-btn>
+        <div class="loader_msg">
+            <span  v-if="touch"  class="mdi mdi-gesture-swipe-down"></span>
+            <span  v-if="!touch"  class="mdi mdi-mouse-move-down"></span>
+            <p>{{infinityLoaderText}}</p>
+        </div>
+
+    </div>
   </v-container>
 </template>
 
@@ -107,15 +121,20 @@
 import {mapState} from "vuex"
 
 export default {
+  data() {
+    return {
+      touch: false,
+      infinityLoaderText: '',
+    }
+  },
   computed: mapState({
     posts: state => state.posts.posts,
     hasMorePosts: state => state.posts.hasMorePosts,
-    loading: state => state.posts.loading
+    loading: state => state.posts.loading,
   }),
   methods: {
     fetchData(reload = true) {
       this.$store.dispatch("posts/load", reload);
-      window.scrollTo(0,0);
     },
     updateMeta: function (property, post, value) {
       if (value === undefined) {
@@ -126,7 +145,7 @@ export default {
     openLink: function(url) {
       window.open(url, '_blank');
     },
-    onIntersect (entries, observer, isIntersected) {
+    onIntersectPost (entries, observer, isIntersected) {
       if (!isIntersected) {
         return;
       }
@@ -136,10 +155,26 @@ export default {
       if (!post.meta.viewed) {
         this.updateMeta('viewed', post, true)
       }
+    },
+    onIntersectLoader (entries, observer) {
+      if (entries[0].intersectionRatio >= 0.5) {
+        this.$vuetify.goTo(0, {
+          duration: 500,
+          offset: 0,
+          easing: "easeInOutCubic",
+        })
+        this.fetchData(false)
+      }
     }
   },
   created() {
     this.fetchData(true);
+    this.touch = ('ontouchstart' in window);
+    if (this.touch) {
+      this.infinityLoaderText = 'Потяните вниз, что бы открыть следующую страницу.';
+    } else {
+      this.infinityLoaderText = 'Прокрутите вниз, что бы открыть следующую страницу.';
+    }
   },
   watch: {
     '$route': 'fetchData'
@@ -148,8 +183,20 @@ export default {
 </script>
 
 <style lang="scss">
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 1s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
+
   .row {
     overflow: hidden;
+    min-height: 100vh;
+
+    .transition-wrapper {
+      width: 100%;
+    }
   }
   .post {
     .post-info {
@@ -179,6 +226,41 @@ export default {
       white-space: pre-wrap;
       padding-bottom: 0;
       //font-size: 0.9rem;
+    }
+  }
+
+  .infinity_loader {
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+
+    .loader_msg {
+      padding-top: 4em;
+
+      span {
+        display: inline-block;
+
+        font-size: 4em;
+        animation: animation-bounce 1000ms linear infinite;
+      }
+
+      @keyframes animation-bounce {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        10%,90%{
+          transform: translateY(-5px);
+        }
+        40%, 80% {
+          transform: translateY(-30px);
+        }
+        50% {
+          transform: translateY(-55px);
+        }
+        60%{
+          transform: translateY(-60px);
+        }
+      }
     }
   }
 </style>

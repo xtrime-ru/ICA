@@ -15,5 +15,4 @@ This is the draft of the new version of https://i-c-a.su
 ## TODO
 - Parsers
 - User sources
-- Pagination
-- Filers for feed
+- Filters for feed
