@@ -5,6 +5,7 @@ namespace App\Log;
 
 
 use Monolog\Formatter\LineFormatter;
+use Monolog\LogRecord;
 use Monolog\Utils;
 
 class StdOutFormatter extends LineFormatter
@@ -20,9 +21,9 @@ class StdOutFormatter extends LineFormatter
         parent::__construct($format, $dateFormat, $allowInlineLineBreaks, $ignoreEmptyContextAndExtra);
     }
 
-    public function format(array $record): string
+    public function format(LogRecord $record): string
     {
-        $vars = $this->normalize($record);
+        $vars = $this->normalizeRecord($record);
 
         $output = $this->format;
 
