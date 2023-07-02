@@ -13,7 +13,7 @@ class SourcesTableSeeder extends Seeder
 
         $columns = [];
         while(!feof($pointer)) {
-            $row = fgetcsv($pointer, null, ';');
+            $row = fgetcsv($pointer);
             if ($row) {
                 if (!$columns) {
                     $columns = $row;
@@ -42,7 +42,17 @@ class SourcesTableSeeder extends Seeder
             );
             $source['next_parse_at'] = strtotime('+10 minutes');
             var_dump($source);
-            Source::create($source)->save();
+            foreach ($source as $key => $value) {
+                if ($value === "\\N" || strtolower($value) === 'null') {
+                    $source[$key] = null;
+                }
+            }
+
+            if ($source['icon']) {
+                $source['icon'] = hex2bin(str_replace('0x', '', $source['icon']));
+            }
+
+            Source::create($source);
         }
     }
 }
