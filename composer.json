@@ -24,9 +24,9 @@
         "league/flysystem": "3.15 as 1.99"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "^2",
-        "spatie/laravel-ignition": "^2",
-        "nunomaduro/collision": "^7"
+        "barryvdh/laravel-ide-helper": "^2.13",
+        "nunomaduro/collision": "^7",
+        "spatie/laravel-ignition": "^2"
     },
     "config": {
         "optimize-autoloader": true,
@@ -67,7 +67,8 @@
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "@php artisan ide-helper:models -W"
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
         ]
     }
 }
