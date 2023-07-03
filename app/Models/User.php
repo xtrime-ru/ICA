@@ -79,12 +79,4 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public static function getTokenName(Request $request): string
-    {
-        if ($request->header('User-Agent')) {
-            return 'web';
-        }
-
-        return 'other';
-    }
 }

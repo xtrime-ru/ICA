@@ -11,10 +11,11 @@ use QL\QueryList;
 
 class HtmlParser extends BaseParser
 {
-    /** @var ParserRules */
-    private $rules;
+    public const TYPE = 'html';
+    protected ParserRules $rules;
 
-    private $headers = [];
+    private array $headers = [];
+    private Client $client;
 
     public function run()
     {
@@ -29,10 +30,19 @@ class HtmlParser extends BaseParser
 
     }
 
-    private function loadSource(): string
+    public function setClient(Client $client): void
     {
-        $client = new Client(['timeout'=>3.0]);
-        $response = $client->get($this->url);
+        $this->client = $client;
+    }
+
+    protected function getPostUrl(Elements $element): ?string
+    {
+        return $element->find($this->rules->urlPath)->eq(0)->attr('href');
+    }
+
+    protected function loadSource(): string
+    {
+        $response = $this->client->get($this->url);
         $body = (string) $response->getBody();
         $this->headers = $response->getHeaders();
 
@@ -42,7 +52,7 @@ class HtmlParser extends BaseParser
         return $body;
     }
 
-    private function prepareDom($body): QueryList
+    protected function prepareDom($body): QueryList
     {
         $body = $this->convertEncoding($body);
         $body = $this->deleteScripts($body);
@@ -52,13 +62,13 @@ class HtmlParser extends BaseParser
 
     }
 
-    private function convertEncoding(string $body): string
+    protected function convertEncoding(string $body): string
     {
         $body = mb_convert_encoding($body, 'UTF-8', $this->getCharset($body));
         return $body;
     }
 
-    private function getCharset(string $body)
+    protected function getCharset(string $body): ?string
     {
         preg_match('/charset=(["\']?)([-\w]+)\1/', $this->headers['Content-Type'][0] ?? '', $matches);
         if (empty($matches[2])) {
@@ -126,7 +136,7 @@ class HtmlParser extends BaseParser
      *
      * @return Post[]
      */
-    private function findPosts(QueryList $dom): array
+    protected function findPosts(QueryList $dom): array
     {
         $posts = $dom->find($this->rules->posts);
         $result = [];
@@ -143,10 +153,14 @@ class HtmlParser extends BaseParser
 
     private function parsePost(Elements $element): ?Post
     {
-        $url = $element->find($this->rules->urlPath)->eq(0)->attr('href');
+        $url = $this->getPostUrl($element);
         if (!$url) {
+            Log::notice('No url in post', [
+                'element' => $element->htmlOuter(),
+            ]);
             return null;
         }
+        /** @var Post $post */
         $post = Post::firstOrNew(['url' => $url]);
 
         if ($this->rules->headerPath) {

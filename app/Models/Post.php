@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\TextHelper;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -37,7 +38,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Post whereTitle($value)
  * @method static Builder|Post whereUrl($value)
  * @method static Builder|Post whereViews($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserPost[] $userPost
+ * @property-read Collection|UserPost[] $userPost
  * @property-read int|null $user_post_count
  * @mixin \Eloquent
  */
@@ -56,23 +57,30 @@ class Post extends Model
         'bookmarked' => 'bookmarks'
     ];
 
-    public function setTitleAttribute($text)
+    public function title(): Attribute
     {
-        $text = TextHelper::htmlToText($text);
-        $text = TextHelper::cropText($text, self::TITLE_LENGTH, static::TRIM_PLACEHOLDER);
-
-        return $this->attributes['title'] = ($text ?: null);
+        return Attribute::make(
+            set: function (string $text) {
+                $text = TextHelper::htmlToText($text);
+                $text = TextHelper::cropText($text, self::TITLE_LENGTH, static::TRIM_PLACEHOLDER);
+                return ($text ?: null);
+            }
+        );
     }
 
-    public function setDescriptionAttribute($text)
+    public function description(): Attribute
     {
-        $text = TextHelper::htmlToText($text);
-        $text = TextHelper::cropText($text, self::DESCRIPTION_LENGTH, static::TRIM_PLACEHOLDER);
-
-        return $this->attributes['description'] = ($text ?: null);
+        return Attribute::make(
+            set: function (string $text) {
+                $text = TextHelper::htmlToText($text);
+                $text = TextHelper::cropText($text, self::DESCRIPTION_LENGTH, static::TRIM_PLACEHOLDER);
+                return ($text ?: null);
+            }
+        );
     }
 
     public function updateUserMeta(User $user, array $meta): UserPost {
+        /** @var UserPost $postMeta */
         $postMeta = $this->userPost()->firstOrCreate([
             'user_id' => $user->id,
             'post_id' => $this->id,

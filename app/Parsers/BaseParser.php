@@ -6,11 +6,10 @@ namespace App\Parsers;
 
 use App\Models\Source;
 
-class BaseParser  implements ParserInterface
+abstract class BaseParser  implements ParserInterface
 {
-    /** @var Source */
-    protected $source;
-    protected $url;
+    protected Source $source;
+    protected string $url;
 
     public function __construct(Source $source)
     {
@@ -18,5 +17,5 @@ class BaseParser  implements ParserInterface
         $this->url = $source->parser_url;
     }
 
-    public function run() {}
+    public abstract function run();
 }
