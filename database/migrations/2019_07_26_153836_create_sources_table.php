@@ -19,7 +19,6 @@ class CreateSourcesTable extends Migration
             $table->unsignedBigInteger('category_id')->nullable()->index();
             $table->string('social', 64)->nullable()->index();
             $table->string('url', 2048);
-            $table->mediumText('icon')->nullable();
             $table->string('name', 255);
             $table->enum('access', ['public', 'personal'])->default('personal');
             $table->boolean('active')->default(true);
@@ -58,7 +57,7 @@ class CreateSourcesTable extends Migration
             ;
         });
 
-        DB::statement('ALTER TABLE sources MODIFY COLUMN icon MEDIUMBLOB');
+
     }
 
     /**

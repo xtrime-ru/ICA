@@ -101,12 +101,7 @@ class RouterHelper
         return $code;
     }
 
-    /**
-     * @param Response|array $response
-     *
-     * @return JsonResponse
-     */
-    public static function formatResponse($response): JsonResponse
+    public static function formatResponse(Response|array|null $response): Response
     {
         if (!$response instanceof Response) {
             $response = response()->json($response);

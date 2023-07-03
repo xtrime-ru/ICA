@@ -6,7 +6,7 @@ export interface Source {
     category_id: number,
     social: string,
     url: string,
-    icon?: string,
+    icon_url?: string,
     name: string,
     age_limit: number,
     likes: number,
@@ -100,8 +100,9 @@ const actions = {
                 commit('setSourcesEnabled', response.body.sources_enabled)
             },
             (error: SourcesResponse): void => {
+                const errors = error.body.errors;
                 dispatch('notifications/add', {
-                    text: 'Ошибка при загрузке источников: ' + error.body.errors.join('; '),
+                    text: 'Ошибка при загрузке источников: ' + (errors ? errors.join('; ') : ''),
                     timeout: 5000,
                     color: 'error'
                 }, {root: true})

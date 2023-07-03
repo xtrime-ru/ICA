@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Parsers\ParserRules;
+use App\Parsers\ParserRulesCast;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\AsStringable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -17,7 +18,6 @@ use Illuminate\Support\Carbon;
  * @property int|null $category_id
  * @property string|null $social
  * @property string $url
- * @property string|null $icon
  * @property string $name
  * @property string $access
  * @property bool $active
@@ -34,7 +34,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $parsed_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Collection|Post[] $posts
+ * @property-read Collection<int, Post> $posts
+ * @property-read SourceIcon|null $icon
  * @property-read int|null $posts_count
  * @method static Builder|Source newModelQuery()
  * @method static Builder|Source newQuery()
@@ -44,6 +45,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Source whereAgeLimit($value)
  * @method static Builder|Source whereCategoryId($value)
  * @method static Builder|Source whereCreatedAt($value)
+ * @method static Builder|Source whereIcon($value)
  * @method static Builder|Source whereId($value)
  * @method static Builder|Source whereLikes($value)
  * @method static Builder|Source whereName($value)
@@ -57,18 +59,16 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Source whereSubscribers($value)
  * @method static Builder|Source whereUpdatedAt($value)
  * @method static Builder|Source whereUrl($value)
- * @method static Builder|Source whereIcon($value)
  * @method static Builder|Source whereUserId($value)
  * @method static Builder|Source whereViews($value)
  * @mixin \Eloquent
  */
 class Source extends Model
 {
-    protected $dates = [
-        'next_parse_at',
-        'parsed_at',
-    ];
 
+    protected $appends = [
+        'icon_url',
+    ];
     /**
      * The attributes that should be visible in serialization.
      *
@@ -79,7 +79,7 @@ class Source extends Model
         'category_id',
         'social',
         'url',
-        'icon',
+        'icon_url',
         'name',
         'age_limit',
         'likes',
@@ -88,22 +88,25 @@ class Source extends Model
     ];
 
     protected $casts = [
+        'active' => 'bool',
         'age_limit' => 'integer',
+        'next_parse_at' => 'date',
+        'parsed_at' => 'date',
     ];
 
-    /**
-     * @param $parserRules
-     *
-     * @return ParserRules
-     */
-    public function getParserRulesAttribute($parserRules): ParserRules
+    public function parserRules(): Attribute
     {
-        if (!($parserRules instanceof ParserRules)) {
-            $parserRules = new ParserRules(json_decode($parserRules, true, 10,JSON_THROW_ON_ERROR));
-            $this->parser_rules = $parserRules;
-        }
+        return new Attribute(
+            get: fn(?string $value): ParserRules => new ParserRules($this->parser_type, $value),
+            set: fn(string|ParserRules|null $value): ?string => (string)$value ?: null,
+        );
+    }
 
-        return $parserRules;
+    public function iconUrl(): Attribute
+    {
+        return new Attribute(
+            get: fn($value): ?string => $this->icon ? "/api/sources/getIcon/?" .  http_build_query(['id' => $this->id]) : null,
+        );
     }
 
     public function posts()
@@ -111,8 +114,9 @@ class Source extends Model
         return $this->belongsToMany(Post::class, 'source_post');
     }
 
-    public function getSocialAttribute($value): ?string
+    public function icon()
     {
-        return $value === 'NULL' ? null : $value;
+        return $this->hasOne(SourceIcon::class, 'source_id', 'id')->select('source_id');
     }
+
 }

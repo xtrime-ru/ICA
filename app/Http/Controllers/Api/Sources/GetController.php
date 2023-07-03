@@ -19,7 +19,7 @@ class GetController extends ApiController
             ->leftJoin('user_source as us', 'us.source_id', '=', 'id')
             ->orWhere('us.user_id', '=', $user->id)
             ->orWhere('access', '=', 'public')
-            ->withOnly([])
+            ->withOnly(['icon:source_id'])
             ->get()
         ;
 

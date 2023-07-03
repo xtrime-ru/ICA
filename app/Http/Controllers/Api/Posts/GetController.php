@@ -26,11 +26,13 @@ class GetController extends ApiController
                 ->select(['sources.*'])
                 ->join('user_source as us', 'us.source_id', '=', 'id')
                 ->where('us.user_id', '=', $user->id)
+                ->withOnly(['icon:source_id'])
                 ->get()
             ;
         } else {
             $sources = Source::query()
                 ->where('access', '=', 'public')
+                ->withOnly(['icon:source_id'])
                 ->get()
             ;
         }

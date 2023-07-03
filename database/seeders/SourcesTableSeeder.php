@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Source;
+use App\Models\SourceIcon;
 use Illuminate\Database\Seeder;
 use Nette\Utils\Json;
 
@@ -49,10 +50,19 @@ class SourcesTableSeeder extends Seeder
             }
 
             if ($source['icon']) {
-                $source['icon'] = hex2bin(str_replace('0x', '', $source['icon']));
+                $icon = hex2bin(str_replace('0x', '', $source['icon']));
+            } else {
+                $icon = null;
             }
+            unset($source['icon']);
 
             Source::create($source);
+            if ($icon) {
+                SourceIcon::create([
+                    'source_id' => $source['id'],
+                    'icon' => $icon
+                ]);
+            }
         }
     }
 }

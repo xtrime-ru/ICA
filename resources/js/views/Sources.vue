@@ -43,8 +43,8 @@
             <a :href="source.url" target="_blank">
               <v-card-title class="flex-nowrap justify-space-between" :title="source.name">
                 <img
-                    v-if="source.icon"
-                    :src="'/icons/sources/' + source.icon"
+                    v-if="source.icon_url"
+                    :src="source.icon_url"
                 />
                 {{source.name | truncate(15, '...')}}
               </v-card-title>

@@ -108,7 +108,7 @@ const actions = {
             (error: PostsResponse) => {
                 commit('setHasMorePosts', 0)
                 dispatch('notifications/add', {
-                    text: 'Ошибка при загрузке постов: ' + error.data.errors.join('; '),
+                    text: 'Ошибка при загрузке постов: ' + error ? error.data.errors.join('; ') : '',
                     timeout: 5000,
                     color: 'error'
                 }, {root: true})

@@ -41,11 +41,11 @@
             >
               <v-item-group class="post-info">
                 <a :href="post.source.url" target="_blank">
-                  <img v-if="post.source.icon"
+                  <img v-if="post.source.icon_url"
                        :alt="post.source.name"
-                       :src="'/icons/sources/' + post.source.icon"
+                       :src="post.source.icon_url"
                   />
-                  <span v-if="!post.source.icon" >{{post.source.name}}</span>
+                  <span v-if="!post.source.icon_url" >{{post.source.name}}</span>
                 </a>
                 <span>{{ post.created_at | moment("from", "now") }}</span>
               </v-item-group>
