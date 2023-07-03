@@ -134,7 +134,7 @@ export default {
   }),
   methods: {
     fetchData(reload = true) {
-      this.$store.dispatch("posts/load", reload);
+      return this.$store.dispatch("posts/load", reload);
     },
     updateMeta: function (property, post, value) {
       if (value === undefined) {
@@ -157,18 +157,25 @@ export default {
       }
     },
     onIntersectLoader (entries, observer) {
-      if (entries[0].intersectionRatio >= 0.5) {
-        this.$vuetify.goTo(0, {
-          duration: 500,
-          offset: 0,
-          easing: "easeInOutCubic",
-        })
-        this.fetchData(false)
+      if (entries[0].intersectionRatio >= 0.9) {
+        this.$store.commit("posts/setLoading", true);
+
+        Promise.all([
+            this.fetchData(false),
+            this.$vuetify.goTo(0, {
+              duration: 1000,
+              offset: 0,
+              easing: "easeInQuad",
+            }),
+        ]).then(
+            () => this.$store.commit("posts/setLoading", false)
+        );
       }
     }
   },
-  created() {
-    this.fetchData(true);
+  async created() {
+    this.fetchData(true).then(() => this.$store.commit("posts/setLoading", false));
+
     this.touch = ('ontouchstart' in window);
     if (this.touch) {
       this.infinityLoaderText = 'Потяните вниз, что бы открыть следующую страницу.';
@@ -182,7 +189,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .fade-enter-active, .fade-leave-active {
     transition: opacity 1s;
   }

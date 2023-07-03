@@ -98,7 +98,6 @@ const actions = {
             return
         }
 
-        commit('setLoading', true)
         return app.$http.post("posts/get", {'id': state.lastId}).then(
             (response: PostsResponse) => {
                 commit('setPosts', response.data.posts)
@@ -113,9 +112,7 @@ const actions = {
                     color: 'error'
                 }, {root: true})
             }
-        ).then(() => {
-            commit('setLoading', false)
-        });
+        );
     },
     updateMeta({commit, dispatch, rootGetters}, data:{postId:number, property:"viewed"|"liked"|"bookmarked", value:boolean}) {
         if (!rootGetters["user/hasAccess"]('user')) {

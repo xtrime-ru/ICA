@@ -105,7 +105,11 @@ export default {
   methods: {
     fetchData() {
       this.$store.dispatch("sources/load")
-      window.scrollTo(0,0)
+      this.$vuetify.goTo(0, {
+        duration: 1000,
+        offset: 0,
+        easing: "easeInQuad",
+      })
     },
     toggleSource: function (sourceId, enabled) {
       this.$store.dispatch("sources/toggleSource", {sourceId, enabled})
@@ -120,7 +124,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .full-width {
     max-width: initial !important;
     width: auto;
@@ -150,8 +154,12 @@ export default {
     padding: 0 8px 0 16px;
   }
 
-  .v-card__title img {
-    height: 2rem;
+  .v-card__title {
+    line-height: 1rem;
+
+    img {
+      height: 2rem;
+    }
   }
 
   .counters, .counters .v-icon {

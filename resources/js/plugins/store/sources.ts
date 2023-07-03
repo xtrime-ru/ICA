@@ -108,7 +108,6 @@ const actions = {
                 }, {root: true})
             }
         ).then(() => {
-            console.log('loaded');
             commit('setLoading', false)
         })
     },
