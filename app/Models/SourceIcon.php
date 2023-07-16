@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|SourceIcon newModelQuery()
  * @method static Builder|SourceIcon newQuery()
  * @method static Builder|SourceIcon query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SourceIcon whereIcon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SourceIcon whereSourceId($value)
  * @mixin \Eloquent
  */
 class SourceIcon extends Model

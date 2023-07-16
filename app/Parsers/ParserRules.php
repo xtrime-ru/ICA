@@ -20,10 +20,10 @@ class ParserRules
         $this->type = $type;
         if ($this->type === RssParser::TYPE) {
             $this->posts = 'item, entry';
-            $this->imgPath = 'enclosure, img:eq(0), video';
+            $this->imgPath = 'enclosure, img:first-of-type, video';
             $this->headerPath = 'title';
             $this->textPath = "description, content";
-            $this->urlPath = "guid:not([ispermalink*='false']):contains('//'), link_corrected";
+            $this->urlPath = "guid:not([ispermalink*='false']):contains('//'), link";
         } else {
             if ($rules === null) {
                 return;

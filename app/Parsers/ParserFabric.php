@@ -27,15 +27,23 @@ class ParserFabric
 
         switch ($source->parser_type) {
             case 'rss':
-                $parser = new RssParser($source);
-                $parser->setClient(new Client(['timeout'=> $timeout]));
+                $parser = new RssParser($source, new Client(['timeout'=> $timeout]));
                 break;
             case 'html':
-                $parser = new HtmlParser($source);
-                $parser->setClient(new Client(['timeout'=> $timeout]));
+                $parser = new HtmlParser($source, new Client(['timeout'=> $timeout]));
+                break;
+            case 'social':
+                switch ($source->social) {
+                    case 'vk':
+                        $parser = new VkParser($source, new Client(['timeout'=> $timeout]));
+                        break;
+                    default:
+                        throw new \UnexpectedValueException('Not implemented parser social: ' . $source->parser_type);
+                }
+
                 break;
             default:
-                throw new \UnexpectedValueException('Not implemented parser type');
+                throw new \UnexpectedValueException('Not implemented parser type: ' . $source->parser_type);
         }
 
         return $parser;

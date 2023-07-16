@@ -17,11 +17,14 @@
         "ext-json": "*",
         "ext-pdo": "*",
         "ext-posix": "*",
-        "jaeger/querylist": "^4.1",
+        "ext-pcntl": "*",
         "laravel/framework": "^10",
         "laravel/sanctum": "^3.2",
         "laravel/ui": "^4",
-        "league/flysystem": "3.15 as 1.99"
+        "league/flysystem": "3.15 as 1.99",
+        "symfony/dom-crawler": "^6",
+        "symfony/css-selector": "^6",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",

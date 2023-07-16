@@ -61,6 +61,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Source whereUrl($value)
  * @method static Builder|Source whereUserId($value)
  * @method static Builder|Source whereViews($value)
+ * @property-read string|null $icon_url
  * @mixin \Eloquent
  */
 class Source extends Model
