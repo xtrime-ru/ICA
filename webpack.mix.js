@@ -25,6 +25,7 @@ mix
             alias: {
                 '~': path.join(__dirname, 'resources/js'),
                 'resources': path.join(__dirname, 'resources'),
+                'vue$': 'vue/dist/vue.common.js'
             },
         },
         module: {
@@ -36,6 +37,10 @@ mix
                         options: { appendTsSuffixTo: [/\.vue$/] }
                     }]
                 },
+                {
+                    test: /\.vue$/,
+                    loader: 'vue-loader'
+                }
             ]
         },
         plugins:[
