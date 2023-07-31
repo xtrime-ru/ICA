@@ -5,10 +5,10 @@ RUN apt-get update && apt-get upgrade -y
 RUN  apt-get install apt-utils -y \
 #
 #    устанавливаем необходимые пакеты
-    && apt-get install git zip vim libzip-dev  -y \
+    && apt-get install git zip vim libzip-dev libicu-dev -y \
 #
 #    Включаем необходимые расширения
-    && docker-php-ext-install -j$(nproc) zip pcntl bcmath pdo_mysql \
+    && docker-php-ext-install -j$(nproc) zip pcntl bcmath pdo_mysql intl \
 #
 #    Расшерения через pecl ставятся так,
 #    && PHP_OPENSSL=yes pecl install ev \

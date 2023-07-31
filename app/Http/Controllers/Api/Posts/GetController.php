@@ -63,7 +63,7 @@ class GetController extends ApiController
 
         $query->orderBy('p.id', 'DESC');
 
-        $posts = $query->get()->toArray();
+        $posts = $query->get()->unique('id')->toArray();
         $lastId = 0;
 
         foreach ($posts as &$post) {
@@ -77,9 +77,7 @@ class GetController extends ApiController
                 'liked' => (bool) $post['liked'],
                 'bookmarked' => (bool) $post['bookmarked'],
             ];
-            foreach (array_keys($post['meta']) as $key) {
-                unset($post[$key]);
-            }
+            $post = array_diff_key($post, $post['meta']);
             $lastId = $post['id'];
         }
         unset($post);

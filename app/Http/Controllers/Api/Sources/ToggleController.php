@@ -24,13 +24,12 @@ final class ToggleController extends ApiController
         $this->validate($request, self::VALIDATION_RULES);
         $user = $this->authenticate();
 
-        $item = UserSource::query()->firstOrNew([
+        UserSource::query()->updateOrInsert([
             'user_id' => $user->id,
             'source_id' => $request->get('source_id'),
+        ], [
+            'selected' => $request->get('enabled'),
         ]);
-
-        $item->selected = $request->get('enabled');
-        $item->save();
     }
 
 }

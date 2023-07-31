@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Enums\SourceTypes;
 use App\Parsers\ParserRules;
 use App\Parsers\ParserRulesCast;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 
@@ -16,7 +19,6 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property int|null $category_id
- * @property string|null $social
  * @property string $url
  * @property string $name
  * @property string $access
@@ -27,7 +29,7 @@ use Illuminate\Support\Carbon;
  * @property int $subscribers
  * @property int $views
  * @property string $parser_url
- * @property string $parser_type
+ * @property SourceTypes $type
  * @property ParserRules $parser_rules
  * @property Carbon|null $next_parse_at
  * @property int|null $parse_interval minutes
@@ -78,7 +80,7 @@ class Source extends Model
     protected $visible = [
         'id',
         'category_id',
-        'social',
+        'type',
         'url',
         'icon_url',
         'name',
@@ -93,12 +95,13 @@ class Source extends Model
         'age_limit' => 'integer',
         'next_parse_at' => 'date',
         'parsed_at' => 'date',
+        'type' => SourceTypes::class,
     ];
 
     public function parserRules(): Attribute
     {
         return new Attribute(
-            get: fn(?string $value): ParserRules => new ParserRules($this->parser_type, $value),
+            get: fn(?string $value): ParserRules => new ParserRules($this->type, $value),
             set: fn(string|ParserRules|null $value): ?string => (string)$value ?: null,
         );
     }
@@ -110,12 +113,18 @@ class Source extends Model
         );
     }
 
-    public function posts()
+    /**
+     * @return BelongsToMany<Post>
+     */
+    public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'source_post');
     }
 
-    public function icon()
+    /**
+     * @return HasOne<SourceIcon>
+     */
+    public function icon(): HasOne
     {
         return $this->hasOne(SourceIcon::class, 'source_id', 'id')->select('source_id');
     }

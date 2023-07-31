@@ -34,7 +34,7 @@
                         </v-list-item-icon>
 
                         <v-list-item-content>
-                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                            <v-list-item-title :title="item.title">{{ item.title }}</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                 </v-list>
@@ -43,7 +43,10 @@
 
         <template v-slot:append>
             <v-footer color="transparent" elevation="0">
-              <span class="copyright secondary--text text--lighten-3 d-inline-flex"><div style="transform: rotate(180deg)">&copy;</div>&nbsp;2015</span>
+              <span class="copyright secondary--text text--lighten-3 d-inline-flex">
+                <span style="transform: rotate(180deg)">&copy;</span>
+                <span>&nbsp;2015</span>
+              </span>
             </v-footer>
         </template>
         <template v-slot:prepend>
@@ -57,8 +60,8 @@
                     rounded
                     @click.stop="drawer = !drawer"
             >
-                <v-icon color="black" v-show="drawer" transition="fade-out-in">mdi-close</v-icon>
-                <v-icon color="black" v-show="!drawer" transition="fade-out-in">mdi-menu</v-icon>
+            <v-icon color="black" v-show="drawer" transition="fade-out-in">mdi-close</v-icon>
+            <v-icon color="black" v-show="!drawer" transition="fade-out-in">mdi-menu</v-icon>
             </v-btn>
         </template>
 

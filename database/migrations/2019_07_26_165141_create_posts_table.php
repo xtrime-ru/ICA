@@ -28,7 +28,7 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('likes')->default(0);
             $table->unsignedInteger('bookmarks')->default(0);
 
-            $table->timestamp('created_at', 0)->nullable();
+            $table->timestamp('created_at', 0)->useCurrent()->useCurrentOnUpdate();;
 
         });
 

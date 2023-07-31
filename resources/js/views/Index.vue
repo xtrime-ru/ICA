@@ -163,9 +163,9 @@ export default {
         Promise.all([
             this.fetchData(false),
             this.$vuetify.goTo(0, {
-              duration: 1000,
+              duration: 750,
               offset: 0,
-              easing: "easeInQuad",
+              easing: "easeInOutQuart",
             }),
         ]).then(
             () => this.$store.commit("posts/setLoading", false)
@@ -191,7 +191,7 @@ export default {
 
 <style lang="scss" scoped>
   .fade-enter-active, .fade-leave-active {
-    transition: opacity 1s;
+    transition: opacity 750ms;
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;

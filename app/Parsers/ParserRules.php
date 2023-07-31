@@ -4,6 +4,7 @@
 namespace App\Parsers;
 
 
+use App\Enums\SourceTypes;
 use Nette\Utils\Json;
 
 class ParserRules
@@ -13,12 +14,12 @@ class ParserRules
     public string $headerPath = '';
     public string $textPath = '';
     public string $urlPath = '';
-    private string $type;
+    private SourceTypes $type;
 
-    public function __construct(string $type, ?string $rules)
+    public function __construct(SourceTypes $type, ?string $rules)
     {
         $this->type = $type;
-        if ($this->type === RssParser::TYPE) {
+        if ($this->type === SourceTypes::RSS || $this->type === SourceTypes::TELEGRAM) {
             $this->posts = 'item, entry';
             $this->imgPath = 'enclosure, img:first-of-type, video';
             $this->headerPath = 'title';
@@ -40,7 +41,7 @@ class ParserRules
     }
 
     public function __toString(): string {
-        if ($this->type === RssParser::TYPE) {
+        if ($this->type === SourceTypes::RSS) {
             return '';
         }
         return Json::encode(get_object_vars($this), JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);

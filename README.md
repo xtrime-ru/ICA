@@ -13,6 +13,11 @@ This is the draft of the new version of https://i-c-a.su
 - `docker-compose exec npm npm update`
 
 ## TODO
-- Parsers
-- User sources
+- User sources: check and add
+- Frontend request batching
+- Sources stats increment
+- Email styles
+- Parsing queue and intervals
+- Migrate data from legacy site
+- Pagination
 - Filters for feed

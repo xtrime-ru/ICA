@@ -1,7 +1,15 @@
 <template>
   <v-container class="fill-height full-width">
     <h1 class="primary--text">Источники</h1>
-
+    <v-btn
+        elevation="2"
+        x-large
+        class="mx-auto my-10"
+        to='/source_add'
+    >
+      <span class="mdi mdi-plus-circle-outline primary--text text-h5 pr-2"></span>
+      Добавить источник
+    </v-btn>
     <v-row>
       <v-col
           v-if="loading"
@@ -32,7 +40,7 @@
           cols="12"
           :id="category.slug"
       >
-        <h2 class="font-weight-light text-center full-width font-weight-bold pa-2 pb-5">
+        <h2 class="font-weight-bold text-center full-width pa-2 pb-5">
           <a :href="'#' + category.slug" >#</a> {{category.name}}
         </h2>
         <v-col
@@ -125,11 +133,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .full-width {
-    max-width: initial !important;
-    width: auto;
-  }
-
   a {
     text-decoration-line: none;
   }

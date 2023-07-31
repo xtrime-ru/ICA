@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\SourceTypes;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -17,8 +18,7 @@ class CreateSourcesTable extends Migration
         Schema::create('sources', static function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('category_id')->nullable()->index();
-            $table->string('social', 64)->nullable()->index();
-            $table->string('url', 2048);
+            $table->string('url', 2048)->index();
             $table->string('name', 255);
             $table->enum('access', ['public', 'personal'])->default('personal');
             $table->boolean('active')->default(true);
@@ -30,10 +30,11 @@ class CreateSourcesTable extends Migration
             $table->unsignedInteger('views')->default(0);
 
             $table->string('parser_url', 2048);
+
             $table
                 ->enum(
-                'parser_type',
-                    ['rss', 'html', 'social', 'custom']
+                'type',
+                    array_map(fn(SourceTypes $type) => $type->value, SourceTypes::cases())
                 )
                 ->index()
             ;
@@ -55,6 +56,7 @@ class CreateSourcesTable extends Migration
                 ->references('id')->on('users')
                 ->onDelete('set null')
             ;
+
         });
 
 

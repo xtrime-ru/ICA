@@ -9,9 +9,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class HtmlParser extends BaseParser
 {
-    public const TYPE = 'html';
-
-
     protected function getPostUrl(Crawler $element): ?string
     {
         try {
@@ -64,6 +61,9 @@ class HtmlParser extends BaseParser
     private function fixSrc(string $body): string
     {
         $parsedUrl = parse_url($this->source->parser_url);
+        if (empty($parsedUrl['scheme'])) {
+            return $body;
+        }
         $scheme = ($parsedUrl['scheme'] ?: 'http') . '://';
         $host = $scheme . $parsedUrl['host'].'/';
 
@@ -108,22 +108,23 @@ class HtmlParser extends BaseParser
     /**
      * @return Post[]
      */
-    protected function findPosts(string $body): array
+    public function getPosts(): array
     {
-        $dom = new Crawler($body, $this->source->parser_url);
+        $dom = new Crawler($this->body, $this->source->parser_url);
+
         $posts = $dom->filter($this->source->parser_rules->posts);
         $result = [];
         $posts->each(function($post) use(&$result) {
             $item = $this->parsePost($post);
             if ($item) {
-                $result[] = $item;
+                $result[mb_strtolower($item->url)] = $item;
             }
         });
 
         return $result;
     }
 
-    private function parsePost(Crawler $element): ?Post
+    protected function parsePost(Crawler $element): ?Post
     {
         $url = $this->getPostUrl($element);
         if (!$url) {
@@ -157,15 +158,24 @@ class HtmlParser extends BaseParser
                 }
             }
 
-            if (!$post->image) {
-                preg_match(
-                    '/<img[\s\S]*?src=(["\'])([\S]*\/\/[\S]*?[^\\\])\1/ui',
-                    $element->html(),
-                    $matches
-                );
-                $post->image = $matches[2] ?? '';
-                $post->image = trim($post->image) ?: null;
+            foreach ([
+                $imageElement->count() ? $imageElement->outerHtml() : '',
+                $element->html()
+            ] as $item) {
+                if (!$post->image) {
+                    preg_match(
+                        '/(?:<|&lt;)img[\s\S]*?src=(["\'])([\S]*\/\/[\S]*?[^\\\])\1/ui',
+                        $item,
+                        $matches
+                    );
+                    $post->image = $matches[2] ?? '';
+                }
             }
+
+            $post->image = trim($post->image) ?: null;
+
+
+
         }
 
         return $post;

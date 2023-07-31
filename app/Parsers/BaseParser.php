@@ -7,6 +7,7 @@ namespace App\Parsers;
 use App\Models\Post;
 use App\Models\Source;
 use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Facades\Log;
 
 abstract class BaseParser implements ParserInterface
@@ -14,23 +15,26 @@ abstract class BaseParser implements ParserInterface
     protected Source $source;
     protected Client $client;
 
+    protected string $body;
+    /**
+     * @var array<string,string[]>
+     */
+    private array $headers;
+
     public function __construct(Source $source, Client $client)
     {
         $this->source = $source;
         $this->client = $client;
 
-    }
-
-    public function run(): void
-    {
-        Log::info('Start parsing url: ' . $this->source->parser_url);
-
+        Log::info('start parsing source', [
+            'source' => $source->toArray(),
+        ]);
         $url = $this->getUrl();
-        [$body, $headers] = $this->loadSource($url);
-        $body = $this->prepareSource($body, $headers);
-        $posts = $this->findPosts($body);
-        $this->savePosts($posts);
+        [$this->body, $this->headers] = $this->loadSource($url);
+        $this->body = $this->prepareSource($this->body, $this->headers);
     }
+
+
 
     /**
      * @return array{0: string, 1:array<string,string[]>}
@@ -38,7 +42,10 @@ abstract class BaseParser implements ParserInterface
      */
     protected function loadSource(string $url): array
     {
-        $response = $this->client->get($url);
+
+        $response = $this->client->get($url, [
+            RequestOptions::IDN_CONVERSION => true,
+        ]);
         $body = (string) $response->getBody();
         $headers = $response->getHeaders();
 
@@ -50,41 +57,6 @@ abstract class BaseParser implements ParserInterface
 
     protected abstract function prepareSource(string $body, array $headers): string;
 
-    /**
-     * @return Post[]
-     */
-    protected abstract function findPosts(string $body): array;
-
-    /**
-     * @param Post[] $posts
-     */
-    protected function savePosts(array $posts): void
-    {
-        $created = 0;
-        $updated = 0;
-        foreach ($posts as $post) {
-            if (!$post instanceof Post) {
-                Log::error('post', ['post' => $post]);
-                throw new \UnexpectedValueException('Wrong type of post');
-            }
-            Log::debug('post', ['post' => $post->toArray()]);
-            if (!$post->exists) {
-                $created++;
-            } else {
-                $updated++;
-            }
-            $post->save();
-            $post->sources()->syncWithoutDetaching([$this->source->id]);
-        }
-
-        Log::info('Saved: ', [
-            'source_id'=>$this->source->id,
-            'source_url' => $this->source->parser_url,
-            'created'=>$created,
-            'updated'=>$updated,
-            'total' => count($posts)
-        ]);
-    }
 
     protected function getUrl(): string
     {

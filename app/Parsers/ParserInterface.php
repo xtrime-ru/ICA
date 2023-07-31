@@ -4,8 +4,12 @@
 namespace App\Parsers;
 
 
+use App\Models\Post;
+
 interface ParserInterface
 {
-    const TYPE = '';
-    public function run();
+    /**
+     * @return Post[]
+     */
+    public function getPosts(): array;
 }

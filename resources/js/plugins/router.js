@@ -64,6 +64,15 @@ let routes = [
         }
     },
     {
+        name: 'source_add',
+        path: '/source_add',
+        component: () => import('~/views/SourceAdd'),
+        props: true,
+        meta: {
+            access: roles.user
+        }
+    },
+    {
         name: '403',
         path: '/403',
         component: () => import('~/views/Error403'),
