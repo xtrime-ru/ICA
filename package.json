@@ -26,7 +26,7 @@
     "typescript": "^4",
     "vue": "^2",
     "vue-cookie": "^1.1.4",
-    "vue-loader": "^15",
+    "vue-loader": "^17",
     "vue-moment": "^4",
     "vue-resource": "^1",
     "vue-router": "^3",
